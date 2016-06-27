@@ -1,0 +1,26 @@
+JSON object allowing for building BackendCapability java object:
+================================================================
+[
+{
+name: "", // arbitrary chosen  profile's name
+type: "container", // because we support only container's profiles
+
+allowed_profiles: [name1, name2, ....]
+
+metadata: {
+		cdmi_latency: "<value>",
+		cdmi_geographic_placement: ["<value>", ...],
+		cdmi_data_redundancy: "<value>"
+	},
+	 
+metadata_provided: {
+		cdmi_latency_provided: "<value>",
+		cdmi_geographic_placement_provided: ["<value>", ...],
+		cdmi_data_redundancy_provided: "<value>"
+}
+
+},
+
+....
+]
+
