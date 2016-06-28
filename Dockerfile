@@ -2,6 +2,8 @@ FROM ubuntu:14.04
 
 MAINTAINER gracjan@man.poznan.pl
 
+COPY . /cdmi-s3-qos
+
 RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc/apt/sources.list && \
 	echo "deb-src http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc/apt/sources.list && \
 	apt-get update && \
@@ -11,7 +13,6 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	cd cdmi-spi && \
 	mvn install && \
 	cd .. && \
-	git clone https://github.com/indigo-dc/cdmi-s3-qos.git && \
 	cd cdmi-s3-qos && \
 	mvn install && \
 	cd .. && \
