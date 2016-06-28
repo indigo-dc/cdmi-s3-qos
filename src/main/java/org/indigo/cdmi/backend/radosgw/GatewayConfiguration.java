@@ -50,25 +50,25 @@ public class GatewayConfiguration {
 		/*
 		 * determine name of file with properties
 		 */
-		String propertiesFileName = null;
+		String inJarPropertiesFileName = null;
 		
-		StringBuffer propertiesFileNameBuilder = new StringBuffer();
+		StringBuffer inJarPropertiesFileNameBuilder = new StringBuffer();
 		
-		propertiesFileNameBuilder.append("config/objectstore");
+		inJarPropertiesFileNameBuilder.append("objectstore");
 		
 		if(!configName.equals("")) {
-			propertiesFileNameBuilder.append("-");
-			propertiesFileNameBuilder.append(configName);
+			inJarPropertiesFileNameBuilder.append("-");
+			inJarPropertiesFileNameBuilder.append(configName);
 		}
 		
-		propertiesFileNameBuilder.append(".properties");
+		inJarPropertiesFileNameBuilder.append(".properties");
 		
-		propertiesFileName = propertiesFileNameBuilder.toString();
+		inJarPropertiesFileName = inJarPropertiesFileNameBuilder.toString();
 		
 		/*
 		 * read properties form properties file located on CLASSPATH 
 		 */
-		InputStream configInputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+		InputStream configInputStream = getClass().getClassLoader().getResourceAsStream(inJarPropertiesFileName);
 		if(configInputStream == null) {
 			throw new RuntimeException("Failed to find config file");
 		}
@@ -76,26 +76,42 @@ public class GatewayConfiguration {
 		try {
 			configurationProperties.load(configInputStream);
 		} catch (IOException e) {
-			log.error("Failed to load configuration from resource {}; message: {}, stacktrace: {}", propertiesFileName, e.getMessage(), e.getStackTrace());
-			throw new RuntimeException(String.format("Failed to load configuration from resource: %s", propertiesFileName), e);
+			log.error("Failed to load configuration from resource {}; message: {}, stacktrace: {}", inJarPropertiesFileName, e.getMessage(), e.getStackTrace());
+			throw new RuntimeException(String.format("Failed to load configuration from resource: %s", inJarPropertiesFileName), e);
 		} finally {
 			try {
 				configInputStream.close();
 			} catch (IOException e) {
-				log.error("Failed to close resource input stream {}; exception: e", propertiesFileName, e);
+				log.error("Failed to close resource input stream {}; exception: e", inJarPropertiesFileName, e);
 				throw new RuntimeException(e);
 			}
 		}
 		
 		
 		/*
-		 * read properties from file located in current working directory
+		 * read properties from file located in config directory
 		 */
+		String outJarPropertiesFileName = null;
+
+		StringBuffer outJarPropertiesFileNameBuilder = new StringBuffer();
+		
+		outJarPropertiesFileNameBuilder.append("config/objectstore");
+		
+		if(!configName.equals("")) {
+			outJarPropertiesFileNameBuilder.append("-");
+			outJarPropertiesFileNameBuilder.append(configName);
+		}
+		
+		outJarPropertiesFileNameBuilder.append(".properties");
+		
+		outJarPropertiesFileName = outJarPropertiesFileNameBuilder.toString();
+
+		
 		InputStream fis = null;
 		try {
-			fis = new FileInputStream(propertiesFileName);
+			fis = new FileInputStream(outJarPropertiesFileName);
 		} catch (FileNotFoundException e) {
-			log.warn("There is no configuration file {} in current working directory", propertiesFileName);
+			log.warn("There is no configuration file {} in current working directory", outJarPropertiesFileName);
 		}
 		
 		/*
@@ -110,8 +126,8 @@ public class GatewayConfiguration {
 		} catch (IOException e) {
 			
 			if(fis!=null) try {fis.close();} catch (Exception ex) {}
-			log.error("Failed to read local configuration file {} from current working directory", propertiesFileName);
-			throw new RuntimeException("Failed to read local configuration file " + propertiesFileName, e);
+			log.error("Failed to read local configuration file {} from current working directory", outJarPropertiesFileName);
+			throw new RuntimeException("Failed to read local configuration file " + outJarPropertiesFileName, e);
 		
 		} finally {
 			
