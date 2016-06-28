@@ -22,7 +22,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	sed -i 's/cdmi.qos.backend.type: dummy_filesystem/cdmi.qos.backend.type: radosgw/g' src/main/resources/application.properties && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
 	mvn package -Dmaven.test.skip=true && \
-	(java -jar target/cdmi-server-0.1-SNAPSHOT.jar &) && \
+	(java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar &) && \
 	sleep 20 && \
 	curl -X PUT http://localhost:8080/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
 	curl -X PUT http://localhost:8080/silver -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
@@ -31,5 +31,5 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 
 WORKDIR /CDMI
 
-ENTRYPOINT java -jar target/cdmi-server-0.1-SNAPSHOT.jar
+ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar
 #CMD java -jar target/cdmi-server-0.1-SNAPSHOT.jar
