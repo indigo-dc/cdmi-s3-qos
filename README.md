@@ -24,7 +24,7 @@ curl -X GET http://localhost:8080/standard -H "Authorization: Basic cmVzdGFkbWlu
 
 curl -X GET http://localhost:8080/silver -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
 
-curl -X GET http://localhost:8080/gold -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
+curl -X GET http://localhost:8080/golden -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
 
 docker stop cdmi-s3-qos-container
 ```
