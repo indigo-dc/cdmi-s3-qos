@@ -54,7 +54,7 @@ public class GatewayConfiguration {
 		
 		StringBuffer propertiesFileNameBuilder = new StringBuffer();
 		
-		propertiesFileNameBuilder.append("objectstore");
+		propertiesFileNameBuilder.append("config/objectstore");
 		
 		if(!configName.equals("")) {
 			propertiesFileNameBuilder.append("-");
