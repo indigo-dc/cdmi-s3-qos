@@ -28,3 +28,10 @@ curl -X GET http://localhost:8080/golden -H "Authorization: Basic cmVzdGFkbWluOn
 
 docker stop cdmi-s3-qos-container
 ```
+
+Clean-up procedure:
+
+```
+docker rm -f cdmi-s3-qos-container
+docker rmi -f cdmi-s3-qos-image
+```
