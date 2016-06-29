@@ -33,12 +33,12 @@ import org.slf4j.LoggerFactory;
  * 
  * @author gracjan
  */
-public class DummyBackendGateway implements BackendGateway {
+public class FixedModeBackendGateway implements BackendGateway {
 
-	private static final Logger log = LoggerFactory.getLogger(DummyBackendGateway.class);
+	private static final Logger log = LoggerFactory.getLogger(FixedModeBackendGateway.class);
 	
-	private static final String PARAMETER_ALL_PROFILES_FILE = "objectstore.backend-gateway.dummy-gateway.all-profiles-file";
-	private static final String PARAMETER_PATHS_PROFILES_FILE = "objectstore.backend-gateway.dummy-gateway.paths-profiles-file";
+	private static final String PARAMETER_ALL_PROFILES_FILE = "objectstore.backend-gateway.fixed-mode.all-profiles-file";
+	private static final String PARAMETER_PATHS_PROFILES_FILE = "objectstore.backend-gateway.fixed-mode.paths-profiles-file";
 	
 	private GatewayConfiguration config = GatewayConfiguration.getInstance();
 	
@@ -49,25 +49,25 @@ public class DummyBackendGateway implements BackendGateway {
 	/**
 	 * 
 	 */
-	public DummyBackendGateway() {
+	public FixedModeBackendGateway() {
 		
 		allProfilesFilePath = config.get(PARAMETER_ALL_PROFILES_FILE);
 		if(allProfilesFilePath == null) {
 			//to avoid logs pollution it will be logged on ObjectStoreBacked's method level (entry point to SPI)
 			//log.error("Cannot instatiate DummyBackendGateway. Could not find {} parameter in conifguration resources.", PARAMETER_ALL_PROFILES_FILE);
-			throw new RuntimeException("Cannot instatiate DummyBackendGateway. Could not find " + PARAMETER_ALL_PROFILES_FILE + " parameter in conifguration resources.");
+			throw new RuntimeException("Cannot instatiate FixedModeBackendGateway. Could not find " + PARAMETER_ALL_PROFILES_FILE + " parameter in conifguration resources.");
 		}
 		
 		pathsProfilesFilePath = config.get(PARAMETER_PATHS_PROFILES_FILE);
 		if(allProfilesFilePath == null) {
 			//to avoid logs pollution it will be logged on ObjectStoreBacked's method level (entry point to SPI)
 			//log.error("Cannot instatiate DummyBackendGateway. Could not find {} parameter in conifguration resources.", PARAMETER_ALL_PROFILES_FILE);
-			throw new RuntimeException("Cannot instatiate DummyBackendGateway. Could not find " + PARAMETER_PATHS_PROFILES_FILE + " parameter in conifguration resources.");
+			throw new RuntimeException("Cannot instatiate FixedModeBackendGateway. Could not find " + PARAMETER_PATHS_PROFILES_FILE + " parameter in conifguration resources.");
 		}
 		
 		
 		
-	} // DummyBackendGateway()
+	} // FixedModeBackendGateway()
 	
 	
 	@Override
@@ -206,4 +206,4 @@ public class DummyBackendGateway implements BackendGateway {
 	} // getPathProfile()
 
 	
-} // end of DummyBackendGateway class
+} // end of FixedModeBackendGateway class

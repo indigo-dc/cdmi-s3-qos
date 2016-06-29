@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
  * @author Gracjan Jankowski
  *
  */
-public class SshBackendGateway implements BackendGateway {
+public class LifeModeBackendGateway implements BackendGateway {
 
-	private static final Logger log = LoggerFactory.getLogger(SshBackendGateway.class); 
+	private static final Logger log = LoggerFactory.getLogger(LifeModeBackendGateway.class); 
 	
 	private GatewayConfiguration config = GatewayConfiguration.getInstance();
 	
@@ -37,7 +37,7 @@ public class SshBackendGateway implements BackendGateway {
 	/**
 	 * Read configuration file, instantiate auxiliary objects
 	 */
-	public SshBackendGateway() {
+	public LifeModeBackendGateway() {
 	
 		
 		remoteExecutor = RemoteExecutorFactory.create(config.getProperties(), config.getProperties());
@@ -57,7 +57,7 @@ public class SshBackendGateway implements BackendGateway {
 		 * check if required configuration has been provided and if required convert string parameter to final types
 		 */
 		if(this.sshCommandGetProfiles == null) {
-			log.error("There is no {} parameter in configuration files.", SshBackendGateway.CONF_SSH_COMMAND_GET_PROFILES);
+			log.error("There is no {} parameter in configuration files.", LifeModeBackendGateway.CONF_SSH_COMMAND_GET_PROFILES);
 			wrongConfiguration = true;
 		}
 		
@@ -66,7 +66,7 @@ public class SshBackendGateway implements BackendGateway {
 		}
 		
 		
-	} // SshBackedGateway()
+	} // LifeModeBackedGateway()
 	
 	
 	/**

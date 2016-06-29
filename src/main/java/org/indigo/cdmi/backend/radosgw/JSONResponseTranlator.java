@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 
- * Implementation of GatewayResponseTranslator interface which translated responses achieved from {@link SshBackendGateway}
+ * Implementation of GatewayResponseTranslator interface which translated responses achieved from {@link LifeModeBackendGateway}
  * 
  * @author Gracjan Jankowski
  *
