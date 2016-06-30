@@ -4,7 +4,7 @@
 
 This project provides service which adheres to [**cdmi-spi**](https://github.com/indigo-dc/cdmi-spi) defined interface which is meant to be used within [**INDIGO CDMI**](https://github.com/indigo-dc/cdmi) server.
 
-The service aims at integrating RADOS based S3 object storage with QoS management layer of [INDIGO CDMI](https://github.com/indigo-dc/cdmi) server. It can be configured to operate either in *fixed-* or *life-mode*.
+The service aims at integrating RADOS based S3 object storage with QoS management layer of [INDIGO CDMI](https://github.com/indigo-dc/cdmi) server. It can be configured to operate either in *fixed-mode* or *life-mode*.
 
 In the *fixed-mode*, the service exposes QoS attributes defined in configuration files, while in the *life-mode*, the service communicates with RADOS gateway and provides the most recent attributes on the fly.  
 
