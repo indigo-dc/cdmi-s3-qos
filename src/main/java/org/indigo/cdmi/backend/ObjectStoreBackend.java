@@ -38,6 +38,7 @@ public class ObjectStoreBackend implements StorageBackend {
 	
 	
 	/**
+	 * CONSTRUCTOR
 	 * Instantiate implementation of BackendBateway and GatewayResponseTranslator
 	 */
 	public ObjectStoreBackend() {
@@ -65,7 +66,7 @@ public class ObjectStoreBackend implements StorageBackend {
 	 * @see  StorageBackend#getCapabilities()
 	 */
 	@Override
-	public List<BackendCapability> getCapabilities() {
+	public List<BackendCapability> getCapabilities() throws BackEndException {
 		
 		try {
 			
@@ -89,7 +90,7 @@ public class ObjectStoreBackend implements StorageBackend {
 		} catch(Exception ex) {
 			
 			log.error("Failed to get capability of underlying object store: {}", ex);
-			throw new RuntimeException("Failed to get capability of underlying object store.", ex);
+			throw new BackEndException("Failed to get capability of underlying object store.", ex);
 		
 		} // try{}
 		
@@ -101,9 +102,9 @@ public class ObjectStoreBackend implements StorageBackend {
 	 * @see StorageBackend#updateCdmiObject(String, String);
 	 */
 	@Override
-	public void updateCdmiObject(String path, String currentCapabilitiesUri, String targetCapabilitiesUri) throws BackEndException {
+	public void updateCdmiObject(String path, String targetCapabilitiesUri) throws BackEndException {
 		
-		throw new RuntimeException("Not supported operation.");
+		throw new UnsupportedOperationException("Not supported operation.");
 		
 		//try {
 		//	
@@ -121,7 +122,7 @@ public class ObjectStoreBackend implements StorageBackend {
 	 * @see StorageBackend#getCurrentStatus(String)
 	 */
 	@Override
-	public CdmiObjectStatus getCurrentStatus(String path) {
+	public CdmiObjectStatus getCurrentStatus(String path) throws BackEndException {
 	
 		try {
 			
@@ -140,7 +141,7 @@ public class ObjectStoreBackend implements StorageBackend {
 		} catch(Exception e) {
 		
 			log.error("Failed to get status of CDMI object {}: {}", path, e);
-			throw new RuntimeException(String.format("Failed to get status of CDMI object %s: %s", path, e), e);
+			throw new BackEndException(String.format("Failed to get status of CDMI object %s: %s", path, e), e);
 			
 		} // try{}
 		

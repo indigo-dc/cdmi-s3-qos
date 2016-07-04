@@ -9,6 +9,7 @@
 
 package org.indigo.cdmi.backend;
 
+import org.indigo.cdmi.BackEndException;
 import org.indigo.cdmi.CdmiObjectStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,13 @@ public class ObjectStoreBackendTestApp {
 
 		
 		String path = "standard/subdir";
-		CdmiObjectStatus cdmiObjectStatus = objectStoreBackend.getCurrentStatus(path);
+		CdmiObjectStatus cdmiObjectStatus = null;
+		try {
+			cdmiObjectStatus = objectStoreBackend.getCurrentStatus(path);
+		} catch (BackEndException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		log.debug("Object status for path: {} is {}", path, cdmiObjectStatus);
 		
 		

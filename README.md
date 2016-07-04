@@ -46,7 +46,7 @@ mvn install
 
 ## Usage
 
-The outcome artifact of this project is **cdmi-s3-qos-<VERSION>.jar** file. This file has to be seen by INDIGO CDMI server's class loader. As INDIGO CDMI server leverages the boot spring technology and is packaged into single, standalone jar file, the easiest way to provide server with the service is to define adequate dependencies in server's pom.xml file and re-package the server.
+The outcome artifact of this project is **cdmi-s3-qos-\<VERSION\>.jar** file. This file has to be seen by INDIGO CDMI server's class loader. As INDIGO CDMI server leverages the boot spring technology and is packaged into single, standalone jar file, the easiest way to provide server with the service is to define adequate dependencies in server's pom.xml file and re-package the server.
 
 ```xml
 	<dependency>
