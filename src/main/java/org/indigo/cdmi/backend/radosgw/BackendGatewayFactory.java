@@ -22,6 +22,8 @@ public class BackendGatewayFactory {
 		GatewayConfiguration config = GatewayConfiguration.getInstance();
 		
 		String gatewayClass = config.get(ObjectStoreBackend.CONF_BACKEND_GATEWAY);
+		log.info("Configured BackendGateway implementaion class: {}", gatewayClass);
+		
 		if(gatewayClass == null) {
 			//to avoid logs pollution it will be logged on ObjectStoreBacked's method level (entry point to SPI) 
 			//log.error("Cannot create BackendGateway. Parameter {} is not defined in configuration resources", ObjectStoreBackend.CONF_BACKEND_GATEWAY);
