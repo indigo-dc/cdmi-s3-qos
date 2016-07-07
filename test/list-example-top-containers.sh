@@ -15,7 +15,7 @@ curl -X GET http://localhost:8888/cdmi_capabilities/container -H "Authorization:
 #
 # get properties of individual profiles
 #
-curl -X GET http://localhost:8888/cdmi_capabilities/container/def -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-capability"
+curl -X GET http://localhost:8888/cdmi_capabilities/container/default -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-capability"
 
 curl -X GET http://localhost:8888/cdmi_capabilities/container/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-capability"
 
@@ -26,7 +26,7 @@ curl -X GET http://localhost:8888/cdmi_capabilities/container/golden -H "Authori
 #
 # check profiles assigned to individual containers
 #
-curl -X GET http://localhost:8888/def -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
+curl -X GET http://localhost:8888/default -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
 
 curl -X GET http://localhost:8888/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
 

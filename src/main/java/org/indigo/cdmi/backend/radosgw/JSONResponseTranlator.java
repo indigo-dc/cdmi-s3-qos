@@ -290,14 +290,17 @@ public class JSONResponseTranlator implements GatewayResponseTranslator {
 			String key = (String) keys.next();
 			//log.debug("key: {}", key);
 			
-			Object metadataProvidedAsObj = metadataProvided.get(key);
+			Object metadataProvidedAsObj    = metadataProvided.get(key);
 			String metadataProvidedAsString = metadataProvidedAsObj.toString();
 			
 			monitoredAttributes.put(key, metadataProvidedAsString);
 			
 		}
-			
-		return new CdmiObjectStatus(monitoredAttributes, null, null);
+		
+		String profileName = profile.getString("name");
+		
+		String currentCapabilitiesURI = "/cdmi_capabilities/container/" + profileName;
+		return new CdmiObjectStatus(monitoredAttributes, currentCapabilitiesURI, null);
 	
 	} // getCdmiObjectStatus()
 

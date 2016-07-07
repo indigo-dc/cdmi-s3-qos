@@ -12,7 +12,7 @@ echo "data_source = ceph_source" >> config.ini
 
 cat << EOF > profile_config.ini
 
-echo [def]
+echo [default]
 echo pools=[".rgw.buckets"]
 echo type: container
 echo cdmi_latency: 10
