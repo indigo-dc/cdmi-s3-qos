@@ -70,20 +70,20 @@ cdmi.qos.backend.type: radosgw
 
 The cdmi-s3-qos service can be configured through configuration file
 
-`conf/objectstore.properties`
+`config/objectstore.properties`
 
 which has to be placed within INDIGO CDMI server's working directory. Subsequent sections describe the available parameters.
 
 
 ### Fixed-mode
 
-The *fixed-mode* is the default one. To enable this mode explicitly set the following parameter in `conf/objectstore.properties` file:
+The *fixed-mode* is the default one. To enable this mode explicitly set the following parameter in `config/objectstore.properties` file:
 
 ```
 objectstore.backend-gateway=org.indigo.cdmi.backend.radosgw.FixedModeBackendGateway
 ``` 
 
-In *fixed-mode* all QoS profiles (which denote particular QoS classes) and their attributes are defined in JSON file **conf/fixed-mode/all-profiles.json** (in INDIGO CDMI server's working directory). Example JSON file can look like that:
+In *fixed-mode* all QoS profiles (which denote particular QoS classes) and their attributes are defined in JSON file **config/fixed-mode/all-profiles.json** (in INDIGO CDMI server's working directory). Example JSON file can look like that:
 
 ```json
 [
@@ -120,7 +120,7 @@ In *fixed-mode* all QoS profiles (which denote particular QoS classes) and their
 ]
 ```
 
-Mappings between S3 buckets and QoS profiles provided by those buckets are defined in JSON file **conf/fixed-mode/buckets-profiles.json** (in INDIGO CDMI server's working directory). Example mapping can look like that:
+Mappings between S3 buckets and QoS profiles provided by those buckets are defined in JSON file **config/fixed-mode/buckets-profiles.json** (in INDIGO CDMI server's working directory). Example mapping can look like that:
 
 ```json
 {
@@ -135,7 +135,7 @@ The above says that bucket of name *silver* provides QoS class defined by profil
 
 Before employing *life-mode*, make sure that the [**cdmi-s3-qos-ceph-provider**](https://github.com/indigo-dc/cdmi-s3-qos-ceph-provider) is installed on RADOS server.
 
-To enable INDIGO CDMI server to use cdmi-s3-qos service in *life-mode*, the following parameter in `conf/objectstore.properties` (countig form server's working directory) file has to be set:
+To enable INDIGO CDMI server to use cdmi-s3-qos service in *life-mode*, the following parameter in `config/objectstore.properties` (countig form server's working directory) file has to be set:
 
 ```
 objectstore.backend-gateway=org.indigo.cdmi.backend.radosgw.LifeModeBackendGateway
@@ -143,7 +143,7 @@ objectstore.backend-gateway=org.indigo.cdmi.backend.radosgw.LifeModeBackendGatew
 
 In *life-mode* the cdmi-s3-qos service uses **SSH** protocol to enquiry the RADOS gateway about available QoS profiles and about QoS classed of individual buckets.  
 
-The credentials required to use SSH protocol are to be set in `conf/objectstore.properties` file:
+The credentials required to use SSH protocol are to be set in `config/objectstore.properties` file:
 
 ```
 objectstore.ssh-gateway.host=<RADOS gateway address>
@@ -154,7 +154,7 @@ objectstore.ssh-gateway.password=<USER_PASSWORD>
 
 Note that the RADOS server has to expose SSH protocol and the user of name <USER_NAME> and with password <USER_PASSWORD> has to be set-up over there.
 
-The [**cdmi-s3-qos-ceph-provider**](https://github.com/indigo-dc/cdmi-s3-qos-ceph-provider) shuld be installed on RADOS server and should provide executables called by cdmi-s3-qos service. The paths of these executables can be configured in `conf/objectstore.properties` file:
+The [**cdmi-s3-qos-ceph-provider**](https://github.com/indigo-dc/cdmi-s3-qos-ceph-provider) shuld be installed on RADOS server and should provide executables called by cdmi-s3-qos service. The paths of these executables can be configured in `config/objectstore.properties` file:
 
 ```
 objectstore.ssh-gateway.get-profiles-command=/usr/bin/python3 /opt/cdmi-s3-qos-ceph-provider/cdmi-s3-qos-ceph-provider/capabilities_provider.py --all
