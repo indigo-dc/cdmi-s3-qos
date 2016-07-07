@@ -157,8 +157,9 @@ Note that the RADOS server has to expose SSH protocol and the user of name <USER
 The [**cdmi-s3-qos-ceph-provider**](https://github.com/indigo-dc/cdmi-s3-qos-ceph-provider) shuld be installed on RADOS server and should provide executables called by cdmi-s3-qos service. The paths of these executables can be configured in `config/objectstore.properties` file:
 
 ```
-objectstore.ssh-gateway.get-profiles-command=/usr/bin/python3 /opt/cdmi-s3-qos-ceph-provider/cdmi-s3-qos-ceph-provider/capabilities_provider.py --all
-objectstore.ssh-gateway.get-bucket-profile-command=/usr/bin/python3 /opt/cdmi-s3-qos-ceph-provider/cdmi-s3-qos-ceph-provider/capabilities_provider.py --bucket 
+objectstore.ssh-gateway.get-profiles-command=/usr/bin/python3 /opt/cdmi-s3-qos-ceph-provider/cdmi-s3-qos-ceph-provider/cdmi-s3-qos-ceph-provider.py --all
+objectstore.ssh-gateway.get-bucket-profile-command=/usr/bin/python3 /opt/cdmi-s3-qos-ceph-provider/cdmi-s3-qos-ceph-provider/cdmi-s3-qos-ceph-provider.py --bucket 
+ilities_provider.py --bucket 
  ```
 
 Actually, the above paths are the default ones which are used if there the is no other configuration.

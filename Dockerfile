@@ -11,7 +11,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	apt-get install -y maven git curl && \
 	git clone https://github.com/indigo-dc/cdmi-spi.git && \
 	cd cdmi-spi && \
-	git checkout caedabb && \
+	git checkout b4817ed && \
 	mvn install && \
 	cd .. && \
 	cd cdmi-s3-qos && \
@@ -20,7 +20,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	git clone https://github.com/indigo-dc/CDMI.git && \
 	cp -rf cdmi-s3-qos/config CDMI/ && \
 	cd CDMI && \
-	git checkout f931402 && \
+	git checkout 0ba64ce && \
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
 	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar  --server.port=8080" > run.sh && \

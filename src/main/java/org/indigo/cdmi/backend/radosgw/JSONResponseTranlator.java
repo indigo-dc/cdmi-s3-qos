@@ -17,7 +17,6 @@ import java.util.Map;
 
 import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
-import org.indigo.cdmi.Status;
 //import org.json.simple.JSONArray;
 //import org.json.simple.JSONObject;
 import org.json.JSONArray;
@@ -298,7 +297,7 @@ public class JSONResponseTranlator implements GatewayResponseTranslator {
 			
 		}
 			
-		return new CdmiObjectStatus(Status.OK, monitoredAttributes, null, null);
+		return new CdmiObjectStatus(monitoredAttributes, null, null);
 	
 	} // getCdmiObjectStatus()
 

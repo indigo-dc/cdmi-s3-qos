@@ -1,0 +1,42 @@
+I. Install and configure cdmi-s3-qos-ceph-provider (https://github.com/indigo-dc/cdmi-s3-qos-ceph-provider) on RADOS gateway node.
+
+Example procedure for testing environment in PSNC:
+
+cd /opt
+git clone https://github.com/indigo-dc/cdmi-s3-qos-ceph-provider.git
+cd cdmi-s3-qos-ceph-provider/cdmi-s3-qos-ceph-provider
+
+
+echo "[Global]" > config.ini
+echo "data_source = ceph_source" >> config.ini
+
+cat << EOF > profile_config.ini
+
+echo [def]
+echo pools=[".rgw.buckets"]
+echo type: container
+echo cdmi_latency: 10
+echo cdmi_geographic_placement: PL
+
+[standard]
+pools=["rgw_standard"]
+type: container
+cdmi_latency: 20
+cdmi_geographic_placement: PL
+
+[silver]
+pools=["rgw_silver"]
+type: container
+cdmi_latency: 30
+cdmi_geographic_placement: PL
+
+
+[golden]
+pools=["rgw_golden"]
+type: container
+cdmi_latency: 40
+cdmi_geographic_placement: PL
+
+EOF
+
+
