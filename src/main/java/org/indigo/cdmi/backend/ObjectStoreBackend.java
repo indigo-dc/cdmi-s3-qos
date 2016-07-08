@@ -132,6 +132,7 @@ public class ObjectStoreBackend implements StorageBackend {
 			String objectPath = pathTranslator.translate(path);
 			
 			String gatewayResponse = backendGateway.getPathProfile(objectPath);
+			
 			log.debug("gatewayResponse: {}", gatewayResponse);
 			
 			CdmiObjectStatus cdmiObjectStatus = responseTranslator.getCdmiObjectStatus(gatewayResponse);

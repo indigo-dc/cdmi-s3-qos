@@ -298,8 +298,10 @@ public class JSONResponseTranlator implements GatewayResponseTranslator {
 		}
 		
 		String profileName = profile.getString("name");
+		String type = profile.getString("type");
 		
-		String currentCapabilitiesURI = "/cdmi_capabilities/container/" + profileName;
+		String currentCapabilitiesURI = "/cdmi_capabilities/" + type + "/" + profileName;
+		
 		return new CdmiObjectStatus(monitoredAttributes, currentCapabilitiesURI, null);
 	
 	} // getCdmiObjectStatus()
