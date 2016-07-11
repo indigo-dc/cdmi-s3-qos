@@ -1,6 +1,6 @@
 I. Install CDMI server
 
-rm -f /tmp/cdmi && \
+rm -rf /tmp/cdmi && \
 git clone https://github.com/indigo-dc/cdmi-spi.git && \
 cd cdmi-spi && \
 git checkout b4817ed && \
