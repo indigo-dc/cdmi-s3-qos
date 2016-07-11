@@ -1,3 +1,10 @@
+#
+# Image pre-configured for tests of cdmi-s3-qos in run fixed-mode. 
+# The CDMI server will have pre-created container which match the names of buckets in RADOS based S3 server.
+# Those containers are created on local filesystem as supported by current version of CDMI server. 
+# Those containers are required because at this point, the CDMI server depends on them to be able to
+# pass QoS related requests to cdmi-s3-qos module. 
+# 
 FROM ubuntu:14.04
 
 MAINTAINER gracjan@man.poznan.pl

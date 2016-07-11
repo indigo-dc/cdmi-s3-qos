@@ -1,3 +1,5 @@
+(IT IS INTERNAL PROCEDURE USED BY DEVELOPMENT TEAM ON THEIR TEST ENVIROMNEMT, IT IS NOT MEAD TO BE REPEATED LITERALLY BY FOLLOWERS)
+
 I. Install and configure cdmi-s3-qos-ceph-provider (https://github.com/indigo-dc/cdmi-s3-qos-ceph-provider) on RADOS gateway node.
 
 Example procedure for testing environment in PSNC:
@@ -38,5 +40,50 @@ cdmi_latency: 40
 cdmi_geographic_placement: PL
 
 EOF
+
+
+II. On RADOS create s3 buckets whose QoS properties are to be examined through CDMI server QoS extension. 
+    The assumption is that RADOS administrator has configured four ceph pools which are dedicated for
+    S3 buckets storing. One ceph pool is the default one, used when no other pool is indicated, 
+    the other pools can be selected with help of --bucket-location parameter:
+    
+    --bucket-location=default:rgw_standard - to create bucket in ceph pool of name rgw_standard
+    --bucket-location=default:rgw_silver - to create bucket in ceph pool of name rgw_silver
+    --bucket-location=default:rgw_golden - to create bucket in ceph pool of name rgw_golden      
+
+    To check if buckets has been created in proper pool, on Ceph server, use radosgw-admin tool: 
+    
+    radosgw-admin bucket stats --bucket=<bucket_name>
+
+1. Use s3cmd tool to create four buckets of names: "default", "standard", "silver", "golden". 
+   The tool has to be in 1.6.1 version at least.
+   
+   NOTE: Credential for RADOS based S3 access has to be placed in ~/.s3cmd file in format:
+   
+   secret_key = "<here_put_your_secret_key>"
+   access_key = "<here_put_your_access_key>" 
+
+   Additionally properly point to RADOS gateway server:
+   
+   host_base = <ip_address_of_rados_gateway>:<port_number>
+
+   And remember to set-up the parameter which points to host which manages bucket related operations 
+   (in our environment it should have the same value as "host_base" parameter):
+   
+   host_bucket = <ip_address_of_rados_gateway>:<port_number>
+
+3. Actual creation of the buckets:
+
+> s3cmd mb s3://default
+> s3cmd mb s3://standard --bucket-location=defalt:rgw_standard
+> s3cmd mb s3://silver --bucket-location=defalt:rgw_silver
+> s3cmd mb s3://golden --bucket-location=defalt:rgw_golden
+
+III. Install and configure cdmi-s3-qos on rados node (whithin docker container)
+
+1. Checkout source codes and create docker image: 
+> git clone https://github.com/indigo-dc/cdmi-s3-qos.git
+> cd cdmi-s3-qos/
+> docker build -f Dockerfile-devel -t cdmi-s3-qos-devel .
 
 

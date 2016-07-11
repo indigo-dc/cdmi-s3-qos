@@ -1,3 +1,8 @@
+#
+# No entry point, enabled cdmi-s3-qos module.
+# This image is meant to perform tests in life-mode, but it requires manual configuration. The file config/objectstore.properties
+# has to be created and properly filled in.  
+#
 FROM ubuntu:14.04
 
 MAINTAINER gracjan@man.poznan.pl
@@ -29,5 +34,3 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 
 WORKDIR /CDMI
 
-#git checkout caedabb && \
-#git checkout f931402 && \

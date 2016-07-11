@@ -1,3 +1,6 @@
+#
+# Image pre-configured to test CDMI server with default (embedded) implementation of StorageBacked interface (default QoS module).
+#
 FROM ubuntu:14.04
 
 MAINTAINER gracjan@man.poznan.pl

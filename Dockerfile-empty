@@ -1,5 +1,8 @@
-# empty in file name means that the embedded CDMI server doesn't have any pre-configured containers or objects initially
-
+#
+# CDMI server with pre-configured cdmi-s3-qos implementation of StorageBackend interface.
+# No "initial" containers are created during image creation phase. The cdmi-s3-qos module runs in fixed-mode.
+# No "entry point" configured.
+#
 FROM ubuntu:14.04
 
 MAINTAINER gracjan@man.poznan.pl
