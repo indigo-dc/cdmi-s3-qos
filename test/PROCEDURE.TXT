@@ -84,6 +84,13 @@ III. Install and configure cdmi-s3-qos on rados node (whithin docker container)
 1. Checkout source codes and create docker image: 
 > git clone https://github.com/indigo-dc/cdmi-s3-qos.git
 > cd cdmi-s3-qos/
-> docker build -f Dockerfile-devel -t cdmi-s3-qos-devel .
+> docker build -f Dockerfile-devel -t cdmi-s3-qos-devel-image .
+
+2. Run container, and next, configure cdmi-s3-qos' life-mode.
+> docker run -ti -p 80:8080 --name cdmi-s3-qos-devel-container cdmi-s3-qos-devel-image bash
+
+ 
+
+
 
 
