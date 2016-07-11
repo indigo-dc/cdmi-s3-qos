@@ -25,6 +25,7 @@ II. Configure cdmi-s3-qos fixed-mode
 
 > cd config
 > vi objectstore.properties
+> cd ..
 
 Put to objectstore.properties file the bellow content and replace placeholders with proper values:
 
@@ -43,14 +44,15 @@ III. Create container which refer to S3 buckets
 > ctrl+a, d
 
 2. create containers:
-curl -X PUT http://localhost:80/default -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
-curl -X PUT http://localhost:80/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
-curl -X PUT http://localhost:80/silver -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
-curl -X PUT http://localhost:80/golden -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
+curl -X PUT http://localhost:80/default -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}'
+curl -X PUT http://localhost:80/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}'
+curl -X PUT http://localhost:80/silver -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}'
+curl -X PUT http://localhost:80/golden -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}'
 
 3. read all qos profiles
 
 curl -X GET http://localhost:80/cdmi_capabilities/container -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-capability"
+
 curl -X GET http://localhost:80/cdmi_capabilities/container/default -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-capability"
 curl -X GET http://localhost:80/cdmi_capabilities/container/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-capability"
 curl -X GET http://localhost:80/cdmi_capabilities/container/silver -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-capability"
@@ -59,8 +61,8 @@ curl -X GET http://localhost:80/cdmi_capabilities/container/golden -H "Authoriza
 
 4. read containers' qos profiles
 
-curl -X GET http://localhost:8080/default -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
-curl -X GET http://localhost:8080/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
-curl -X GET http://localhost:8080/silver -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
-curl -X GET http://localhost:8080/golden -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
+curl -X GET http://localhost:80/default -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
+curl -X GET http://localhost:80/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
+curl -X GET http://localhost:80/silver -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
+curl -X GET http://localhost:80/golden -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-object"
 
