@@ -1,77 +1,176 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>pl.psnc</groupId>
-  <artifactId>cdmi-s3-qos</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <properties>
-	<java.version>1.8</java.version>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-	
-  <dependencies>
-    <dependency>
-	  <groupId>edu.kit.scc</groupId>
-	  <artifactId>cdmi-spi</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
-	</dependency>
-    <dependency>
-    	<groupId>org.slf4j</groupId>
-    	<artifactId>log4j-over-slf4j</artifactId>
-    	<version>1.7.13</version>
-    </dependency>
-    <dependency>
-    	<groupId>junit</groupId>
-    	<artifactId>junit</artifactId>
-    	<version>4.12</version>
-    	<scope>test</scope>
-    </dependency>
-    <dependency>
-    	<groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.12</version>
-        <scope>test</scope>
-    </dependency>
-	<dependency>
-    	<groupId>org.slf4j</groupId>
-    	<artifactId>slf4j-simple</artifactId>
-    	<version>1.7.21</version>
-    	<scope>test</scope>
-	</dependency>
-    <dependency>
-    	<groupId>com.jcraft</groupId>
-    	<artifactId>jsch</artifactId>
-    	<version>0.1.53</version>
-	</dependency>
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
-	<!-- 
-	<dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-test</artifactId>
-    	<version>4.2.4.RELEASE</version>
-    	<scope>test</scope>
-	</dependency>
-     -->
-    <dependency>
-    	<groupId>com.googlecode.json-simple</groupId>
-    	<artifactId>json-simple</artifactId>
-    	<version>1.1.1</version>
-	</dependency>
-  </dependencies>
-  
-  <build>
-	<plugins>
-	  <plugin>
-	    <groupId>org.apache.maven.plugins</groupId>
-		  <artifactId>maven-compiler-plugin</artifactId>
-		  <version>3.2</version>
-		  <configuration>
-		    <source>${java.version}</source>
-			<target>${java.version}</target>
-			<encoding>UTF-8</encoding>
-		  </configuration>
-	  </plugin>
-	</plugins>
-  </build>
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>pl.psnc</groupId>
+	<artifactId>cdmi-s3-qos</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<properties>
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>edu.kit.scc</groupId>
+			<artifactId>cdmi-spi</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.7.13</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.21</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.53</version>
+		</dependency>
+		<dependency> 
+			<groupId>org.springframework</groupId> 
+			<artifactId>spring-test</artifactId> 
+			<version>4.2.4.RELEASE</version> 
+			<scope>test</scope> 
+		</dependency> 
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>org.mockito</groupId>
+    		<artifactId>mockito-all</artifactId>
+    		<version>1.10.19</version>
+    		<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+  			<groupId>com.google.inject</groupId>
+  			<artifactId>guice</artifactId>
+  			<version>4.1.0</version>
+  			<classifier>no_aop</classifier>
+		</dependency>
+		
+		
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.19.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>false</skipTests>
+					<!-- 
+					<includes>
+						<include>edu.kit.scc.test.TestSuite.java</include>
+					</includes>
+					 -->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<configuration>
+							<configLocation>google_checks.xml</configLocation>
+							<encoding>UTF-8</encoding>
+							<consoleOutput>true</consoleOutput>
+							<failsOnError>true</failsOnError>
+							<linkXRef>false</linkXRef>
+						</configuration>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.7.201606060606</version>
+				<configuration>
+					<excludes>
+						<exclude>**/*Exception.*</exclude>
+						<!-- exclude dependency injection management part  -->
+						<exclude>org/indigo/cdmi/backend/radosgw/di/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<!-- 
+					<execution>
+						<id>default-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+					 -->
+				</executions>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
 </project>

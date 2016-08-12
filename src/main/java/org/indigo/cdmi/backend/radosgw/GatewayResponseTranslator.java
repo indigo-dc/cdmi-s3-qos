@@ -9,33 +9,41 @@
 
 package org.indigo.cdmi.backend.radosgw;
 
-import java.util.List;
-
 import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
 import org.indigo.cdmi.spi.StorageBackend;
 
+import java.util.List;
+
 /**
+ * Defines methods used by this SPI implementation to translate response obtained from given
+ * {@link BackendGateway} into data formats used by {@link StorageBackend} interface.
  * 
- * Defines methods used by this SPI implementation to translate response obtained from given {@link BackendGateway} 
- * into data formats used by {@link StorageBackend} interface.
- * 
- * @author Gracjan Jankowski
- *
+ * @author Gracjan Jankowski (gracjan@man.poznan.pl)
  */
 public interface GatewayResponseTranslator {
 
-	/**
-	 * 
-	 * Translates response returned by {@link BackendGateway#getAllProfiles()} into List<BackendCapability> type which in fact
-	 * is type defined as return type of method {@link StorageBackend#getCapabilities()}
-	 * 
-	 * @param gatewayResponse The response in String format as it was returned by {@link BackendGateway#getAllProfiles()}
-	 * 
-	 * @return The list of BackendCapability objects (to be used as return value of {@link StorageBackend#getCapabilities()}). 
-	 */
-	public List<BackendCapability> getBackendCapabilitiesList(String gatewayResponse);
-	
-	public CdmiObjectStatus getCdmiObjectStatus(String gatewayResponse);
-	
-}
+  /**
+   * Translates response returned by {@link BackendGateway#getAllProfiles()} into 
+   * list of BackendCapability types.
+   * 
+   * @param gatewayResponse The response in String format as it was returned by
+   *        {@link BackendGateway#getAllProfiles()}
+   * 
+   * @return The list of BackendCapability objects (to be used as return value of
+   *         {@link StorageBackend#getCapabilities()}).
+   */
+  public List<BackendCapability> getBackendCapabilitiesList(String gatewayResponse);
+
+  
+  /**
+   * Translates gatewayResponse from String format to CdmiObjectStatus.
+   * 
+   * @param gatewayResponse The response in String format as it was returned by
+   *        {@link BackendGateway#getPathProfile(String)}
+   *        
+   * @return CdmiObjectStatus object build on base of passed gatewayResponse 
+   */
+  public CdmiObjectStatus getCdmiObjectStatus(String gatewayResponse);
+
+} // end of GatewayResponseTranslator interface

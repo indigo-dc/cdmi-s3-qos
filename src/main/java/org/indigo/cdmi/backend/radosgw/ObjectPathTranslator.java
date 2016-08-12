@@ -9,8 +9,20 @@
 
 package org.indigo.cdmi.backend.radosgw;
 
+/**
+ *  Interface to translate CDMI objects paths seen by CDMI server to 
+ *  paths seen by underlying RADOS GW.
+ *  
+ *  @author @author Gracjan Jankowski (gracjan@man.poznan.pl)
+ */
 public interface ObjectPathTranslator {
 
-	public String translate(String path);
-	
-}
+  /**
+   * Translates CDMI path to RADOS GW path.
+   * 
+   * @param path Path to CDMI object as it is seen by CDMI object.
+   * @return Path to object as it is seen by RADOS GW server.
+   */
+  public String translate(String path);
+
+} // end of ObjectPathTranslator

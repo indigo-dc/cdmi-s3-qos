@@ -7,17 +7,17 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.indigo.cdmi.backend.radosgw;
+package org.indigo.cdmi.backend.radosgw.di;
 
-import static org.junit.Assert.*;
+import com.google.inject.Provider;
 
-import org.junit.Test;
+import com.jcraft.jsch.JSch;
 
-public class SshBackendGatewayTest {
+public class JSchProvider implements Provider<JSch> {
 
-	@Test
-	public void test() {
-		//fail("Not yet implemented");
-	}
+  @Override
+  public JSch get() {
+    return new JSch();
+  }
 
 }

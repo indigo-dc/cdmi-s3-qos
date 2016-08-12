@@ -10,15 +10,35 @@
 package org.indigo.cdmi.backend.radosgw;
 
 /**
+ * Exception to be thrown by RemoteExecutor.execute() method in case of any problems.
+ * Details about the error should be included in exception message.
  * 
- * @author Gracjan Jankowski
- *
+ *  @author @author Gracjan Jankowski (gracjan@man.poznan.pl)
  */
 public class RemoteExecutorException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
+  public RemoteExecutorException() {
+    super();
+  }
+
+  public RemoteExecutorException(String message, Throwable cause, boolean enableSuppression,
+      boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
+
+  public RemoteExecutorException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  public RemoteExecutorException(String message) {
+    super(message);
+  }
+
+  public RemoteExecutorException(Throwable cause) {
+    super(cause);
+  }
+
+  
 } // end of RemoteExecutorException

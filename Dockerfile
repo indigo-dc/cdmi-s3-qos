@@ -22,6 +22,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	cd .. && \
 	git clone https://github.com/indigo-dc/CDMI.git && \
 	cp -rf cdmi-s3-qos/config CDMI/ && \
+	rm -f CDMI/config/objectstore.properties && \
 	cd CDMI && \
 	git checkout 0ba64ce && \
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \

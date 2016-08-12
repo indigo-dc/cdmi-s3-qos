@@ -11,32 +11,42 @@ package org.indigo.cdmi.backend;
 
 import org.indigo.cdmi.BackEndException;
 import org.indigo.cdmi.CdmiObjectStatus;
+import org.indigo.cdmi.backend.radosgw.di.ObjectStorageBackendTestsModule;
+import org.indigo.cdmi.spi.StorageBackend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 public class ObjectStoreBackendTestApp {
 
-	private static final Logger log = LoggerFactory.getLogger(ObjectStoreBackendTestApp.class);
-	
-	public static void main(String[] args) {
-		ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend();
+  private static final Logger log = LoggerFactory.getLogger(ObjectStoreBackendTestApp.class);
 
-		//log.debug("Before objectStoreBackend.getCapabilities();");
-		//objectStoreBackend.getCapabilities();
-		//log.debug("After objectStoreBackend.getCapabilities();");
+  /**
+   * Entry point for "manual" test.
+   * 
+   */
+  public static void main(String[] args) {
+    
+    
+    ObjectStorageBackendTestsModule injectorModule = new ObjectStorageBackendTestsModule();
+    
+    Injector injector = Guice.createInjector(injectorModule);
+    
+    ObjectStoreBackend objectStoreBackend = (ObjectStoreBackend) injector.getInstance(StorageBackend.class);
 
-		
-		String path = "standard/subdir";
-		CdmiObjectStatus cdmiObjectStatus = null;
-		try {
-			cdmiObjectStatus = objectStoreBackend.getCurrentStatus(path);
-		} catch (BackEndException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		log.debug("Object status for path: {} is {}", path, cdmiObjectStatus);
-		
-		
-	}
+
+    String path = "standard/subdir";
+    CdmiObjectStatus cdmiObjectStatus = null;
+    try {
+      cdmiObjectStatus = objectStoreBackend.getCurrentStatus(path);
+    } catch (BackEndException ex) {
+      // TODO Auto-generated catch block
+      ex.printStackTrace();
+    }
+    log.debug("Object status for path: {} is {}", path, cdmiObjectStatus);
+
+  }
 
 }

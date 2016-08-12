@@ -9,32 +9,22 @@
 
 package org.indigo.cdmi.backend.radosgw;
 
-import java.util.Properties;
 
 /**
- * 
  * Defines interface which allows to read output from command executed on remote node.
  * 
  * @author Gracjan Jankowski
  */
 public interface RemoteExecutor {
-	
-	/**
-	 * 
-	 * @param cmd Command to be executed remotely.
-	 * @return String read from standard output of the "cmd" command.
-	 * @throws RemoteExecutorException
-	 */
-	public String execute(String cmd) throws RemoteExecutorException;
-	
 
-	/**
-	 * 
-	 * Configure given implementation of RemoteExecutor. 
-	 * For example, specific credentials can be passed through properties parameter.
-	 * 
-	 * @param properties Parameters to be used in order to configure given instance of RemoteExecutor
-	 */
-	public void configure(Properties properties);
-	
-}
+  /**
+   * Remotely executes the "cmd" command.
+   * 
+   * @param cmd Command to be executed remotely.
+   * @return String read from standard output of the "cmd" command.
+   * @throws RemoteExecutorException Indicates that "cmd" couldn't be executed. Reason should 
+   *     be read from exception's message.
+   */
+  public String execute(String cmd) throws RemoteExecutorException;
+
+} // end of RemoteExecutor class
