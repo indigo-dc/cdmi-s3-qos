@@ -10,6 +10,8 @@ mkdir -p debian/var/lib/$NAME/config/
 cp -r config/fixed-mode debian/var/lib/$NAME/config/
 cp target/$NAME-$VERSION-SNAPSHOT.jar debian/var/lib/$NAME/
 
+chmod 0775 debian/DEBIAN/postinst
+
 dpkg --build debian
 
 mv debian.deb $NAME-$VERSION.deb
