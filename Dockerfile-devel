@@ -25,7 +25,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	git clone https://github.com/indigo-dc/CDMI.git && \
 	cp -rf cdmi-s3-qos/config CDMI/ && \
 	cd CDMI && \
-	git checkout 0ba64ce && \
+	git checkout 326eec3 && \
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
 	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar  --server.port=8080" > run.sh && \
 	chmod +x run.sh && \

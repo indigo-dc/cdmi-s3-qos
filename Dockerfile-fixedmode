@@ -1,9 +1,5 @@
 #
-# Image pre-configured for tests of cdmi-s3-qos in run fixed-mode. 
-# The CDMI server will have pre-created container which match the names of buckets in RADOS based S3 server.
-# Those containers are created on local filesystem as supported by current version of CDMI server. 
-# Those containers are required because at this point, the CDMI server depends on them to be able to
-# pass QoS related requests to cdmi-s3-qos module. 
+# Image pre-configured for tests of cdmi-s3-qos in fixed-mode. 
 # 
 FROM ubuntu:14.04
 
@@ -28,18 +24,12 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	cp -rf cdmi-s3-qos/config CDMI/ && \
 	rm -f CDMI/config/objectstore.properties && \
 	cd CDMI && \
-	git checkout 0ba64ce && \
+	git checkout 326eec3 && \
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
 	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar  --server.port=8080" > run.sh && \
 	chmod +x run.sh && \
-	mvn package -Dmaven.test.skip=true && \
-	(java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar  --server.port=8080 &) && \
-	sleep 20 && \
-	curl -X PUT http://localhost:8080/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
-	curl -X PUT http://localhost:8080/silver -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
-	curl -X PUT http://localhost:8080/golden -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
-	killall java
+	mvn package -Dmaven.test.skip=true
 
 WORKDIR /CDMI
 
