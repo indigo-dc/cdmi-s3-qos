@@ -7,3 +7,4 @@
 /Dockerfile-pure-jdk
 /Dockerfile-lifemode
 /.checkstyle
+/Dockerfile-CentOs-jdk
