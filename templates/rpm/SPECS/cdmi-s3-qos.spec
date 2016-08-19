@@ -3,7 +3,7 @@
 %define buildroot	%{_topdir}/build-rpm-root
 
 %define name            cdmi-s3-qos
-%define jarversion      0.0.1
+%define jarversion      @SERVICE_VERSION@
 %define user            cdmi
 
 Name:		%{name}
@@ -44,8 +44,8 @@ if [ $? -eq 1 ]; then
   adduser --system --user-group %{user}
 fi
 
-if [ -f /var/lib/%{name}/%{name}-%{jarversion}-SNAPSHOT.jar ]; then
-  chmod +x /var/lib/%{name}/%{name}-%{jarversion}-SNAPSHOT.jar
+if [ -f /var/lib/%{name}/%{name}-%{jarversion}.jar ]; then
+  chmod +x /var/lib/%{name}/%{name}-%{jarversion}.jar
 fi
 
 chown -R %{user}:%{user} /var/lib/%{name}
