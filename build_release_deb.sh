@@ -78,8 +78,14 @@ chmod 0775 debian/DEBIAN/postinst
 
 
 #
-# prepare files required by dpkg --build 
+# prepare files and folders required by dpkg --build 
 #
+
+#debian/DEBIAN
+mkdir -p debian/DEBIAN
+
+#debian/etc/systemd/system
+mkdir -p debian/etc/systemd/system
 
 #debian/DEBIAN/control
 sed "s/@SERVICE_VERSION@/$SERVICE_VERSION/g" templates/debian/DEBIAN/control > debian/DEBIAN/control 
