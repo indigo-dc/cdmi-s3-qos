@@ -74,8 +74,6 @@ cp -fr config/fixed-mode debian/var/lib/$NAME/config/
 cp -f  CDMI/target/$NAME-${SERVICE_VERSION}.jar debian/var/lib/$NAME/
 cp -f CDMI/config/* debian/var/lib/$NAME/config/
 
-chmod 0775 debian/DEBIAN/postinst
-
 
 #
 # prepare files and folders required by dpkg --build 
@@ -92,6 +90,7 @@ sed "s/@SERVICE_VERSION@/$SERVICE_VERSION/g" templates/debian/DEBIAN/control > d
 
 #debian/DEBIAN/postinst
 sed "s/@SERVICE_VERSION@/$SERVICE_VERSION/g" templates/debian/DEBIAN/postinst > debian/DEBIAN/postinst
+chmod 0775 debian/DEBIAN/postinst
 
 #debian/etc/systemd/system/cdmi-s3-qos.service
 sed "s/@SERVICE_VERSION@/$SERVICE_VERSION/g" templates/debian/etc/systemd/system/cdmi-s3-qos.service > debian/etc/systemd/system/cdmi-s3-qos.service
