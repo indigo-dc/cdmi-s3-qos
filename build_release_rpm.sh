@@ -1,9 +1,20 @@
 #!/bin/bash
 
-VERSION=0.0.1
 NAME=cdmi-s3-qos
-
 TOPDIR=`pwd`/rpm
+
+
+VERSION=$(mvn help:evaluate -Dexpression=project.version | grep -v " " | grep -o "[0-9.]*" )
+VERSION_ERR=$?
+
+if [ $VERSION_ERR -ne 0 ] ||  [ "x$VERSION" == "x" ]; then
+echo "ERROR: Could not determine the version of maven procjet."
+echo "Check by hand if this comman succeed:"
+echo "mvn help:evaluate -Dexpression=project.version | grep -v \" \" | grep -o \"[0-9.]*\""
+exit 1
+fi
+
+
 
 #
 # compile and install cdmi-spi
