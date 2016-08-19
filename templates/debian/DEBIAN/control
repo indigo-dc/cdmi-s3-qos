@@ -1,5 +1,5 @@
 Package: cdmi-s3-qos
-Version: 0.0.1
+Version: @SERVICE_VERSION@
 Section: web
 Priority: optional
 Architecture: all

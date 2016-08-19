@@ -5,7 +5,7 @@ After=syslog.target
 [Service]
 User=cdmi
 ExecStartPre=chdir /var/lib/cdmi-s3-qos
-ExecStart=/var/lib/cdmi-s3-qos/cdmi-s3-qos-0.0.1-SNAPSHOT.jar
+ExecStart=/var/lib/cdmi-s3-qos/cdmi-s3-qos-@SERVICE_VERSION@.jar
 SuccessExitStatus=143
 
 [Install]
