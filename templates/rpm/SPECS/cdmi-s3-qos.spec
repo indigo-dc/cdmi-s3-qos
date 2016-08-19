@@ -33,7 +33,7 @@ cp %{_topdir}/SOURCES/%{name}.service %{buildroot}/etc/systemd/system
 %files
 /var/lib/%{name}/config/application.yml
 /var/lib/%{name}/config/fixed-mode/*
-/var/lib/%{name}/%{name}-%{jarversion}-SNAPSHOT.jar
+/var/lib/%{name}/%{name}-%{jarversion}.jar
 /etc/systemd/system/%{name}.service
 
 %changelog

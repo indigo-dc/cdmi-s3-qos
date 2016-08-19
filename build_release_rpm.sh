@@ -94,4 +94,4 @@ sed "s/@SERVICE_VERSION@/$SERVICE_VERSION/g" templates/rpm/SPECS/cdmi-s3-qos.spe
 
 rpmbuild --define "_topdir ${TOPDIR}" -ba $TOPDIR/SPECS/$NAME.spec
 
-#cp ${TOPDIR}/RPMS/x86_64/cdmi-s3-qos-0.0.1-1.el7.centos.x86_64.rpm .
+cp ${TOPDIR}/RPMS/x86_64/cdmi-s3-qos-$SERVICE_VERSION-1.el7.centos.x86_64.rpm .
