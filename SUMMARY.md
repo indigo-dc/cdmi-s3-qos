@@ -5,5 +5,5 @@
    * [Installing from binary packages](doc/installing_from_binary_packages.md)
    * [Building from source codes](doc/building_from_source_codes.md)
    * [Running from docker image](doc/running_from_docker_image.md)
-* User guide
+* [User guide](user_guide.md)
 
