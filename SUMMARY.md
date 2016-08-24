@@ -8,5 +8,5 @@
    * [Manual integration with cdmi server](doc/manual_integration_with_cdmi_server.md)
 * [User guide](doc/userguide_md.md)
    * [API Walkthrough](doc/api_walkthrough.md)
-* Introduction
+* [Introduction](introduction.md)
 
