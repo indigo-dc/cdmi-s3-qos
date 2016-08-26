@@ -12,9 +12,6 @@ The documentation cover the following questions:
 * Running the pre-configured cdmi-qos server from docker image.
 * Reference and inforations required to manual integration with cdmi-qos server.
 
-can be 
-It is distributed as pre-configured cdmi-qos server which is already integrated with cdmi-s3-qos module and can be run as a separate service.
-
 The cdmi-s3-qos imposes following prerequisites on Cepht Object Gateway node:
 * The [cdmi-s3-qos-ceph-provider](https://github.com/indigo-dc/cdmi-s3-qos-ceph-provider) has to be installed and configured on Ceph Object Gateway node.
 * The Ceph Object Gateway has to allow on SSH based access (cdmi-s3-qos executes remote commands through SSH protocol).
