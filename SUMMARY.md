@@ -2,6 +2,7 @@
 
 * [About cdmi-s3-qos](README.md)
 * [Module description](introduction.md)
+   * QoS in Ceph Object Gateway
 * [Deployment and Administration guide](doc/administrationmd.md)
    * [Installing](doc/installing_from_binary_packages.md)
    * [Building sources](doc/building_from_source_codes.md)
