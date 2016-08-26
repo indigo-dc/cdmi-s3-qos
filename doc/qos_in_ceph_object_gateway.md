@@ -7,9 +7,15 @@ The assumption is that cdmi-s3-qos module operates over already existing and con
 
 ## Introduction to CEPH
 
-Ceph Object Gateway is only one of components constituting CEPH storage platform. CEPH allows to build distributed storage clusters. The same data stored inside such a cluster can be accessed through different interfaces (object, block and file system like interfaces).
+Ceph Object Gateway is just one of components constituting CEPH storage platform. CEPH allows to build distributed storage clusters. Data stored inside such a cluster can be accessed through different interfaces (object, block and file system like interfaces).
 
-Internally CEPH 
+Internally CEPH organizes data into so called pools. Each pool can be configured separately. From QoS point of view, each pool can hold different configuration. Among other things, each pool can be configured to
+* use specific type of storage media,
+* use storage media form specific physical localization,
+* use specific number of additional copies of each file,
+* use erasure codes with specific number of coding chunks.
+
+
 
 ## Ceph Object Gateway
 
