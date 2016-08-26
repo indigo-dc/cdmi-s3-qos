@@ -15,7 +15,9 @@ Internally CEPH organizes data into so called pools. Each pool can be configured
 * use specific number of additional copies of each file,
 * use erasure codes with specific number of coding chunks.
 
+Different QoS profiles can be defined through different sets of configuration parameters assigned to individual pools.
 
+(ADD THAT POOLS HAVE STATIC NATURE AND HAVE TO BE MANUALLY CONFIGUERD VIA ADMIN, TO CHANGE QOS OF GIVEN DATA SET THE DATA HAVE TO BE COPIED/MOVED TO ANOTHER POOL, FROM INDIGO POINT OF VIEW ON THE FLY CHANGES OF POOL CONFIGURATION ARE NOT CONSIDERED)
 
 ## Ceph Object Gateway
 
