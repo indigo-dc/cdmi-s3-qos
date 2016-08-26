@@ -5,7 +5,7 @@ Copyright 2016 - INDIGO-DataCloud
 
 This project ([cdmi-s3-qos](https://github.com/indigo-dc/cdmi-s3-qos)) provides a QoS backend storage module for [cdmi-qos](https://github.com/indigo-dc/cdmi) server. Generally, the module is destined to be integrated with the already installed cdmi-qos server. Nevertheless, for the sake of simplicity, the installation packages with properly pre-configured cdmi-qos server has been also provided.
 
-The documentation cover the following questions:
+This documentation covers the following questions:
 * General description of QoS in a context of Ceph Object Gateway.
 * Installation and configuration based on binary packages with pre-configured cdmi-qos server (i.e. QoS module is installed toghether with cdmi-qos server).
 * Building the module from sources.
