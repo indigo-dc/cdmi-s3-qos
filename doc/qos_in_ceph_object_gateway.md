@@ -22,3 +22,5 @@ Different QoS profiles can be defined through different sets of configuration pa
 ## Ceph Object Gateway
 
 Ceph Object Gateway is responsible for exposing data as objects via REST interface. As for now (year 2016), there are two specific REST interfaces supported: S3 and Swift.
+
+(WE FOCUS ON S3, EACH BUCKET ASSIGNED TO DEDICATED POOL, EACH POOL ASSOCIATED WITH DIFFERENT QOS PROFILE)
