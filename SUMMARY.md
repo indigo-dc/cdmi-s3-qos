@@ -2,7 +2,7 @@
 
 * [About cdmi-s3-qos](README.md)
 * [Module description](introduction.md)
-   * [QoS in Ceph Object Gateway](doc/qos_in_ceph_object_gateway.md)
+   * [Ceph Object Gateway QoS](doc/qos_in_ceph_object_gateway.md)
    * [Interface to QoS metrics](doc/interface_to_qos_metrics.md)
 * [Deployment and Administration guide](doc/administrationmd.md)
    * [Installing](doc/installing_from_binary_packages.md)
