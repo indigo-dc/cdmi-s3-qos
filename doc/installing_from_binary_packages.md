@@ -46,7 +46,8 @@ Instalation from indigo repository:
 
 ```sudo yum install cdmi-s3-qos ```
 
-## Starting, stoping and enabling
+## Starting, stopping and enabling
+< either put docs here, or say (what I guess) that this module is started by the properly cdmi-qos daemon>
 
 ### Ubuntu
 
