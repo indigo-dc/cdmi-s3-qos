@@ -1,5 +1,6 @@
 #
 # Image pre-configured to test CDMI server with default (embedded) implementation of StorageBacked interface (default QoS module).
+# redis embedded into CDMI server
 #
 FROM ubuntu:14.04
 
@@ -17,7 +18,8 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	cd .. && \
 	git clone https://github.com/indigo-dc/CDMI.git && \
 	cd CDMI && \
-	git checkout 326eec3 && \
+	git checkout 024e1b2 && \
+	sed -i 's/active: redis/active: redis-embedded/g' config/application.yml && \
 	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar  --server.port=8080" > run.sh && \
 	chmod +x run.sh && \	
 	mvn package -Dmaven.test.skip=true

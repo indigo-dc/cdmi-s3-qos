@@ -24,8 +24,9 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	cp -rf cdmi-s3-qos/config CDMI/ && \
 	rm -f CDMI/config/objectstore.properties && \
 	cd CDMI && \
-	git checkout 326eec3 && \
+	git checkout 024e1b2 && \
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
+	sed -i 's/active: redis/active: redis-embedded/g' config/application.yml && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
 	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar  --server.port=8080" > run.sh && \
 	chmod +x run.sh && \
