@@ -1,8 +1,8 @@
 #!/bin/bash
 
 NAME=cdmi-s3-qos
-CDMI_SPI_COMMIT=b4817ed
-CDMI_COMMIT=326eec3
+CDMI_SPI_COMMIT=36107fe
+CDMI_COMMIT=dae52af
 
 QOS_VERSION=$(mvn help:evaluate -Dexpression=project.version | grep -v " " | grep -o "[0-9.]*" )
 QOS_VERSION_ERR=$?
