@@ -1,11 +1,15 @@
 #
-# 
+# Image pre-configured to test CDMI server with default (embedded) implementation of StorageBacked interface (default QoS module).
+# redis in external container
 #
 FROM ubuntu:14.04
 
 MAINTAINER gracjan@man.poznan.pl
 
+# it is only to get access to /cdmi-s3-qos/templates/springboot/config/application.yml
+# this file configures connection to redis server  
 COPY . /cdmi-s3-qos
+#COPY CDMI /CDMI
 
 RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc/apt/sources.list && \
 	echo "deb-src http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc/apt/sources.list && \
@@ -14,25 +18,25 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	apt-get install -y maven git curl redis-tools && \
 	git clone https://github.com/indigo-dc/cdmi-spi.git && \
 	cd cdmi-spi && \
-	git checkout b4817ed && \
 	mvn install && \
 	cd .. && \
-	cd cdmi-s3-qos && \
-	mvn install && \
-	cd .. && \
+    cd cdmi-s3-qos && \
+    mvn install && \
+    cd .. && \
 	git clone https://github.com/indigo-dc/CDMI.git && \
 	cp -rf cdmi-s3-qos/config CDMI/ && \
 	rm -f CDMI/config/objectstore.properties && \
 	cd CDMI && \
-	git checkout 024e1b2 && \
-	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
-	sed -i 's/active: redis/active: redis-embedded/g' config/application.yml && \
+	git checkout 3113ee4 && \
+	cp -r ../cdmi-s3-qos/templates/springboot/config/application.yml config/application.yml && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
+	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
 	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar  --server.port=8080" > run.sh && \
-	chmod +x run.sh && \
+	chmod +x run.sh && \	
 	mvn package -Dmaven.test.skip=true
 
 WORKDIR /CDMI
 
-ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar --server.port=8080
+#ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar
 #CMD java -jar target/cdmi-server-0.1-SNAPSHOT.jar
+CMD java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar  --server.port=8080

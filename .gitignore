@@ -4,8 +4,6 @@
 /.classpath
 /.project
 /.settings/
-/Dockerfile-pure-jdk
-/Dockerfile-lifemode
 /.checkstyle
-/Dockerfile-CentOs-jdk
 /SCRATCHPAD
+/CDMI/

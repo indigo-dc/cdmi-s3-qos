@@ -1,0 +1,14 @@
+#
+# do not add it to git,
+# it produces docker image with development tools for further "manual" tests
+#
+FROM centos:7
+
+MAINTAINER gracjan@man.poznan.pl
+
+COPY . /cdmi-s3-qos
+
+RUN yum update -y && \
+	yum install git curl mc maven java-1.8.0-openjdk-devel rpm-build net-tools -y
+	
+WORKDIR /cdmi-s3-qos
