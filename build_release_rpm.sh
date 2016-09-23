@@ -62,13 +62,13 @@ CDMI_JAR_VERSION_ERR=$?
 
 CDMI_VERSION=$(echo $CDMI_JAR_VERSION | grep -o "[0-9.]*")
 
-SERVICE_VERSION=${QOS_VERSION}-cdmi${CDMI_VERSION}
+SERVICE_VERSION=${QOS_VERSION}cdmi${CDMI_VERSION}
 
 
 #
 # set final name of cdmi server with included cdmi-s3-module
 #
-cp -f target/cdmi-server-0.1-SNAPSHOT.jar target/$NAME-${SERVICE_VERSION}.jar
+cp -f target/cdmi-server-${CDMI_JAR_VERSION}.jar target/$NAME-${SERVICE_VERSION}.jar
 
 # bellow line seems to be redundant (probably will be removed)
 cp -f target/$NAME-$SERVICE_VERSION.jar $TOPDIR/SOURCES
