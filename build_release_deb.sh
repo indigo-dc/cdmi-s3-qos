@@ -1,8 +1,12 @@
 #!/bin/bash
 
+#
+# read commits or branches names which are to be used in packaging process
+#
+
+. ./PACKAGING_COMMITS
+
 NAME=cdmi-s3-qos
-CDMI_SPI_COMMIT=36107fe
-CDMI_COMMIT=dae52af
 
 QOS_VERSION=$(mvn help:evaluate -Dexpression=project.version | grep -v " " | grep -o "[0-9.]*" )
 QOS_VERSION_ERR=$?
