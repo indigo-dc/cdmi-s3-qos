@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  cdmi:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-filesystem-ex-redis
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+  redis:
+    image: redis

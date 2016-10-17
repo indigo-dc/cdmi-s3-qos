@@ -1,6 +1,7 @@
 [Unit]
 Description=cdmi-s3-qos
 After=syslog.target
+#Requires=redis-server.service
 
 [Service]
 User=cdmi

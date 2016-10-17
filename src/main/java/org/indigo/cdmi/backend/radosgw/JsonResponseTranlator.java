@@ -142,7 +142,7 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
     /*
      * create capabilities object (to be populated and injected into returned BackendCapability)
      */
-    Map<String, String> capabilities = new HashMap<>();
+    Map<String, Object> capabilities = new HashMap<>();
 
     /*
      * Add always present capabilities
@@ -153,7 +153,7 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
     /*
      * create metadata object (to be populated and injected into returned BackendCapability)
      */
-    Map<String, String> metadata = new HashMap<>();
+    Map<String, Object> metadata = new HashMap<>();
 
     /*
      * iterate through metadata in profileInfo and populate capabilities and 
@@ -290,7 +290,7 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
 
     //log.debug("Translate {} to CdmiObjectStatus", gatewayResponse);
 
-    Map<String, String> monitoredAttributes = new HashMap<>();
+    Map<String, Object> monitoredAttributes = new HashMap<>();
 
     JSONObject profile = new JSONObject(gatewayResponse);
     //log.debug("profile: {}", profile);
