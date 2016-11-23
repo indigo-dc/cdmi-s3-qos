@@ -28,3 +28,4 @@ fi
 
 service $NAME start
 update-rc.d $NAME defaults 99
+

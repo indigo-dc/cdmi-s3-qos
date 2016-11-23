@@ -52,3 +52,4 @@ chown -R %{user}:%{user} /var/lib/%{name}
 
 systemctl start %{name}.service
 systemctl enable %{name}.service
+

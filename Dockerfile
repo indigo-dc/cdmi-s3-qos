@@ -24,21 +24,23 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	cp -rf cdmi-s3-qos/config CDMI/ && \
 	rm -f CDMI/config/objectstore.properties && \
 	cd CDMI && \
-	git checkout 1bd60f9 && \
+	git checkout 59bef6d && \
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
 	sed -i 's/active: redis/active: redis-embedded/g' config/application.yml && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
 	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.1.jar  --server.port=8080" > run.sh && \
 	chmod +x run.sh && \
-	mvn package -Dmaven.test.skip=true && \
-	(java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.1.jar  --server.port=8080 &) && \
-	sleep 20 && \
-	curl -X PUT http://localhost:8080/standard -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
-	curl -X PUT http://localhost:8080/silver -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
-	curl -X PUT http://localhost:8080/golden -H "Authorization: Basic cmVzdGFkbWluOnJlc3RhZG1pbg==" -H "Content-Type: application/cdmi-container" -d '{}' && \
-	killall java
+	mvn package -Dmaven.test.skip=true
+	#(java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.1.jar  --server.port=8080 &) && \
+	#sleep 20 && \
+	#curl -X PUT http://restadmin:restadmin@localhost:8080/standard -H "Content-Type: application/cdmi-container" -d '{}' && \
+	#curl -X PUT http://restadmin:restadmin@localhost:8080/silver -H "Content-Type: application/cdmi-container" -d '{}' && \
+	#curl -X PUT http://restadmin:restadmin@localhost:8080/golden -H "Content-Type: application/cdmi-container" -d '{}' && \
+	#killall java
 
 WORKDIR /CDMI
 
-ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.1.jar --server.port=8080
+CMD java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.1.jar --server.port=8080
+#ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.1.jar --server.port=8080
 #CMD java -jar target/cdmi-server-0.1-SNAPSHOT.jar
+#git checkout 1bd60f9 && \

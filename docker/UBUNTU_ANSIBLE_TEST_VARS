@@ -1,0 +1,14 @@
+PACKAGE_NAME=cdmi-s3-qos-0.0.1-cdmi1.1.deb
+PACKAGE_BUILD_COMMAND=./build_release_deb.sh
+
+JDK_IMAGE=ubuntu-jdk-image-tmp
+JDK_CONTAINER=ubuntu-jdk-container-tmp
+JDK_DOCKERFILE=./Dockerfile-Ubuntu-jdk
+
+ANSIBLE_IMAGE=ubuntu-ansible-image
+ANSIBLE_CONTAINER=ubuntu-ansible-container
+ANSIBLE_DOCKERFILE=./Dockerfile-Ubuntu-ansible-test
+
+APACHE_IMAGE=apache-image
+APACHE_CONTAINER=apache-container
+APACHE_DOCKERFILE=./Dockerfile-apache-httpd

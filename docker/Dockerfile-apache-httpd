@@ -1,0 +1,12 @@
+FROM ubuntu:14.04
+
+MAINTAINER gracjan@man.poznan.pl
+
+
+WORKDIR /root
+
+RUN	apt-get update && \
+	apt-get install -y git curl vim apache2
+
+	
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
