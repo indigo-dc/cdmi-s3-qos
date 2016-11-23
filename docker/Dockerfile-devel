@@ -25,13 +25,17 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	git clone https://github.com/indigo-dc/CDMI.git && \
 	cp -rf cdmi-s3-qos/config CDMI/ && \
 	cd CDMI && \
-	git checkout 3113ee4 && \
+	#git checkout dae52af && \
+	git checkout 59bef6d && \
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
 	sed -i 's/active: redis/active: redis-embedded/g' config/application.yml && \
-	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar  --server.port=8080" > run.sh && \
+	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.1.jar  --server.port=8080" > run.sh && \
 	chmod +x run.sh && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
 	mvn package -Dmaven.test.skip=true
 
 WORKDIR /CDMI
 
+
+# 59bef6d 
+#git checkout 3113ee4 && \

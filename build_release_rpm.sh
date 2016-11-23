@@ -48,6 +48,7 @@ rm -f CDMI/config/objectstore.properties
 cd CDMI
 
 sed -i 's/dummy_filesystem/radosgw/g' config/application.yml
+sed -i 's/active: redis/active: redis-embedded/g' config/application.yml
 sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml
 mvn clean package -Dmaven.test.skip=true
 

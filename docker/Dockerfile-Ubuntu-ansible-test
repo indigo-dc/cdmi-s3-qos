@@ -1,0 +1,20 @@
+FROM ubuntu:14.04
+
+MAINTAINER gracjan@man.poznan.pl
+
+COPY . /cdmi-s3-qos
+
+WORKDIR /root
+
+RUN	apt-get update && \
+	apt-get install -y git curl vim wget software-properties-common && \
+	apt-add-repository -y ppa:ansible/ansible && \
+	apt-get update && \
+	apt-get install -y ansible python-apt python-pycurl && \ 
+	cp /cdmi-s3-qos/templates/ansible/* . && \
+	chmod -x playbook inventory && \
+	mkdir roles && \
+	cd roles && \
+	git clone https://github.com/indigo-dc/ansible-role-cdmi-s3-qos.git && \
+	cd ansible-role-cdmi-s3-qos
+	

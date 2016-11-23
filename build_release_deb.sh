@@ -109,3 +109,4 @@ dpkg --build debian
 # set final name for the package
 #
 mv debian.deb $NAME-${SERVICE_VERSION}.deb
+
