@@ -147,8 +147,8 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
     /*
      * Add always present capabilities
      */
-    capabilities.put("cdmi_capabilities_templates", "true");
-    capabilities.put("cdmi_capabilities_exact_inherit", "true");
+    capabilities.put("cdmi_capabilities_templates", true);
+    capabilities.put("cdmi_capabilities_exact_inherit", true);
 
     /*
      * create metadata object (to be populated and injected into returned BackendCapability)
@@ -192,7 +192,7 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
        * with capabilities map 
        */
       String cdmiCapabilityKey = key;
-      String cdmiCapabilityValue = "true";
+      Boolean cdmiCapabilityValue = true;
 
       /*
        * add "calculated" key and value to the capabilities map
@@ -213,6 +213,7 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
 
     } // while()
 
+    capabilities.put("cdmi_capabilities_allowed", true);
 
     /*
      * process allowed profiles
@@ -222,7 +223,7 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
     log.debug("allowedProfiles: {}", allowedProfiles);
     log.debug("profilesURIs: {}", profilesUris);
 
-    capabilities.put("cdmi_capabilities_allowed", profilesUris);
+    metadata.put("cdmi_capabilities_allowed", profilesUris);
 
     returnBackendCapability.setCapabilities(capabilities);
     returnBackendCapability.setMetadata(metadata);
