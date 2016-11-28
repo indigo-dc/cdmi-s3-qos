@@ -1,12 +1,3 @@
----
 - hosts: test
   roles:
-    - ansible-role-cdmi-s3-qos
-    
-#- hosts: test
-#  tasks:
-#    - name: check who am I
-#      command: whoami
-#      register: out
-#
-#    - debug: var=out.stdout_lines
+    - indigo-dc.cdmi-s3-qos
