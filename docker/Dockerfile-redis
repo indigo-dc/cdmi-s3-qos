@@ -1,0 +1,9 @@
+FROM redis
+
+MAINTAINER gracjan@man.poznan.pl
+
+COPY docker/redis.conf /usr/local/etc/redis/redis.conf
+
+RUN chmod +r /usr/local/etc/redis/redis.conf
+
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]

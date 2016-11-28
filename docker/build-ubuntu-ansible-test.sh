@@ -50,7 +50,6 @@ docker exec $APACHE_CONTAINER chmod 644 /var/www/html/$PACKAGE_NAME
 rm -f ./$PACKAGE_NAME 
 
 
-
 #
 # ANSIBLE
 #
