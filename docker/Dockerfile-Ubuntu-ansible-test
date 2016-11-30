@@ -12,7 +12,7 @@ RUN	apt-get update && \
 	apt-get update && \
 	apt-get install -y ansible python-apt python-pycurl && \ 
 	cp /cdmi-s3-qos/templates/ansible/* . && \
-	chmod -x playbook inventory && \
+	chmod -x playbook inventory playbook-with-vars && \
 	mkdir roles && \
 	cd roles && \
 	git clone https://github.com/indigo-dc/ansible-role-cdmi-s3-qos.git indigo-dc.cdmi-s3-qos && \

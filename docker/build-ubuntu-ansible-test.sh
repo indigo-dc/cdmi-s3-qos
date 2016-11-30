@@ -59,3 +59,4 @@ docker rmi $ANSIBLE_IMAGE
 
 docker build -f $ANSIBLE_DOCKERFILE -t $ANSIBLE_IMAGE ..
 docker run -di --link $APACHE_CONTAINER:testing-source --name $ANSIBLE_CONTAINER $ANSIBLE_IMAGE
+#docker cp /home/gracjan/projects/ansible-role-cdmi-s3-qos $ANSIBLE_CONTAINER:/root/roles/indigo-dc.cdmi-s3-qos
