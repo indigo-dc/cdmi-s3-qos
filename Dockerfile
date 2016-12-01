@@ -11,7 +11,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	echo "deb-src http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc/apt/sources.list && \
 	apt-get update && \
 	apt-get --force-yes install -y openjdk-8-jdk && \
-	apt-get install -y maven git curl redis-tools && \
+	apt-get install -y maven git curl redis-tools httpie && \
 	git clone https://github.com/indigo-dc/cdmi-spi.git && \
 	cd cdmi-spi && \
 	git checkout 67b6d7b && \

@@ -127,7 +127,6 @@ public class LifeModeBackendGateway implements BackendGateway {
   } // getAllProfiles()
 
 
-
   /**
    * Returns String in JSON format which describes QoS profile assigned to CDMI object 
    * determined by path parameter.
@@ -137,20 +136,23 @@ public class LifeModeBackendGateway implements BackendGateway {
   @Override
   public String getPathProfile(String path) {
 
-    String executorAnswer = null;
-
+    log.debug("getPathProfile({})", path);
+    
     /*
      * get bundle name
      */
-    String bundleName = null;
-    try {
-      bundleName = S3Utils.getBucketNameFromPath(path);
-      log.debug("Related bundle name: {}", bundleName);
-    } catch (Exception ex) {
-      throw new RuntimeException("Failed to get name of bundle for path " + path, ex);
+    String bundleName = "/";
+    if (!path.equals("/")) {
+      try {
+        bundleName = S3Utils.getBucketNameFromPath(path);
+        log.debug("Related bundle name: {}", bundleName);
+      } catch (Exception ex) {
+        throw new RuntimeException("Failed to get name of bundle for path " + path, ex);
+      }      
     }
 
-
+    String executorAnswer = null;
+    
     try {
       String sshCommand = this.sshCommandGetBucketProfile + " " + bundleName;
       log.debug("ssh command to get path profile: {}", sshCommand);
@@ -158,7 +160,6 @@ public class LifeModeBackendGateway implements BackendGateway {
     } catch (RemoteExecutorException ex) {
       throw new RuntimeException("Failed to get profile of bundle " + bundleName, ex);
     }
-
 
     return executorAnswer;
 
