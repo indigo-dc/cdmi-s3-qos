@@ -15,3 +15,9 @@ services:
       - "80:8080"
     depends_on:
       - redis-aof-ex
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1400

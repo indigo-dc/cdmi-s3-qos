@@ -15,6 +15,11 @@ cdmi:
   qos:
     backend:
       type: dummy_filesystem
+      
+logging:
+  level:
+    org.indigo.cdmi.backend: DEBUG
+    
 ---
 spring:
   profiles: filesystem
