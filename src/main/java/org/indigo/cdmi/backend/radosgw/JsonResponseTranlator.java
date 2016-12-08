@@ -179,10 +179,11 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
        * metadataObj.getString(key) would be wrong 
        */
       Object valueObj = metadataObj.get(key);
-      String value = valueObj.toString();
+      
 
       log.debug("Current metadata key: {}", key);
-      log.debug("Current metadata value: {}", value);
+      log.debug("Current metadata value: {}", valueObj);
+      log.debug("Metadata value class/type is: {}", valueObj.getClass());
 
       /*
        * Create key and value to be added to capabilities.
@@ -202,9 +203,9 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
       /*
        * see above comments for capabilities related keys and values
        */
-      String cdmiMetadataValue = value;
       String cdmiMetadataKey = key;
-
+      Object cdmiMetadataValue = valueObj;
+      
       /*
        * add "calculated" key and value to the metadata map
        */
@@ -309,9 +310,10 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
       //log.debug("key: {}", key);
 
       Object metadataProvidedAsObj    = metadataProvided.get(key);
-      String metadataProvidedAsString = metadataProvidedAsObj.toString();
-
-      monitoredAttributes.put(key, metadataProvidedAsString);
+      //String metadataProvidedAsString = metadataProvidedAsObj.toString();
+      
+      //monitoredAttributes.put(key, metadataProvidedAsString);
+      monitoredAttributes.put(key, metadataProvidedAsObj);
 
     }
 
