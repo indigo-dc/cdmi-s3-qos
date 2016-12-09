@@ -13,6 +13,7 @@ import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -214,18 +215,26 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
 
     } // while()
 
-    capabilities.put("cdmi_capabilities_allowed", "true");
+    //capabilities.put("cdmi_capabilities_allowed", "true");
 
     /*
      * process allowed profiles
      */
-    JSONArray allowedProfiles = profileInfo.getJSONArray(JSON_KEY_ALLOWED_PROFILES);
-    String profilesUris = profilesToUris(allowedProfiles, retriveObjectTypeAsString(profileInfo));
-    log.debug("allowedProfiles: {}", allowedProfiles);
-    log.debug("profilesURIs: {}", profilesUris);
-
-    metadata.put("cdmi_capabilities_allowed", profilesUris);
-
+    try {
+    
+      JSONArray allowedProfiles = profileInfo.getJSONArray(JSON_KEY_ALLOWED_PROFILES);
+      String profilesUris = profilesToUris(allowedProfiles, retriveObjectTypeAsString(profileInfo));
+      log.debug("allowedProfiles: {}", allowedProfiles);
+      log.debug("profilesURIs: {}", profilesUris);
+  
+      metadata.put("cdmi_capabilities_allowed", profilesUris);
+    
+    } catch (JSONException ex) {
+      
+      log.debug("No {} key in processed JSON document",  JSON_KEY_ALLOWED_PROFILES);
+      
+    } // try{}
+    
     returnBackendCapability.setCapabilities(capabilities);
     returnBackendCapability.setMetadata(metadata);
 

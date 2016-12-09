@@ -31,7 +31,8 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	#cp -rf cdmi-s3-qos/config CDMI/ && \
 	rm -f CDMI/config/objectstore.properties && \
 	cd CDMI && \
-	git checkout 59bef6d && \
+	#git checkout 59bef6d && \
+	git checkout 4a12e17 && \
 	cp -rf ../cdmi-s3-qos/config . && \
 	ls -l ../cdmi-s3-qos/config > /tmp/raz.log && \
 	ls -l  config > /tmp/dwa.log && \
