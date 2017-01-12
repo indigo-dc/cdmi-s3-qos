@@ -1,0 +1,3 @@
+- hosts: test
+  roles:
+    - { role: indigo-dc.cdmi-s3-qos, cdmi_port: 8080, active_profile: "redis-embedded" }

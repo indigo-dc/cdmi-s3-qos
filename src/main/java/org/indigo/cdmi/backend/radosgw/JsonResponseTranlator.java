@@ -13,6 +13,7 @@ import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -179,10 +180,11 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
        * metadataObj.getString(key) would be wrong 
        */
       Object valueObj = metadataObj.get(key);
-      String value = valueObj.toString();
+      
 
       log.debug("Current metadata key: {}", key);
-      log.debug("Current metadata value: {}", value);
+      log.debug("Current metadata value: {}", valueObj);
+      log.debug("Metadata value class/type is: {}", valueObj.getClass());
 
       /*
        * Create key and value to be added to capabilities.
@@ -202,9 +204,9 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
       /*
        * see above comments for capabilities related keys and values
        */
-      String cdmiMetadataValue = value;
       String cdmiMetadataKey = key;
-
+      Object cdmiMetadataValue = valueObj;
+      
       /*
        * add "calculated" key and value to the metadata map
        */
@@ -213,17 +215,26 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
 
     } // while()
 
+    //capabilities.put("cdmi_capabilities_allowed", "true");
 
     /*
      * process allowed profiles
      */
-    JSONArray allowedProfiles = profileInfo.getJSONArray(JSON_KEY_ALLOWED_PROFILES);
-    String profilesUris = profilesToUris(allowedProfiles, retriveObjectTypeAsString(profileInfo));
-    log.debug("allowedProfiles: {}", allowedProfiles);
-    log.debug("profilesURIs: {}", profilesUris);
-
-    capabilities.put("cdmi_capabilities_allowed", profilesUris);
-
+    try {
+    
+      JSONArray allowedProfiles = profileInfo.getJSONArray(JSON_KEY_ALLOWED_PROFILES);
+      String profilesUris = profilesToUris(allowedProfiles, retriveObjectTypeAsString(profileInfo));
+      log.debug("allowedProfiles: {}", allowedProfiles);
+      log.debug("profilesURIs: {}", profilesUris);
+  
+      metadata.put("cdmi_capabilities_allowed", profilesUris);
+    
+    } catch (JSONException ex) {
+      
+      log.debug("No {} key in processed JSON document",  JSON_KEY_ALLOWED_PROFILES);
+      
+    } // try{}
+    
     returnBackendCapability.setCapabilities(capabilities);
     returnBackendCapability.setMetadata(metadata);
 
@@ -308,9 +319,10 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
       //log.debug("key: {}", key);
 
       Object metadataProvidedAsObj    = metadataProvided.get(key);
-      String metadataProvidedAsString = metadataProvidedAsObj.toString();
-
-      monitoredAttributes.put(key, metadataProvidedAsString);
+      //String metadataProvidedAsString = metadataProvidedAsObj.toString();
+      
+      //monitoredAttributes.put(key, metadataProvidedAsString);
+      monitoredAttributes.put(key, metadataProvidedAsObj);
 
     }
 

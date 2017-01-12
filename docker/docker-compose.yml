@@ -1,13 +1,23 @@
 version: '2'
 
 services:
-  cdmi:
+  redis-aof-ex:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-redis
+  cdmi-fs-ex-redis:
     build:
       context: ..
       dockerfile: docker/Dockerfile-filesystem-ex-redis
+    links:
+      - redis-aof-ex:redis
     ports:
-      - "8080:8080"
+      - "80:8080"
     depends_on:
-      - redis
-  redis:
-    image: redis
+      - redis-aof-ex
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1400

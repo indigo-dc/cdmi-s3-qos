@@ -153,10 +153,17 @@ public class FixedModeBackendGateway implements BackendGateway {
   @Override
   public String getPathProfile(String path) {
 
+    log.debug("getPathProfile({})", path);
+    
     /*
      * get bucket name
      */
-    String bucketName = S3Utils.getBucketNameFromPath(path);
+    String bucketName = "/";
+    if (!path.equals("/")) {
+          
+      bucketName = S3Utils.getBucketNameFromPath(path);
+    
+    } // path.equals("/")
     log.debug("Bucket name: {}", bucketName);
 
 

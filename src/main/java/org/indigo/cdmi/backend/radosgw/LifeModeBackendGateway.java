@@ -9,10 +9,18 @@
 
 package org.indigo.cdmi.backend.radosgw;
 
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * Specific implementation of BackendGateway interface.
@@ -38,7 +46,9 @@ public class LifeModeBackendGateway implements BackendGateway {
 
   private RemoteExecutor remoteExecutor = null;
 
-
+  private final CacheLoader<String, String> responseCacheLoader;
+  private final LoadingCache<String, String> backendResponsesCache;
+  
   /**
    * Read configuration file, instantiate auxiliary objects.
    */
@@ -53,8 +63,6 @@ public class LifeModeBackendGateway implements BackendGateway {
 
     this.remoteExecutor = remoteExecutor;
     
-    //remoteExecutor = RemoteExecutorFactory.create(config.getProperties(), config.getProperties());
-
     boolean wrongConfiguration = false;
 
     /*
@@ -92,6 +100,39 @@ public class LifeModeBackendGateway implements BackendGateway {
     }
 
 
+    /*
+     * initialize cache loader
+     */
+    responseCacheLoader = new CacheLoader<String, String>() {
+
+      @Override
+      public String load(String bundleName) throws Exception {
+      
+        String executorAnswer = null;
+        
+        try {
+          String sshCommand = sshCommandGetBucketProfile + " " + bundleName;
+          log.debug("ssh command to get path profile: {}", sshCommand);
+          executorAnswer = remoteExecutor.execute(sshCommand);
+        } catch (Exception ex) {
+          throw new Exception("Failed to get profile of bundle " + bundleName, ex);
+        }
+
+        return executorAnswer;
+      
+      } // load()
+    
+    };
+    
+    
+    /*
+     * build responseCache
+     */
+    backendResponsesCache = CacheBuilder.newBuilder()
+        .maximumSize(30)
+        .expireAfterAccess(600, TimeUnit.SECONDS)
+        .build(responseCacheLoader);
+        
   } // LifeModeBackedGateway()
 
 
@@ -126,8 +167,8 @@ public class LifeModeBackendGateway implements BackendGateway {
 
   } // getAllProfiles()
 
-
-
+  
+  
   /**
    * Returns String in JSON format which describes QoS profile assigned to CDMI object 
    * determined by path parameter.
@@ -137,30 +178,28 @@ public class LifeModeBackendGateway implements BackendGateway {
   @Override
   public String getPathProfile(String path) {
 
-    String executorAnswer = null;
-
+    log.debug("getPathProfile({})", path);
+    
     /*
      * get bundle name
      */
-    String bundleName = null;
-    try {
-      bundleName = S3Utils.getBucketNameFromPath(path);
-      log.debug("Related bundle name: {}", bundleName);
-    } catch (Exception ex) {
-      throw new RuntimeException("Failed to get name of bundle for path " + path, ex);
+    String bundleName = "/";
+    if (!path.equals("/")) {
+      try {
+        bundleName = S3Utils.getBucketNameFromPath(path);
+        log.debug("Related bundle name: {}", bundleName);
+      } catch (Exception ex) {
+        throw new RuntimeException("Failed to get name of bundle for path " + path, ex);
+      }      
     }
 
-
+    String backendResponse = null;
     try {
-      String sshCommand = this.sshCommandGetBucketProfile + " " + bundleName;
-      log.debug("ssh command to get path profile: {}", sshCommand);
-      executorAnswer = remoteExecutor.execute(sshCommand);
-    } catch (RemoteExecutorException ex) {
-      throw new RuntimeException("Failed to get profile of bundle " + bundleName, ex);
+      backendResponse = backendResponsesCache.get(bundleName);
+    } catch (ExecutionException e) {
+      throw new RuntimeException("Failed to get profile of bundle " + bundleName, e);
     }
-
-
-    return executorAnswer;
+    return backendResponse;
 
   } // getPathProfile
 

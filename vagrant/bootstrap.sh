@@ -7,14 +7,14 @@ yum update -y
 yum install ansible -y
 cd /root
 cp /vagrant/sync/inventory .
-cp /vagrant/sync/playbook .
-chmod -x playbook inventory
+cp /vagrant/sync/playbook* .
+
+chmod -x playbook inventory playbook-with-vars
 mkdir roles
 cd roles
-#cp -r /vagrant/sync/ansible-role-cdmi-s3-qos .
-#git clone https://github.com/indigo-dc/ansible-role-cdmi-s3-qos.git cdmi-s3-qos
-git clone https://github.com/indigo-dc/ansible-role-cdmi-s3-qos.git
-cd ansible-role-cdmi-s3-qos
+#cp -r /vagrant/sync/ansible-role-cdmi-s3-qos indigo-dc.cdmi-s3-qos
+git clone https://github.com/indigo-dc/ansible-role-cdmi-s3-qos.git indigo-dc.cdmi-s3-qos
+cd indigo-dc.cdmi-s3-qos
 #git checkout devel
 cd
 systemctl enable httpd
