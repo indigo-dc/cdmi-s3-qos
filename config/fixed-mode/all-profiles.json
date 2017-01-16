@@ -3,7 +3,7 @@
 	"name":"DataobjectProfile1", 
 	"type":"dataobject", 
 	"metadata":{
-		"cdmi_latency":"2000", 
+		"cdmi_latency":"3000", 
 		"cdmi_data_redundancy":"1",
 		"cdmi_geographic_placement": ["DE"]
 	},
@@ -17,7 +17,7 @@
 	"name":"DataobjectProfile2", 
 	"type":"dataobject", 
 	"metadata": {
-		"cdmi_latency":"1000",
+		"cdmi_latency":"2000",
 		"cdmi_data_redundancy":"2",
 		"cdmi_geographic_placement": ["PL", "UK"]
 	},
@@ -46,7 +46,7 @@
 	"name":"ContainerProfile1", 
 	"type":"container", 
 	"metadata":{
-		"cdmi_latency":"2000", 
+		"cdmi_latency":"3000", 
 		"cdmi_data_redundancy":"1",
 		"cdmi_geographic_placement": ["DE"]
 	},
@@ -60,7 +60,7 @@
 	"name":"ContainerProfile2", 
 	"type":"container", 
 	"metadata": {
-		"cdmi_latency":"1000",
+		"cdmi_latency":"2000",
 		"cdmi_data_redundancy":"2",
 		"cdmi_geographic_placement": ["PL", "UK"]
 	},
@@ -84,5 +84,4 @@
 		"cdmi_geographic_placement_provided": ["NL", "ES"]	
 	},
 }
-
 ]

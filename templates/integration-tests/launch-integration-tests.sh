@@ -39,13 +39,13 @@ echo ""
 echo "Create golden/file3.txt dataobject"
 curl -X PUT http://restadmin:restadmin@localhost:8080/golden/file3.txt -H "Content-Type: application/cdmi-object" -d '{"value" : "file3.txt dummy content"}'
 
-## 3. Ask for all supported QoS profiles
+## 4. Ask for all supported QoS profiles
 
 echo "Asking for supported types of objects"
 curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/
 
 
-## 4. From the above output, get values from children list ("children":["container","dataobject"]) and ask for profiles supported by these children:
+## 5. From the above output, get values from children list ("children":["container","dataobject"]) and ask for profiles supported by these children:
 
 echo "Asking for profiles related with containers"
 curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container
@@ -54,7 +54,7 @@ echo "Asking for profiles related with dataobjects"
 curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/dataobject
 
 
-## 5. Ask for QoS of above created containers
+## 6. Ask for QoS of above created containers
 echo ""
 echo "Asking for QoS capabilities of standard container"
 curl -X GET http://restadmin:restadmin@localhost:8080/standard -H "Content-Type: application/cdmi-container"
@@ -68,7 +68,7 @@ echo "Asking for QoS capabilities of golden container"
 curl -X GET http://restadmin:restadmin@localhost:8080/golden -H "Content-Type: application/cdmi-container"
 
 
-## 6. Ask for QoS of above created dataobjects
+## 7. Ask for QoS of above created dataobjects
 
 echo ""
 echo "Asking for QoS capabilities of standard/file1.txt dataobject"
