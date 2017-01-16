@@ -27,7 +27,6 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
         mvn install && \
         cd .. && \
     cd cdmi-s3-qos && \
-    git checkout  754f297 && \
     mvn install && \
     cd .. && \
         git clone https://github.com/indigo-dc/CDMI.git && \
