@@ -6,13 +6,13 @@ In order to provide you with self-contained testing environment, the special Doc
 
 Please have in mind that the docker container you get from the aforementioned Dockerfile is meant merely for testing purposes, just to check if cdmi-s3-qos module complies to the assumed contract. For example, no effort has been put to configure and manage the INDIGO CDMI server data persistency. Docker container, once used in testing procedure becomes useless anymore and as  such should be removed. Testing and configuration aspects not related to integration between cdmi-s3-qos and INDIGO CDMI server has been omitted.
 
-In general, testing procedures consists of the following steps (exact commands and precise procedure is presented later):
+In general, testing procedure consists of the following steps (exact commands and precise steps are presented later):
 
 1. The docker image with INDIGO CDMI server and integrated cdmi-s3-qos module is built. 
-2. The docker container in interactive mode is launched (we end-up with bash session executed inside the container).
-3. The pre-configured INDIGO CDMI server is ran (pre-configured means already integrated with cdmi-s3-qos module). As the console will be required to type further commands, the server has to be ran in background.
-4. Test fixture is set-up. In the test procedure we are going to ask for QoS profiles of some CDMI containers and dataobjects. In this step the related containers and dataobjects are being created.
-5. Examination of all available QoS profiles is performed. This is the point where actual interaction between modules is tested. In response to REST queries, CDMI server has to answer with QoS profiles exposed by cdmi-s3-qos module. As there is a few QoS profiles, first, available profiles have to be discovered and next specific attributes of each profile are examined.  
+2. The docker container is launched in interactive mode(we end-up with bash session being executed inside the container).
+3. The pre-configured INDIGO CDMI server is ran (pre-configured means already integrated with cdmi-s3-qos module). As the basj session  will be required to issue further commands, the server has to be ran in background.
+4. Test fixture is set-up. In the test procedure we are going to ask for QoS profiles of some CDMI containers and data objects, so in this step the related containers and data objects are being created.
+5. Examination of available QoS profiles is performed. This is the point where actual interaction between modules is tested. In response to REST queries, INDIGO CDMI server has to answer with QoS profiles exposed by cdmi-s3-qos module. As there is a few QoS profiles, first the available profiles have to be discovered and next the specific attributes of each profile are to be examined.  
 
 ## Detailed testing procedure
 
@@ -22,28 +22,28 @@ In general, testing procedures consists of the following steps (exact commands a
 git clone https://github.com/indigo-dc/cdmi-s3-qos.git
 ```
 
-### 2. Build the docker image with integrated testing environment
+### 2. Build the docker image that provides integrated testing environment
 
 ```
 cd cdmi-s3-qos/docker
 docker build -f Dockerfile-integration-tests -t integration-tests-image ..
 ```
 
-### 3. Run bash session inside the docker container
+### 3. Run the docker container with bash session
 
 ```
 docker run -ti --name integration-tests-container integration-tests-image bash
 ```
 
-### 4. Run INDIGO CDMI server
+### 4. Run INDIGO CDMI server inside docker container
 
-Note that at this point we are already operating in bash session which is running inside docker container. What is important, we run the CDMI server in background and we redirect standard error and standard output channels to file. It will allow us to type further commands in bash session.
+Note that at this point we are already operating in bash session which is running inside the docker container. Now it is time to run INDIGO CDMI server from this bash session. What is important, we have to run the CDMI server in background and we redirect standard error and standard output channels to a file. Thanks to it the bash session will still be available for further tesitng commands.
 
 ```
 ./run.sh >> /tmp/cdmi.log 2>&1 &
 ```
 
-It is good idea to wait here for a few seconds, just to let the server to finish start-up procedure (30 sec. should be enough).
+It is good idea to wait here for a few seconds in order to let the server to finish start-up procedure (30 sec. should be enough).
 To be sure that CDMI server is ready, you can check if it already listen on port 8080:
 
 ```
@@ -63,9 +63,9 @@ tcp6       0      0 :::63799                :::*                    LISTEN      
 it means that INDIGO CDMI server has started.
 
 
-### 5. Create related CDMI containers and dataobjects
+### 5. Create related CDMI containers and data objects
 
-Here, using REST API of INDIGO CDMI server, we are creating relevant containers and dataobjects. It is not main test yes. For now we are only preparing appropriate objects in appropriate locations. Please consider these commands as test fixture establishment.
+Here, using REST API of INDIGO CDMI server, we are creating relevant containers and data objects. It is not main test yet. For now we are only preparing appropriate objects in appropriate locations. Please consider these commands as test fixture establishment.
 
 ```
 curl -s -X PUT http://restadmin:restadmin@localhost:8080/standard -H "Content-Type: application/cdmi-container" -d '{}'
@@ -83,11 +83,12 @@ curl -s -X PUT http://restadmin:restadmin@localhost:8080/golden/file3.txt -H "Co
 
 ### 6. Discover all QoS profiles exposed by cdmi-s3-qos module
 
-Here actual test begins. With help of REST API we are asking the INDIGO CDMI server about QoS profiles exposed by underlying cdmi-s3-qos.
+Here the actual test begins. With help of REST API we are asking the INDIGO CDMI server about QoS profiles exposed by underlying cdmi-s3-qos.
 
-NOTE: From now on, standard output of each curl command will be piped into "python -mjson.tool" command. It is only in order to format the standard output in a way easier received by human being. 
+NOTE: From now on, standard output of each curl command will be piped into "python -mjson.tool" command. It is only in order to format the standard output to be more readable for human beings. 
+. 
 
-First ask server for list of all potential QoS profiles of dataobjects:
+First ask the server for list of all potential QoS profiles of data objects:
 
 ```
 curl -s -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/dataobject | python -mjson.tool
@@ -113,7 +114,7 @@ The output should be similar to this:
 }
 ```
 
-Except for values of attributes "objectID" and "parentID", all attributes and values returned by previous command should look the same as in the above excerpt.
+Except for values of attributes "objectID" and "parentID", all attributes and values returned by the previous command should look the same as in the above excerpt.
 
 For further tests, the most important part of the above result is "children" list. This list contains names of supported QoS profiles. When we now names of all profiles, we can ask for details of specific profile.
 
@@ -157,7 +158,7 @@ Now, let's ask for properties of next QoS profile, that is DataObjectProfile2:
 curl -s -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/dataobject/DataobjectProfile2 | python -mjson.tool
 ```
 
-The output should look like this (as earlier, the values of objectID and parentID attributes can differ):
+The output should look like this (as earlier, the values of "objectID" and "parentID" attributes can differ):
 
 ```
 {
@@ -190,7 +191,7 @@ In similar way, let's ask for properties of DataobjectProfile2:
 curl -s -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/dataobject/DataobjectProfile3 | python -mjson.tool
 ```
 
-Still having in mind that values of objectID and parentID attributes can differ, the output of this command should be like this:
+Still having in mind that values of "objectID" and "parentID" attributes can differ, the output of this command should be like this:
 
 ```
 {
@@ -217,9 +218,9 @@ Still having in mind that values of objectID and parentID attributes can differ,
 }
 ```
 
-### 7. Asking for QoS properties (or we can say profiles) assigned to actual objects stored in INDIGO CDMI server.
+### 7. Asking for QoS profiles assigned to actual objects stored in INDIGO CDMI server.
 
-In first steps of this testing procedure, we have created some exemplary CDMI containers and data objects. Now we will ask the INDIGO CDMI server for QoS profiles assigned to this entities.
+At the beginning of this testing procedure, we have created some exemplary CDMI containers and data objects. Now we will ask the INDIGO CDMI server for QoS profiles assigned to this entities.
 
 First ask for QoS profile of "/standard/file1.txt" data object
 
@@ -250,7 +251,7 @@ Apart from values of attributes "objectID" and "parentID" the result should look
 }
 ```
 
-In short, the above ansver points out that the profile assigned with the being examined object is "DataobjectProfile1" (we can tell it from "capabilitiesURI" attribute). Additionally the properties of this profile are presented as well.
+In short, the above answer points out that the profile assigned with the being examined object is "DataobjectProfile1" (we can tell it from "capabilitiesURI" attribute). Additionally the properties of this profile are presented as well.
 
 
 In similar way we can ask for QoS profile of "/silver/file2.txt" data object:
