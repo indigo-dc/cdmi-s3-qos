@@ -138,7 +138,7 @@ public class ObjectStoreBackend implements StorageBackend {
   public CdmiObjectStatus getCurrentStatus(String path) throws BackEndException {
 
     try {
-
+ 
       /*
        * translate CDMI path to the form comply with underlying object storage technology
        */

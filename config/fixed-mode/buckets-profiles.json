@@ -1,6 +1,6 @@
 {
-	"standard":"Profile1",
-	"silver":"Profile2",
-	"golden":"Profile3",
-	"/":"Profile1"
+	"standard":"DataobjectProfile1",
+	"silver":"DataobjectProfile2",
+	"golden":"DataobjectProfile3",
+	"/":"ContainerProfile1"
 }

@@ -1,21 +1,63 @@
 [
 {
-	"name":"Profile1", 
-	"type":"container", 
+	"name":"DataobjectProfile1", 
+	"type":"dataobject", 
 	"metadata":{
-		"cdmi_latency":"1000", 
+		"cdmi_latency":"3000", 
 		"cdmi_data_redundancy":"1",
-		"cdmi_geographic_placement": ["DE", "FR"]
+		"cdmi_geographic_placement": ["DE"]
 	},
 	"metadata_provided": {
 		"cdmi_latency_provided":"1000", 
 		"cdmi_data_redundancy_provided":"1",
-		"cdmi_geographic_placement_provided": ["DE", "FR"]	
+		"cdmi_geographic_placement_provided": ["DE"]	
 	}, 
-	"allowed_profiles":["Profile2"]
 },
 {
-	"name":"Profile2", 
+	"name":"DataobjectProfile2", 
+	"type":"dataobject", 
+	"metadata": {
+		"cdmi_latency":"2000",
+		"cdmi_data_redundancy":"2",
+		"cdmi_geographic_placement": ["PL", "UK"]
+	},
+	"metadata_provided":{
+		"cdmi_latency_provided":"2000",
+		"cdmi_data_redundancy_provided":"2",
+		"cdmi_geographic_placement_provided": ["PL", "UK"]	
+	}, 
+},
+{
+	"name":"DataobjectProfile3", 
+	"type":"dataobject", 
+	"metadata": {
+		"cdmi_latency":"500",
+		"cdmi_data_redundancy":"3",
+		"cdmi_geographic_placement": ["NL", "ES"]
+	},
+	"metadata_provided":{
+		"cdmi_latency_provided":"3000",
+		"cdmi_data_redundancy_provided":"3",
+		"cdmi_geographic_placement_provided": ["NL", "ES"]	
+	},
+},
+
+{
+	"name":"ContainerProfile1", 
+	"type":"container", 
+	"metadata":{
+		"cdmi_latency":"3000", 
+		"cdmi_data_redundancy":"1",
+		"cdmi_geographic_placement": ["DE"]
+	},
+	"metadata_provided": {
+		"cdmi_latency_provided":"1000", 
+		"cdmi_data_redundancy_provided":"1",
+		"cdmi_geographic_placement_provided": ["DE"]	
+	}, 
+},
+{
+	"name":"ContainerProfile2", 
 	"type":"container", 
 	"metadata": {
 		"cdmi_latency":"2000",
@@ -27,13 +69,12 @@
 		"cdmi_data_redundancy_provided":"2",
 		"cdmi_geographic_placement_provided": ["PL", "UK"]	
 	}, 
-	"allowed_profiles":["Profile1", "Profile3"]
 },
 {
-	"name":"Profile3", 
+	"name":"ContainerProfile3", 
 	"type":"container", 
 	"metadata": {
-		"cdmi_latency":"3000",
+		"cdmi_latency":"500",
 		"cdmi_data_redundancy":"3",
 		"cdmi_geographic_placement": ["NL", "ES"]
 	},
@@ -42,6 +83,5 @@
 		"cdmi_data_redundancy_provided":"3",
 		"cdmi_geographic_placement_provided": ["NL", "ES"]	
 	},
-	"allowed_profiles":["Profile1", "Profile2"]
 }
 ]
