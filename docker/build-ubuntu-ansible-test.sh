@@ -3,22 +3,6 @@
 
 . ./UBUNTU_ANSIBLE_TEST_VARS
 
-#PACKAGE_BUILD_COMMAND=./build_release_deb.sh
-
-#JDK_IMAGE=ubuntu-jdk-image-tmp
-#JDK_CONTAINER=ubuntu-jdk-container-tmp
-#JDK_DOCKERFILE=./Dockerfile-Ubuntu-jdk
-
-#ANSIBLE_IMAGE=ubuntu-ansible-image
-#ANSIBLE_CONTAINER=ubuntu-ansible-container
-#ANSIBLE_DOCKERFILE=./Dockerfile-Ubuntu-ansible-test
-
-#PACKAGE_NAME=cdmi-s3-qos-0.0.1-cdmi1.1.deb
-
-#APACHE_IMAGE=apache-image
-#APACHE_CONTAINER=apache-container
-#APACHE_DOCKERFILE=./Dockerfile-apache-httpd
-
 
 #
 # JDK
@@ -46,7 +30,6 @@ docker run -di --name $APACHE_CONTAINER $APACHE_IMAGE
 # copy binary package from JDK to APACHE
 #
 docker cp $JDK_CONTAINER:/cdmi-s3-qos/$PACKAGE_NAME .
-read -p "Press enter to continue ..."
 docker kill $JDK_CONTAINER
 docker rm $JDK_CONTAINER
 docker rmi $JDK_IMAGE

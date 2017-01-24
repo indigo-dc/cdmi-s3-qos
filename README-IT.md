@@ -323,7 +323,7 @@ The disclaimer related to attributes "objectID" and "parentID" is still valid.
 
 NNOTE: In theory cdmi-spi interface, which is implemented by cdmi-s3-qos module, provides for changing QoS profiles assigned to data objects. However, this feature is to be implemented only by back-ends which can support such kind a functionality. Actually, in case of cdmi-s3-qos module this functionality is not provided due to back-end imposed limitations. 
 
- ### 8. Clean up after tests
+### 8. Clean up after tests
  
  At the end we should exit the bash session and wipe the docker container and image used during tests.
  
