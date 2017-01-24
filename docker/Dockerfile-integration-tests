@@ -31,7 +31,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
     cd .. && \
         git clone https://github.com/indigo-dc/CDMI.git && \
         cd CDMI && \
-        git checkout 4a12e17 && \
+        git checkout ec4bfce && \
         cp -rf ../cdmi-s3-qos/config . && \
         cp -r ../cdmi-s3-qos/templates/springboot/config/application.yml config/application.yml && \
         cp ../cdmi-s3-qos/templates/integration-tests/launch-integration-tests.sh . && \

@@ -14,7 +14,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	apt-get install -y maven git curl redis-tools httpie && \
 	git clone https://github.com/indigo-dc/cdmi-spi.git && \
 	cd cdmi-spi && \
-	git checkout 67b6d7b && \
+	git checkout 9c7480e && \
 	mvn install && \
 	cd .. && \
 	cd cdmi-s3-qos && \
@@ -24,7 +24,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	cp -rf cdmi-s3-qos/config CDMI/ && \
 	rm -f CDMI/config/objectstore.properties && \
 	cd CDMI && \
-	git checkout 59bef6d && \
+	git checkout ec4bfce && \
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
 	sed -i 's/active: redis/active: redis-embedded/g' config/application.yml && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
