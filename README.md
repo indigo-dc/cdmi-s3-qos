@@ -177,11 +177,11 @@ docker run -d -p 8080:8080 --name cdmi-s3-qos-container cdmi-s3-qos-image
 
 curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container -H "Content-Type: application/cdmi-capability"
 
-curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container/DataobjectProfile1  -H "Content-Type: application/cdmi-capability"
+curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container/ContainerProfile1  -H "Content-Type: application/cdmi-capability"
 
-curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container/DataobjectProfile2 -H "Content-Type: application/cdmi-capability"
+curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container/ContainerProfile2 -H "Content-Type: application/cdmi-capability"
 
-curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container/DataobjectProfile3 -H "Content-Type: application/cdmi-capability"
+curl -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container/ContainerProfile3 -H "Content-Type: application/cdmi-capability"
 
 curl -X GET http://restadmin:restadmin@localhost:8080/standard -H "Content-Type: application/cdmi-container"
 
