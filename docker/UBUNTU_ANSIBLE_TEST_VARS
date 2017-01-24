@@ -1,5 +1,5 @@
 PACKAGE_NAME=cdmi-s3-qos-0.0.1-cdmi1.1.deb
-PACKAGE_BUILD_COMMAND=./build_release_deb.sh
+PACKAGE_BUILD_COMMAND=bash ./build_release_deb.sh
 
 JDK_IMAGE=ubuntu-jdk-image-tmp
 JDK_CONTAINER=ubuntu-jdk-container-tmp
