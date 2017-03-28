@@ -7,7 +7,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.indigo.cdmi.backend.radosgw;
+package org.indigo.cdmi.backend.s3;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Set of auxiliary methods to deal with S3 related stuff.
@@ -16,6 +20,46 @@ package org.indigo.cdmi.backend.radosgw;
  */
 public class S3Utils {
 
+  private final static Logger log = LoggerFactory.getLogger(S3Utils.class);
+  
+  /**
+   * 
+   * @param path
+   * @return
+   */
+  public static String getPrefixFromPath(String path) {
+    
+    log.debug("getPrefixFromPath({})", path);
+    
+    if (path == null) {
+      throw new IllegalArgumentException("path cannot be null");
+    }
+
+    if (path.length() == 0) {
+      throw new IllegalArgumentException("path cannot be empty string");
+    }
+    
+    String bucketName = getBucketNameFromPath(path);
+    log.debug("Bucket name derived form path {} is {}", path, bucketName);
+
+    int bucketIndex = StringUtils.indexOf(path, bucketName);
+    log.debug("Bucket index: {}", bucketIndex);
+    
+    int prefixBeginning = bucketIndex + bucketName.length();
+    log.debug("Preffix beginning index: " + prefixBeginning);
+    
+    // if the first character at preffixBeginning position is '/' then skip it
+    if (path.length() > prefixBeginning && path.charAt(prefixBeginning) == '/') {
+      prefixBeginning++;
+    }
+    
+    String prefix = path.substring(prefixBeginning);
+    
+    return prefix;
+    
+  } // getPrefixFromPath()
+  
+  
   /**
    * Translates CDMI path to bucket name of underlying S3 object.
    * 
@@ -24,6 +68,9 @@ public class S3Utils {
    * @return Name of bucket which contains the related CDMI object.
    */
   public static String getBucketNameFromPath(String path) {
+    
+    log.debug("getBucketFromPath({})", path);
+    
     if (path == null) {
       throw new IllegalArgumentException("path cannot be null");
     }
@@ -37,7 +84,7 @@ public class S3Utils {
     int pathLength = path.length();
 
     /*
-     * skip leading '/' characters
+     * skip leading '/' characters (it can be a few in a row)
      */
     while (path.charAt(startIndex) == '/' && startIndex < pathLength - 1) {
       startIndex++;

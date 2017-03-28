@@ -7,7 +7,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-package org.indigo.cdmi.backend.radosgw;
+package org.indigo.cdmi.backend.s3;
+
+import org.indigo.cdmi.backend.radosgw.ObjectPathTranslator;
 
 /**
  * Implementaion of {@link ObjectPathTranslator} interface. 

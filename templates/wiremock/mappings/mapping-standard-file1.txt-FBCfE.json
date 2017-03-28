@@ -1,0 +1,22 @@
+{
+  "id" : "917a4451-0a36-3fbb-b3dc-35c3ff22eb90",
+  "request" : {
+    "url" : "/standard/file1.txt",
+    "method" : "HEAD"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-standard-file1.txt-FBCfE.txt",
+    "headers" : {
+      "Accept-Ranges" : "bytes",
+      "Last-Modified" : "Wed, 30 Nov 2016 14:14:12 GMT",
+      "ETag" : "\"a452b2dfbb19902582953862fced8930\"",
+      "x-amz-meta-s3cmd-attrs" : "uid:1000/gname:gracjan/uname:gracjan/gid:1000/mode:33204/mtime:1480515186/atime:1480515186/md5:a452b2dfbb19902582953862fced8930/ctime:1480515186",
+      "x-amz-request-id" : "tx00000000000000000010c-0058a6f95c-4a479-default",
+      "Content-Type" : "text/plain",
+      "Date" : "Fri, 17 Feb 2017 13:23:40 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "917a4451-0a36-3fbb-b3dc-35c3ff22eb90"
+}

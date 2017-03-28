@@ -11,6 +11,7 @@ package org.indigo.cdmi.backend.radosgw;
 
 import com.google.inject.Inject;
 
+import org.indigo.cdmi.backend.s3.S3Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

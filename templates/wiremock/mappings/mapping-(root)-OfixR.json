@@ -1,0 +1,18 @@
+{
+  "id" : "4b608d57-c6d5-38d1-a765-1016d3658b9e",
+  "request" : {
+    "url" : "/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-(root)-OfixR.xml",
+    "headers" : {
+      "x-amz-request-id" : "tx0000000000000000000b2-0058a6ab93-4a479-default",
+      "Content-Type" : "application/xml",
+      "Date" : "Fri, 17 Feb 2017 07:51:47 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "4b608d57-c6d5-38d1-a765-1016d3658b9e"
+}

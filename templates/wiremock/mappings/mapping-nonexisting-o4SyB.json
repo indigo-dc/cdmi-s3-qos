@@ -1,0 +1,19 @@
+{
+  "id" : "61810278-155b-3dc5-9144-e6ce87f35bea",
+  "request" : {
+    "url" : "/nonexisting",
+    "method" : "HEAD"
+  },
+  "response" : {
+    "status" : 404,
+    "bodyFileName" : "body-nonexisting-o4SyB.xml",
+    "headers" : {
+      "x-amz-request-id" : "tx0000000000000000000d3-0058a6dab6-4a479-default",
+      "Accept-Ranges" : "bytes",
+      "Content-Type" : "application/xml",
+      "Date" : "Fri, 17 Feb 2017 11:12:54 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "61810278-155b-3dc5-9144-e6ce87f35bea"
+}

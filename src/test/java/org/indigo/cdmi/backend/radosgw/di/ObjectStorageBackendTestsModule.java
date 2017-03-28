@@ -11,7 +11,13 @@ import org.indigo.cdmi.backend.radosgw.JSchAliveRemoteExecutor;
 import org.indigo.cdmi.backend.radosgw.JsonResponseTranlator;
 import org.indigo.cdmi.backend.radosgw.ObjectPathTranslator;
 import org.indigo.cdmi.backend.radosgw.RemoteExecutor;
-import org.indigo.cdmi.backend.radosgw.S3PathTranslator;
+import org.indigo.cdmi.backend.s3.MinioS3ClientBuilder;
+import org.indigo.cdmi.backend.s3.MinioS3Gateway;
+import org.indigo.cdmi.backend.s3.S3ConnectionPropertiesDefaultProvider;
+import org.indigo.cdmi.backend.s3.S3ConnectionPropertiesProvider;
+import org.indigo.cdmi.backend.s3.S3Facade;
+import org.indigo.cdmi.backend.s3.S3Gateway;
+import org.indigo.cdmi.backend.s3.S3PathTranslator;
 import org.indigo.cdmi.spi.StorageBackend;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,10 +26,12 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.jcraft.jsch.JSch;
 
+
 public class ObjectStorageBackendTestsModule extends AbstractModule {
 
   @Mock
   private BackendConfiguration backendConfiguration;
+  
   
   
   /**
@@ -70,11 +78,17 @@ public class ObjectStorageBackendTestsModule extends AbstractModule {
     // ObjectPathTranslator.class
     bind(ObjectPathTranslator.class).to(S3PathTranslator.class);
 
-    
     bind(RemoteExecutor.class).to(JSchAliveRemoteExecutor.class);
 
     bind(JSch.class).toProvider(JSchProvider.class);
 
+    bind(S3Facade.class);
+
+    bind(S3Gateway.class).to(MinioS3Gateway.class);
+    
+    bind(S3ConnectionPropertiesProvider.class).to(S3ConnectionPropertiesDefaultProvider.class);
+    
+    bind(MinioS3ClientBuilder.class);
     
   } // configure
 

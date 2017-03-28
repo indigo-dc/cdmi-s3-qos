@@ -1,0 +1,18 @@
+{
+  "id" : "e566d02d-e1bf-3df2-87f5-dc8a8ddd4f22",
+  "request" : {
+    "url" : "/standard?prefix=file1.txt&delimiter=%2F",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-standard-w0HTt.xml",
+    "headers" : {
+      "x-amz-request-id" : "tx0000000000000000001e2-0058c6991b-58e45-default",
+      "Content-Type" : "application/xml",
+      "Date" : "Mon, 13 Mar 2017 13:05:31 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "e566d02d-e1bf-3df2-87f5-dc8a8ddd4f22"
+}

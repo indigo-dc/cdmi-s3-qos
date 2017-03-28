@@ -11,12 +11,14 @@ package org.indigo.cdmi.backend.radosgw;
 
 import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
-
+import org.indigo.cdmi.backend.s3.S3Facade;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +48,17 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
   
   private static final String CDMI_OBJECT_TYPE_CONTAINER = "container";
   private static final String CDMI_OBJECT_TYPE_DATAOBJECT = "dataobject";
+
   
+//  private S3Facade s3Facade = null;
+//  
+//    
+//  @Inject
+//  public JsonResponseTranlator(S3Facade s3Facade) {
+//    super();
+//    this.s3Facade = s3Facade;
+//  }
+
 
   /**
    * Maps QoS profile name to associated URI. 
@@ -133,6 +145,25 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
         throw new RuntimeException("Unknown capability type");
     }
 
+    
+    
+    /*
+     * NOTE: The above snippet where type is determined basing on 
+     * prifileInfo is to be removed
+     * ACTUAL TYPE IS TO BE DETERMINED WITH HELP OF S3Facade#isContainer method, and
+     * this type is to be passed to getCdmiObjectStatus method.
+     */
+//    if (isContainer) {
+//      
+//      type = BackendCapability.CapabilityType.CONTAINER;
+//      
+//    } else {
+//      
+//      type = BackendCapability.CapabilityType.DATAOBJECT;
+//      
+//    }
+    
+    
     /*
      * create new instance of BackendCapability 
      * (it is empty for now, the metadata and capabilities properties have to be created, 
@@ -292,12 +323,13 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
   } // getBackendCapabilitiesList()
 
 
+  
   /**
    * Basing on passed JSON in String format, creates object of CdmiObjecStatus.
    * (Translates JSON in String format into CdmiObjectStatus)
    */
   @Override
-  public CdmiObjectStatus getCdmiObjectStatus(String gatewayResponse) {
+  public CdmiObjectStatus getCdmiObjectStatus(String gatewayResponse, boolean isContainer) {
 
     //log.debug("Translate {} to CdmiObjectStatus", gatewayResponse);
 
@@ -327,8 +359,14 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
     }
 
     String profileName = profile.getString("name");
-    String type = profile.getString("type");
-
+    //String type = profile.getString("type");
+    String type = null;
+    if(isContainer) {
+      type = "container";
+    } else {
+      type = "dataobject";
+    }
+    
     String currentCapabilitiesUri = "/cdmi_capabilities/" + type + "/" + profileName;
 
     return new CdmiObjectStatus(monitoredAttributes, currentCapabilitiesUri, null);

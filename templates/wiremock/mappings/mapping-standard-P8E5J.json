@@ -1,0 +1,17 @@
+{
+  "id" : "c2d4db4f-457c-30cd-8ce1-74b3901461bf",
+  "request" : {
+    "url" : "/standard?location=",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-standard-P8E5J.xml",
+    "headers" : {
+      "x-amz-request-id" : "tx0000000000000000001e1-0058c6991b-58e45-default",
+      "Date" : "Mon, 13 Mar 2017 13:05:31 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "c2d4db4f-457c-30cd-8ce1-74b3901461bf"
+}

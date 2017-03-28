@@ -1,0 +1,18 @@
+{
+  "id" : "eab3022b-ebd2-3a9f-93c6-739ae4acb73d",
+  "request" : {
+    "url" : "/standard?prefix=&delimiter=%2F",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-standard-9tP5M.xml",
+    "headers" : {
+      "x-amz-request-id" : "tx0000000000000000000f3-0058a6df4f-4a479-default",
+      "Content-Type" : "application/xml",
+      "Date" : "Fri, 17 Feb 2017 11:32:31 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "eab3022b-ebd2-3a9f-93c6-739ae4acb73d"
+}

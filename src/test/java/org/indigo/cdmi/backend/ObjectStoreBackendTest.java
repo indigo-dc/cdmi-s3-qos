@@ -16,7 +16,11 @@ import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.BackendGateway;
 import org.indigo.cdmi.backend.radosgw.FixedModeBackendGateway;
 import org.indigo.cdmi.backend.radosgw.JsonResponseTranlator;
-import org.indigo.cdmi.backend.radosgw.S3PathTranslator;
+import org.indigo.cdmi.backend.s3.MinioS3ClientBuilder;
+import org.indigo.cdmi.backend.s3.MinioS3Gateway;
+import org.indigo.cdmi.backend.s3.S3ConnectionPropertiesDefaultProvider;
+import org.indigo.cdmi.backend.s3.S3Facade;
+import org.indigo.cdmi.backend.s3.S3PathTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -67,7 +71,8 @@ public class ObjectStoreBackendTest {
     ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
         new FixedModeBackendGateway(backendConfiguration), 
         new JsonResponseTranlator(), 
-        new S3PathTranslator() 
+        new S3PathTranslator(),
+        new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider()))
     );
 
     List<BackendCapability> list = objectStoreBackend.getCapabilities();
@@ -87,7 +92,8 @@ public class ObjectStoreBackendTest {
     ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
         new FixedModeBackendGateway(backendConfiguration), 
         new JsonResponseTranlator(), 
-        new S3PathTranslator() 
+        new S3PathTranslator(),
+        new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider()))
     );
     
     objectStoreBackend.getCurrentStatus("/non-existing-path");    
@@ -102,7 +108,8 @@ public class ObjectStoreBackendTest {
     ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
         new FixedModeBackendGateway(backendConfiguration), 
         new JsonResponseTranlator(), 
-        new S3PathTranslator() 
+        new S3PathTranslator(),
+        new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider()))
     );
     
     objectStoreBackend.updateCdmiObject("", "");    
@@ -120,7 +127,8 @@ public class ObjectStoreBackendTest {
     ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
         backendGateway, 
         new JsonResponseTranlator(), 
-        new S3PathTranslator() 
+        new S3PathTranslator(),
+        new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider()))
     );
 
     objectStoreBackend.getCapabilities();

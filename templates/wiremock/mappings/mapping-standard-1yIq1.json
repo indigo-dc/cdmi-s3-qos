@@ -1,0 +1,18 @@
+{
+  "id" : "ab1bdf39-90f8-3399-9ae1-e6c624fd340d",
+  "request" : {
+    "url" : "/standard?prefix=dir1%2F&delimiter=%2F",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-standard-1yIq1.xml",
+    "headers" : {
+      "x-amz-request-id" : "tx0000000000000000000ff-0058a6f053-4a479-default",
+      "Content-Type" : "application/xml",
+      "Date" : "Fri, 17 Feb 2017 12:45:07 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "ab1bdf39-90f8-3399-9ae1-e6c624fd340d"
+}

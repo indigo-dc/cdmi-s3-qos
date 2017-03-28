@@ -18,12 +18,15 @@ import org.indigo.cdmi.CdmiObjectStatus;
 import org.indigo.cdmi.backend.radosgw.BackendGateway;
 import org.indigo.cdmi.backend.radosgw.GatewayResponseTranslator;
 import org.indigo.cdmi.backend.radosgw.ObjectPathTranslator;
+import org.indigo.cdmi.backend.s3.S3Facade;
 import org.indigo.cdmi.spi.StorageBackend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -39,9 +42,10 @@ public class ObjectStoreBackend implements StorageBackend {
   /*
    * dependencies
    */
-  private BackendGateway backendGateway = null;
-  private GatewayResponseTranslator responseTranslator = null;
-  private ObjectPathTranslator pathTranslator = null;
+  private final BackendGateway backendGateway;
+  private final GatewayResponseTranslator responseTranslator;
+  private final ObjectPathTranslator pathTranslator;
+  private final S3Facade s3Facade;
 
 
   /**
@@ -59,7 +63,8 @@ public class ObjectStoreBackend implements StorageBackend {
   @Inject
   public ObjectStoreBackend(BackendGateway backendGateway, 
       GatewayResponseTranslator responseTranslator, 
-      ObjectPathTranslator pathTranslator) {
+      ObjectPathTranslator pathTranslator,
+      S3Facade s3Facade) {
     
     /*
      * assign all dependencies to member fields
@@ -67,6 +72,7 @@ public class ObjectStoreBackend implements StorageBackend {
     this.backendGateway = backendGateway;
     this.responseTranslator = responseTranslator;
     this.pathTranslator = pathTranslator;
+    this.s3Facade = s3Facade;
     
   } // ObjectStoreBackend()
 
@@ -125,6 +131,21 @@ public class ObjectStoreBackend implements StorageBackend {
   } // updateCdmiObject()
 
   
+  
+  /**
+   * 
+   * @return
+   */
+  private List<String> getChildrenList(String path) {
+    
+    //return Arrays.asList("katalog_raz", "katalog_dwa");
+    
+    return s3Facade.getChildren(path);
+    
+    
+  } // getChildrenList()
+  
+  
   /**
    * Returns QoS metrics (meta-data) of given CDMI object denoted by given path.  
    * 
@@ -140,7 +161,7 @@ public class ObjectStoreBackend implements StorageBackend {
     try {
  
       /*
-       * translate CDMI path to the form comply with underlying object storage technology
+       * translate CDMI path to the form compliant with underlying object storage technology
        */
       String radosPath = pathTranslator.translate(path);
       log.debug("CDMI path: {} maps to rados gw path: {}", path, radosPath);
@@ -148,9 +169,26 @@ public class ObjectStoreBackend implements StorageBackend {
       String gatewayResponse = backendGateway.getPathProfile(radosPath);
       log.debug("Status of object {} as obtained by BackendGateway: {}", path, gatewayResponse);
 
-      CdmiObjectStatus cdmiObjectStatus = responseTranslator.getCdmiObjectStatus(gatewayResponse);
+      boolean isContainer = s3Facade.isContainer(path);
+      
+      CdmiObjectStatus cdmiObjectStatus = responseTranslator.getCdmiObjectStatus(gatewayResponse, isContainer);
       log.debug("Status of object {} translated to CdmiObjectStatus format: {}", 
           path, cdmiObjectStatus);
+      
+      
+      /*
+       * if path point to container then prepare children attribute
+       */
+
+      //boolean isContainer = true;
+      if (isContainer) {
+        
+        List<String> childrenList = getChildrenList(path);
+//        cdmiObjectStatus.getExportAttributes().put("children", childrenList);
+        cdmiObjectStatus.getMonitoredAttributes().put("children", childrenList);
+      
+      }
+      
       
       return cdmiObjectStatus;
 

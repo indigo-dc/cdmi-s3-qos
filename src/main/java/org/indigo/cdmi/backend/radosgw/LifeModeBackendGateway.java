@@ -15,6 +15,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
 
+import org.indigo.cdmi.backend.s3.S3Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,7 +131,7 @@ public class LifeModeBackendGateway implements BackendGateway {
      */
     backendResponsesCache = CacheBuilder.newBuilder()
         .maximumSize(30)
-        .expireAfterAccess(600, TimeUnit.SECONDS)
+        .expireAfterAccess(3600, TimeUnit.SECONDS)
         .build(responseCacheLoader);
         
   } // LifeModeBackedGateway()
