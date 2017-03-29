@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>edu.kit.scc</groupId>
 			<artifactId>cdmi-spi</artifactId>
-			<version>0.3</version>
+			<version>0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

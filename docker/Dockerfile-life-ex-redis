@@ -31,8 +31,8 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	#cp -rf cdmi-s3-qos/config CDMI/ && \
 	rm -f CDMI/config/objectstore.properties && \
 	cd CDMI && \
-	git checkout ec4bfce && \
-	#git checkout 4a12e17 && \
+	#git checkout ec4bfce && \
+	git checkout c6c1178 && \
 	cp -rf ../cdmi-s3-qos/config . && \
 	ls -l ../cdmi-s3-qos/config > /tmp/raz.log && \
 	ls -l  config > /tmp/dwa.log && \
@@ -52,5 +52,5 @@ WORKDIR /CDMI
 
 #ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-0.1-SNAPSHOT.jar
 #CMD java -jar target/cdmi-server-0.1-SNAPSHOT.jar
-CMD java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.1.jar --server.port=8080
+CMD java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.2.jar --server.port=8080
 

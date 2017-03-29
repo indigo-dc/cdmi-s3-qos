@@ -184,8 +184,9 @@ public class ObjectStoreBackend implements StorageBackend {
       if (isContainer) {
         
         List<String> childrenList = getChildrenList(path);
-//        cdmiObjectStatus.getExportAttributes().put("children", childrenList);
-        cdmiObjectStatus.getMonitoredAttributes().put("children", childrenList);
+        // cdmiObjectStatus.getExportAttributes().put("children", childrenList);
+        //cdmiObjectStatus.getMonitoredAttributes().put("children", childrenList);
+        cdmiObjectStatus.setChildren(childrenList);
       
       }
       
