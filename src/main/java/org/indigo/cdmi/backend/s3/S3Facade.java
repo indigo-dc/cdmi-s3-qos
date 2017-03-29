@@ -114,7 +114,7 @@ public class S3Facade {
     // convert information from back-end to list of strings with names of buckets
     return bucketsInfoList
            .stream()
-           .map((element) -> element.getName())
+           .map((element) -> element.getName() + "/")
            .collect(Collectors.toList());
      
   }
