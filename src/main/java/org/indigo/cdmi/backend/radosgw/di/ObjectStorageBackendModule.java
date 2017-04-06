@@ -11,10 +11,25 @@ package org.indigo.cdmi.backend.radosgw.di;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-
+import com.google.inject.multibindings.Multibinder;
 import com.jcraft.jsch.JSch;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import org.indigo.cdmi.backend.ObjectStoreBackend;
+import org.indigo.cdmi.backend.capattrs.CapabilityAassociationTime;
+import org.indigo.cdmi.backend.capattrs.CapabilityEcho;
+import org.indigo.cdmi.backend.capattrs.CdmiAttributeProvider;
+import org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistry;
+import org.indigo.cdmi.backend.exports.ExportAttributeProvider;
+import org.indigo.cdmi.backend.exports.ExportAttributeProviderRegistry;
+import org.indigo.cdmi.backend.exports.ExportBucketRelativeUrlPath;
+import org.indigo.cdmi.backend.exports.ExportBucketUrl;
+import org.indigo.cdmi.backend.exports.ExportDirectUrl;
+import org.indigo.cdmi.backend.exports.ExportPatternUrl;
+import org.indigo.cdmi.backend.exports.ExportsManager;
+import org.indigo.cdmi.backend.exports.ExportsManagerImpl;
 import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.BackendGateway;
 
@@ -103,6 +118,26 @@ public class ObjectStorageBackendModule extends AbstractModule {
     
     bind(MinioS3ClientBuilder.class);
     
+
+    Multibinder<CdmiAttributeProvider> cdmiAttributeProviderMultibinder = 
+                      Multibinder.newSetBinder(binder(), CdmiAttributeProvider.class);
+
+    cdmiAttributeProviderMultibinder.addBinding().to(CapabilityAassociationTime.class);
+    cdmiAttributeProviderMultibinder.addBinding().to(CapabilityEcho.class);
+    
+    bind(CdmiAttributeProviderRegistry.class);
+    
+    Multibinder<ExportAttributeProvider> exportAttributeProviders =
+                    Multibinder.newSetBinder(binder(), ExportAttributeProvider.class);
+    
+    exportAttributeProviders.addBinding().to(ExportDirectUrl.class);
+    exportAttributeProviders.addBinding().to(ExportBucketRelativeUrlPath.class);
+    exportAttributeProviders.addBinding().to(ExportBucketUrl.class);
+    exportAttributeProviders.addBinding().to(ExportPatternUrl.class);
+    bind(ExportAttributeProviderRegistry.class);
+    
+    bind(ExportsManager.class).to(ExportsManagerImpl.class);
+    
   } // configure()
 
   
@@ -117,7 +152,9 @@ public class ObjectStorageBackendModule extends AbstractModule {
   
   
   @Provides
-  GatewayResponseTranslator provideGatewayResponseTranslator(BackendConfiguration configuration) {
+  GatewayResponseTranslator provideGatewayResponseTranslator(
+                  BackendConfiguration configuration, 
+                  CdmiAttributeProviderRegistry cdmiAttributeProviderRegistry) {
     
     log.info("provideGatewayResponseTranslator(BackendConfiguration)");
     
@@ -139,9 +176,12 @@ public class ObjectStorageBackendModule extends AbstractModule {
     try {
       
       Class<?> clazz = Class.forName(translatorClass);
-      return (GatewayResponseTranslator) clazz.newInstance();
-    
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+      //return (GatewayResponseTranslator) clazz.newInstance();
+      Constructor<?> cons = clazz.getConstructor(CdmiAttributeProviderRegistry.class);
+      return (GatewayResponseTranslator) cons.newInstance(cdmiAttributeProviderRegistry);
+      
+    } catch (ClassNotFoundException | InstantiationException 
+        | NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
       
       log.error("Failed to create instance of {} class; exception: {};", translatorClass, ex);
       throw new RuntimeException(ex);

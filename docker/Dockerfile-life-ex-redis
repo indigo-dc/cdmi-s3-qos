@@ -21,7 +21,7 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	apt-get install -y maven git curl redis-tools && \
 	git clone https://github.com/indigo-dc/cdmi-spi.git && \
 	cd cdmi-spi && \
-	git checkout 67b6d7b && \
+	git checkout 78ce8c3 && \
 	mvn install && \
 	cd .. && \
     cd cdmi-s3-qos && \

@@ -3,6 +3,10 @@ package org.indigo.cdmi.backend.radosgw;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
+import org.indigo.cdmi.backend.s3.MinioS3ClientBuilder;
+import org.indigo.cdmi.backend.s3.MinioS3Gateway;
+import org.indigo.cdmi.backend.s3.S3ConnectionPropertiesDefaultProvider;
+import org.indigo.cdmi.backend.s3.S3Facade;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -38,13 +42,15 @@ public class FixedModeBackendGatewayTest {
     );
 
     when(
-        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PATHS_PROFILES_FILE)
+        //backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PATHS_PROFILES_FILE)
+        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PROFILES_MAP_FILE)
     ).thenReturn(
-        "config/fixed-mode/buckets-profiles.json"
+        //"config/fixed-mode/buckets-profiles.json"
+        "config/fixed-mode/profiles-map.json"
     );  
 
     
-    FixedModeBackendGateway fixedModeBackendGateway = new FixedModeBackendGateway(this.backendConfiguration);
+    FixedModeBackendGateway fixedModeBackendGateway = new FixedModeBackendGateway(this.backendConfiguration, new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider())));
     
     /*
      * get all profiles
@@ -74,13 +80,15 @@ public class FixedModeBackendGatewayTest {
     );
 
     when(
-        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PATHS_PROFILES_FILE)
+        //backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PATHS_PROFILES_FILE)
+        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PROFILES_MAP_FILE)
     ).thenReturn(
-        "config/fixed-mode/buckets-profiles.json"
+        //"config/fixed-mode/buckets-profiles.json"
+        "config/fixed-mode/profiles-map.json"
     );  
 
     
-    FixedModeBackendGateway fixedModeBackendGateway = new FixedModeBackendGateway(this.backendConfiguration);
+    FixedModeBackendGateway fixedModeBackendGateway = new FixedModeBackendGateway(this.backendConfiguration, new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider())));
     
     /*
      * get all profiles
@@ -102,13 +110,14 @@ public class FixedModeBackendGatewayTest {
     );
 
     when(
-        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PATHS_PROFILES_FILE)
+        //backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PATHS_PROFILES_FILE)
+        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PROFILES_MAP_FILE)
     ).thenReturn(
         "just-no-existing-path"
     );  
 
     
-    FixedModeBackendGateway fixedModeBackendGateway = new FixedModeBackendGateway(this.backendConfiguration);
+    FixedModeBackendGateway fixedModeBackendGateway = new FixedModeBackendGateway(this.backendConfiguration, new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider())));
     
     /*
      * get all profiles

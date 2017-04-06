@@ -51,7 +51,8 @@ public class ObjectStorageBackendTestsModule extends AbstractModule {
     );
 
     when(
-        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PATHS_PROFILES_FILE)
+        //backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PATHS_PROFILES_FILE)
+        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PROFILES_MAP_FILE)
     ).thenReturn(
         "config/fixed-mode/buckets-profiles.json"
     );

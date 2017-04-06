@@ -14,6 +14,7 @@ import com.google.inject.Provider;
 
 import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.FixedModeBackendGateway;
+import org.indigo.cdmi.backend.s3.S3Facade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,11 +30,13 @@ public class FixedModeBackendBackendProvider implements Provider<FixedModeBacken
   private static final Logger log = LoggerFactory.getLogger(FixedModeBackendBackendProvider.class);
   
   private final BackendConfiguration configuration;
+  private final S3Facade s3Fascade;
   
   
   @Inject
-  public FixedModeBackendBackendProvider(BackendConfiguration configuration) {
+  public FixedModeBackendBackendProvider(BackendConfiguration configuration, S3Facade s3Fascade) {
     this.configuration = configuration;
+    this.s3Fascade = s3Fascade;
   }
   
   @Override
@@ -41,7 +44,7 @@ public class FixedModeBackendBackendProvider implements Provider<FixedModeBacken
   
     log.info("get()");
    
-    return new FixedModeBackendGateway(configuration);
+    return new FixedModeBackendGateway(configuration, s3Fascade);
      
   
   }

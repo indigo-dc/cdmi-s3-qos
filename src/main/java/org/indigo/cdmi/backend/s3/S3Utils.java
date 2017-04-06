@@ -79,6 +79,8 @@ public class S3Utils {
       throw new IllegalArgumentException("path cannot be empty string");
     }
 
+    if(path.equals("/")) return "";
+    
     int startIndex = 0;
     int endIndex = 0;
     int pathLength = path.length();

@@ -19,6 +19,9 @@ public class S3Facade {
   
   private final static Logger log = LoggerFactory.getLogger(S3Facade.class);
   
+  
+  public static final String PROPERTY_CREATION_TIME = "creation-time";
+  
   private final S3Gateway s3Gateway;
   
   @Inject
@@ -95,7 +98,6 @@ public class S3Facade {
       
     }
     
-    //s3Objects.forEach(System.out::println);
         
     return isContainer;
   
@@ -170,8 +172,33 @@ public class S3Facade {
   
   
   public Properties getObjectProperties(String path) {
-    return null;
-  }
+
+    Properties rv = new Properties();
+    
+    try {
+
+      // 1. determine bucket name
+      String bucketName = S3Utils.getBucketNameFromPath(path);
+      log.debug("bucketName: {}", bucketName);
+
+      // 2. determine prefix
+      String prefixPart = S3Utils.getPrefixFromPath(path);
+      log.debug("prefixPart: {}", prefixPart);
+      
+      S3ObjectInfo s3ObjectInfo = s3Gateway.getObjectInfo(bucketName, prefixPart);
+      
+      rv.put(PROPERTY_CREATION_TIME, s3ObjectInfo.getCreationDate());
+      
+      
+    } catch (Exception ex) {
+      
+      throw new RuntimeException("Failed to get properties of object " + path, ex);
+    
+    }
+    
+    return rv;
+  
+  } // getObjectProperties()
   
   /*
    * it will use S3Gateway.listBuckets() to find out the bucket which matches the request

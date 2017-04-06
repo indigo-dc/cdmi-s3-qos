@@ -44,6 +44,7 @@ public interface GatewayResponseTranslator {
    *        
    * @return CdmiObjectStatus object build on base of passed gatewayResponse 
    */
-  public CdmiObjectStatus getCdmiObjectStatus(String gatewayResponse, boolean isContainer);
+  public CdmiObjectStatus getCdmiObjectStatus(
+        String objectPath, String gatewayResponse, boolean isContainer);
 
 } // end of GatewayResponseTranslator interface

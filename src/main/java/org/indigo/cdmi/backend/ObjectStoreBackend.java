@@ -10,23 +10,25 @@
 package org.indigo.cdmi.backend;
 
 
-import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.indigo.cdmi.BackEndException;
 import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
+import org.indigo.cdmi.backend.exports.ExportsManager;
 import org.indigo.cdmi.backend.radosgw.BackendGateway;
 import org.indigo.cdmi.backend.radosgw.GatewayResponseTranslator;
 import org.indigo.cdmi.backend.radosgw.ObjectPathTranslator;
 import org.indigo.cdmi.backend.s3.S3Facade;
 import org.indigo.cdmi.spi.StorageBackend;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import com.google.inject.Inject;
 
 
 /**
@@ -46,6 +48,7 @@ public class ObjectStoreBackend implements StorageBackend {
   private final GatewayResponseTranslator responseTranslator;
   private final ObjectPathTranslator pathTranslator;
   private final S3Facade s3Facade;
+  private final ExportsManager exportsManager;
 
 
   /**
@@ -64,7 +67,8 @@ public class ObjectStoreBackend implements StorageBackend {
   public ObjectStoreBackend(BackendGateway backendGateway, 
       GatewayResponseTranslator responseTranslator, 
       ObjectPathTranslator pathTranslator,
-      S3Facade s3Facade) {
+      S3Facade s3Facade,
+      ExportsManager exportsManager) {
     
     /*
      * assign all dependencies to member fields
@@ -73,6 +77,7 @@ public class ObjectStoreBackend implements StorageBackend {
     this.responseTranslator = responseTranslator;
     this.pathTranslator = pathTranslator;
     this.s3Facade = s3Facade;
+    this.exportsManager = exportsManager;
     
   } // ObjectStoreBackend()
 
@@ -171,25 +176,27 @@ public class ObjectStoreBackend implements StorageBackend {
 
       boolean isContainer = s3Facade.isContainer(path);
       
-      CdmiObjectStatus cdmiObjectStatus = responseTranslator.getCdmiObjectStatus(gatewayResponse, isContainer);
+      CdmiObjectStatus cdmiObjectStatus = responseTranslator.getCdmiObjectStatus(radosPath, gatewayResponse, isContainer);
       log.debug("Status of object {} translated to CdmiObjectStatus format: {}", 
           path, cdmiObjectStatus);
       
       
       /*
-       * if path point to container then prepare children attribute
+       * if path point to the container then prepare children and exports attributes
        */
-
-      //boolean isContainer = true;
       if (isContainer) {
-        
+      
         List<String> childrenList = getChildrenList(path);
-        // cdmiObjectStatus.getExportAttributes().put("children", childrenList);
-        //cdmiObjectStatus.getMonitoredAttributes().put("children", childrenList);
         cdmiObjectStatus.setChildren(childrenList);
       
-      }
+        Map<String, Object> exports = exportsManager.getExports(radosPath);
+        cdmiObjectStatus.setExportAttributes(exports);
       
+      }
+            
+      //Map<String, Object> exportAttributes = new HashMap<>();
+      //exportAttributes.put("s3", "http://150.254.186.78:8080");
+      //cdmiObjectStatus.setExportAttributes(exportAttributes);
       
       return cdmiObjectStatus;
 
