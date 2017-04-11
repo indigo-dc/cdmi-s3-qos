@@ -22,7 +22,6 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	cd .. && \
 	git clone https://github.com/indigo-dc/CDMI.git && \
 	cp -rf cdmi-s3-qos/config CDMI/ && \
-	rm -f CDMI/config/objectstore.properties && \
 	rsync --ignore-errors cdmi-s3-qos/templates/local/objectstore.properties CDMI/config/ || test 1 && \
 	cd CDMI && \
 	git checkout c6c1178 && \
