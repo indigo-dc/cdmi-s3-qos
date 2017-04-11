@@ -68,6 +68,10 @@ public class ExportPatternUrl implements ExportAttributeProvider {
      */
     addressPattern = StringUtils.replace(addressPattern, "://.", "://", 1);
     
+    // remove duplicated slashes (//)
+    addressPattern = StringUtils.replace(addressPattern, "//", "/");
+    addressPattern = StringUtils.replace(addressPattern, ":/", "://", 1);
+    
     return addressPattern;
 
   } // attributeValue()
