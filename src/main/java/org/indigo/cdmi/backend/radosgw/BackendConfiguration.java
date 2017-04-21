@@ -19,6 +19,8 @@ import java.util.Properties;
  */
 public interface BackendConfiguration {
 
+  static String EXPORTS_CONFIG_FILE_PATH = "objectstore.exports.config-file";
+  
   /**
    * 
    * @param parameter Name of configuration parameter.

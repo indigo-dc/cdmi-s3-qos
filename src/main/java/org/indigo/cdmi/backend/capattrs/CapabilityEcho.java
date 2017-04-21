@@ -14,16 +14,18 @@ public class CapabilityEcho implements CdmiAttributeProvider {
   
   @Override
   public String getProviderName() {
-    // TODO Auto-generated method stub
     return PROVIDER_NAME;
-  }
+  } // getProviderName()
 
+  
   @Override
   public String attributeValue(String objectPath, String attributeName, String attributePattern) {
     
     String trimedPattern = attributePattern.trim();
-    return trimedPattern.substring(1, trimedPattern.length()-1).substring(PROVIDER_NAME.length());
+    return trimedPattern
+        .substring(1, trimedPattern.length() - 1).substring(PROVIDER_NAME.length() + 1);
   
-  }
+  } // attributeValue()
+  
 
-}
+} // end of CapabilityEcho class

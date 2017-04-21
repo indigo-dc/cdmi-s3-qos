@@ -2,39 +2,27 @@
 	
 	"/standard": {
 		"s3": {
-			"url": "{export-direct-url http://example.base.addr.net}",
-			"bucket-url": "{export-bucket-url http://example.base.addr.net}",
-			"bucket-relative-url": "{export-bucket-relative-url http://example.base.addr.net}",
-			"pattern-url":"{export-pattern-url http://{bucket}.example.base.addr.net/{relative-path}}",
-			"full-path-pattern":"{export-pattern-url http://example.base.addr.net/{full-path}}",
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",
 		},
 	},
 	
-	
 	"/silver": {
 		"s3": {
-			"url": "{export-direct-url http://example.base.addr.net}",
-			"bucket-url": "{export-bucket-url http://example.base.addr.net}",
-			"bucket-relative-url": "{export-bucket-relative-url http://example.base.addr.net}",
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",
 		},
 	},
 	
 	
 	"/golden": {
 		"s3": {
-			"url": "{export-direct-url http://example.base.addr.net}",
-			"bucket-url": "{export-bucket-url http://example.base.addr.net}",
-			"bucket-relative-url": "{export-bucket-relative-url http://example.base.addr.net}",
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",		
 		},
 	},
 	
 	
 	"/" :  {
 		"s3": {
-			"url": "{export-direct-url http://example.base.addr.net}",
-			"bucket-url": "{export-bucket-url http://example.base.addr.net}",
-			"bucket-relative-url": "{export-bucket-relative-url http://example.base.addr.net}",
-			"pattern-url":"{export-pattern-url http://{bucket}.example.base.addr.net/{relative-path}}",
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",		
 		},
 	}
 	

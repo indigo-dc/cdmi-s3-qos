@@ -1,0 +1,18 @@
+{
+	
+
+	"/standard": {
+		"s3": {
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",
+		},
+		"any": {
+			"nested-array" : ["item1", "item2"]
+		},
+		"dummy-array-with-commands":["{export-pattern-url http://example.base.addr.net/{full-path}}"],
+		"dummy-array-with-subobjects": [
+			{"attr":"val"}, 
+			{"prop":"val"},
+		],
+	},
+	
+}

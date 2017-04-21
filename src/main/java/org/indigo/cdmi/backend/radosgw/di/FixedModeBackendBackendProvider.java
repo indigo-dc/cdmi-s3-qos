@@ -18,7 +18,6 @@ import org.indigo.cdmi.backend.s3.S3Facade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * NOTE: No longer used. Now, in AbstractModule::configure() I bind 
  * directly to FixedModeBackendGateway. 
@@ -45,7 +44,6 @@ public class FixedModeBackendBackendProvider implements Provider<FixedModeBacken
     log.info("get()");
    
     return new FixedModeBackendGateway(configuration, s3Fascade);
-     
   
   }
 

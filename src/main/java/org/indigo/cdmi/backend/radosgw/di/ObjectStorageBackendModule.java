@@ -12,21 +12,19 @@ package org.indigo.cdmi.backend.radosgw.di;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.multibindings.Multibinder;
+
+
 import com.jcraft.jsch.JSch;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import org.indigo.cdmi.backend.ObjectStoreBackend;
-import org.indigo.cdmi.backend.capattrs.CapabilityAassociationTime;
+import org.indigo.cdmi.backend.capattrs.CapabilityAssociationTime;
 import org.indigo.cdmi.backend.capattrs.CapabilityEcho;
 import org.indigo.cdmi.backend.capattrs.CdmiAttributeProvider;
 import org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistry;
+import org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistryImpl;
 import org.indigo.cdmi.backend.exports.ExportAttributeProvider;
 import org.indigo.cdmi.backend.exports.ExportAttributeProviderRegistry;
-import org.indigo.cdmi.backend.exports.ExportBucketRelativeUrlPath;
-import org.indigo.cdmi.backend.exports.ExportBucketUrl;
-import org.indigo.cdmi.backend.exports.ExportDirectUrl;
+import org.indigo.cdmi.backend.exports.ExportAttributeProviderRegistryImpl;
 import org.indigo.cdmi.backend.exports.ExportPatternUrl;
 import org.indigo.cdmi.backend.exports.ExportsManager;
 import org.indigo.cdmi.backend.exports.ExportsManagerImpl;
@@ -34,19 +32,22 @@ import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.BackendGateway;
 
 import org.indigo.cdmi.backend.radosgw.GatewayResponseTranslator;
-import org.indigo.cdmi.backend.radosgw.JSchAliveRemoteExecutor;
+//import org.indigo.cdmi.backend.radosgw.JSchAliveRemoteExecutor;
 import org.indigo.cdmi.backend.radosgw.ObjectPathTranslator;
-import org.indigo.cdmi.backend.radosgw.RemoteExecutor;
 import org.indigo.cdmi.backend.s3.MinioS3ClientBuilder;
+import org.indigo.cdmi.backend.s3.MinioS3ClientBuilderImpl;
 import org.indigo.cdmi.backend.s3.MinioS3Gateway;
 import org.indigo.cdmi.backend.s3.S3ConnectionPropertiesDefaultProvider;
 import org.indigo.cdmi.backend.s3.S3ConnectionPropertiesProvider;
 import org.indigo.cdmi.backend.s3.S3Facade;
+import org.indigo.cdmi.backend.s3.S3FacadeImpl;
 import org.indigo.cdmi.backend.s3.S3Gateway;
-import org.indigo.cdmi.backend.s3.S3PathTranslator;
 import org.indigo.cdmi.spi.StorageBackend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 
 public class ObjectStorageBackendModule extends AbstractModule {
@@ -84,9 +85,6 @@ public class ObjectStorageBackendModule extends AbstractModule {
 
     log.info("configure()");
     
-    
-    
-    
     String storageBackendFqcn = this.backendConfiguration.get(PARAMETER_BACKEND_GATEWAY_FQCN);
     try {
       
@@ -104,7 +102,7 @@ public class ObjectStorageBackendModule extends AbstractModule {
 
     //bind(ObjectPathTranslator.class).to(S3PathTranslator.class);
     
-    bind(RemoteExecutor.class).to(JSchAliveRemoteExecutor.class);
+    //bind(RemoteExecutor.class).to(JSchAliveRemoteExecutor.class);
     
     bind(StorageBackend.class).to(ObjectStoreBackend.class);
 
@@ -114,27 +112,25 @@ public class ObjectStorageBackendModule extends AbstractModule {
     
     bind(S3Gateway.class).to(MinioS3Gateway.class);
     
-    bind(S3Facade.class);
+    bind(S3Facade.class).to(S3FacadeImpl.class);
     
-    bind(MinioS3ClientBuilder.class);
+    bind(MinioS3ClientBuilder.class).to(MinioS3ClientBuilderImpl.class);
     
 
     Multibinder<CdmiAttributeProvider> cdmiAttributeProviderMultibinder = 
                       Multibinder.newSetBinder(binder(), CdmiAttributeProvider.class);
 
-    cdmiAttributeProviderMultibinder.addBinding().to(CapabilityAassociationTime.class);
+    cdmiAttributeProviderMultibinder.addBinding().to(CapabilityAssociationTime.class);
     cdmiAttributeProviderMultibinder.addBinding().to(CapabilityEcho.class);
     
-    bind(CdmiAttributeProviderRegistry.class);
+    bind(CdmiAttributeProviderRegistry.class).to(CdmiAttributeProviderRegistryImpl.class);
     
     Multibinder<ExportAttributeProvider> exportAttributeProviders =
                     Multibinder.newSetBinder(binder(), ExportAttributeProvider.class);
     
-    exportAttributeProviders.addBinding().to(ExportDirectUrl.class);
-    exportAttributeProviders.addBinding().to(ExportBucketRelativeUrlPath.class);
-    exportAttributeProviders.addBinding().to(ExportBucketUrl.class);
     exportAttributeProviders.addBinding().to(ExportPatternUrl.class);
-    bind(ExportAttributeProviderRegistry.class);
+    
+    bind(ExportAttributeProviderRegistry.class).to(ExportAttributeProviderRegistryImpl.class);
     
     bind(ExportsManager.class).to(ExportsManagerImpl.class);
     

@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Implementation of GatewayResponseTranslator interface which translated responses achieved from
- * {@link LifeModeBackendGateway}.
+ * {@link BackendGateway}.
  * 
  * @author Gracjan Jankowski (gracjan@man.poznan.pl)
  *
@@ -67,37 +67,6 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
   
   
   
-  /**
-   * Maps QoS profile name to associated URI. 
-   * @param profileName Name of profile
-   * @param cdmObjectType Type of CDMI object (container or dataobject).
-   */
-  private String profileToUri(String profileName, String cdmObjectType) {
-
-    return "/" + URI_CAPABILITIES_DISCRIMINANT + "/" + cdmObjectType + "/" + profileName;
-
-  }
-
-
-
-
-
-  /**
-   * Retrieves object type from passed JSON object. 
-   * The assumption is that profileInfo represents QoS profile in JSON format. 
-   * 
-   * @param profileInfo QoS profile description as JSON object (in JSONObject format).
-   * @return String which represents object type of derived from profileInfo 
-   *     (object type is container or dataobject).
-   */
-  private String retriveObjectTypeAsString(JSONObject profileInfo) {
-
-    String typeAsString = profileInfo.getString(JSON_KEY_TYPE);
-    return typeAsString;
-
-  }
-
-
   /**
    * Basing on passed profileInfo, creates object of type BackendCapability.
    * 
@@ -211,134 +180,6 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
 
     return returnBackendCapability;
 
-    
-//    /*
-//     * Add always present capabilities
-//     */
-//    capabilities.put("cdmi_capabilities_templates", "true");
-//    capabilities.put("cdmi_capabilities_exact_inherit", "true");
-//    capabilities.put("cdmi_capability_association_time", "true");
-//    capabilities.put("cdmi_export_container_s3", "true");
-//    capabilities.put("cdmi_geographic_placement", "true");  
-//    capabilities.put("cdmi_durability", "true");
-//
-//    
-//    /*
-//     * attributes defined in Lisbona
-//     */
-//    //capabilities.put("cdmi_capability_lifetime", "true");
-//    //capabilities.put("cdmi_capability_lifetime_action", "true");
-//    //capabilities.put("cdmi_default_dataobject_capability_class", "true");
-//    //capabilities.put("cdmi_data_storage_lifetime", "true");
-//        
-//    
-//    //"cdmi_capabilities_templates": true,
-//    //"cdmi_capabilities_exact_inherit": true,
-//    //"cdmi_capabilities_allowed": true, - list of capabilitiesURI to which transition is allowed
-//    //"cdmi_capability_lifetime": true, - minimal lifetime an object will stay in current capability class
-//    //"cdmi_capability_lifetime_action": true, - action after the current capability class lifetime expiration, if no defined do action is done
-//    //"cdmi_capability_association_time": true, - time indicating the point in time when current capability class has been assigned to object
-//    //"cdmi_recommended_polling_interval": true, - suggested polling interval, probably meaningful only when transitions are supported
-//    //"cdmi_default_dataobject_capability_class": true, - capabiity class assigned by default to newly created objects
-//    //"cdmi_location": true, container location for capability class
-//    //"cdmi_data_storage_lifetime": true, - time interval indicating the minimum lifetime an object will be stored
-//    //"cdmi_durability": true, The probability of the dataobject not being lost per year
-//    //"cdmi_data_redundancy": true, - czy plik jest przechowywany w wielu kopiach
-//    //"cdmi_geographic_placement": true,
-//    //"cdmi_latency": true,
-//    //"cdmi_throughput": true
-//    
-//    
-//
-//    /*
-//     * create metadata object (to be populated and injected into returned BackendCapability)
-//     */
-//    Map<String, Object> metadata = new HashMap<>();
-//
-//    /*
-//     * iterate through metadata in profileInfo and populate capabilities and 
-//     * metadata in BackendCapability object
-//     */
-//    JSONObject metadataObj = profileInfo.getJSONObject(JSON_KEY_METADATA);
-//
-//    log.debug("Processing metadata array from profile returned by BackendGateway");
-//
-//    Iterator<?> keys = metadataObj.keys();
-//    while (keys.hasNext()) {
-//
-//      /*
-//       * get key name for current item in metadata array
-//       */
-//      String key = (String) keys.next();
-//
-//
-//      /*
-//       * get value assigned to the current key, and convert the value to String
-//       * NOTE: The convention is required because returned value can be for example of array type 
-//       * or of another JSONObject, it not necessary has to be String, so usage of 
-//       * metadataObj.getString(key) would be wrong 
-//       */
-//      Object valueObj = metadataObj.get(key);
-//      
-//
-//      log.debug("Current metadata key: {}", key);
-//      log.debug("Current metadata value: {}", valueObj);
-//      log.debug("Metadata value class/type is: {}", valueObj.getClass());
-//
-//      /*
-//       * Create key and value to be added to capabilities.
-//       * Separate variables for key and value objects are introduced deliberately 
-//       * to note that in future or in case of any special values, an additional 
-//       * logic / calculation can be required to obtain key and value to be used 
-//       * with capabilities map 
-//       */
-//      String cdmiCapabilityKey = key;
-//      String cdmiCapabilityValue = "true";
-//
-//      /*
-//       * add "calculated" key and value to the capabilities map
-//       */
-//      capabilities.put(cdmiCapabilityKey, cdmiCapabilityValue);
-//
-//      /*
-//       * see above comments for capabilities related keys and values
-//       */
-//      String cdmiMetadataKey = key;
-//      Object cdmiMetadataValue = valueObj;
-//      
-//      /*
-//       * add "calculated" key and value to the metadata map
-//       */
-//      metadata.put(cdmiMetadataKey, cdmiMetadataValue);
-//
-//
-//    } // while()
-//
-//    //capabilities.put("cdmi_capabilities_allowed", "true");
-//
-//    /*
-//     * process allowed profiles
-//     */
-//    try {
-//    
-//      JSONArray allowedProfiles = profileInfo.getJSONArray(JSON_KEY_ALLOWED_PROFILES);
-//      String profilesUris = profilesToUris(allowedProfiles, retriveObjectTypeAsString(profileInfo));
-//      log.debug("allowedProfiles: {}", allowedProfiles);
-//      log.debug("profilesURIs: {}", profilesUris);
-//  
-//      metadata.put("cdmi_capabilities_allowed", profilesUris);
-//    
-//    } catch (JSONException ex) {
-//      
-//      log.debug("No {} key in processed JSON document",  JSON_KEY_ALLOWED_PROFILES);
-//      
-//    } // try{}
-//    
-//    returnBackendCapability.setCapabilities(capabilities);
-//    returnBackendCapability.setMetadata(metadata);
-//
-//    return returnBackendCapability;
-
   } // createBackendCapability()
 
 
@@ -352,6 +193,10 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
   @Override
   public List<BackendCapability> getBackendCapabilitiesList(String gatewayResponse) {
 
+    //log.error("--------------------------------------------------------------");
+    //log.error("gatewayResponse: {}", gatewayResponse);
+    //log.error("--------------------------------------------------------------");
+    
     List<BackendCapability> backendCapabilities = new ArrayList<>();
 
     /*
@@ -413,9 +258,13 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
    * (Translates JSON in String format into CdmiObjectStatus)
    */
   @Override
-  public CdmiObjectStatus getCdmiObjectStatus(String objectPath, String gatewayResponse, boolean isContainer) {
+  public CdmiObjectStatus getCdmiObjectStatus(
+                          String objectPath, String gatewayResponse, boolean isContainer) {
 
-    //log.debug("Translate {} to CdmiObjectStatus", gatewayResponse);
+    //log.error("-----------------------------------------------------------------------");
+    //log.error("objectPath: {}", objectPath);
+    //log.error("gatewayResponse: {}", gatewayResponse);
+    //log.error("isContainer: {}", isContainer);
 
     Map<String, Object> monitoredAttributes = new HashMap<>();
 

@@ -1,46 +1,29 @@
 package org.indigo.cdmi.backend.exports;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
+public interface ExportAttributeProviderRegistry {
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+  /**
+   * Registers new {@link ExportAttributeProvider} provider.
+   * 
+   * @param providerName Name used to register the provider. The name acts as key. 
+   *        Later, the same name has to be used in order to retrieve the registered provider. 
+   * 
+   * @param provider The being registered provider.
+   * 
+   * @return The precious provider registered with the same name or null if there was no 
+   *        provider with the same name.
+   */
+  ExportAttributeProvider register(String providerName, ExportAttributeProvider provider);
 
-@Singleton
-public class ExportAttributeProviderRegistry {
+  /**
+   * Gives provider registered with {@code providerName} name.
+   * 
+   * @param providerName
+   * 
+   * @return {@link ExportAttributeProvider} registered with 
+   *        {@code providerName} name or null if there is no such provider.
+   */
+  ExportAttributeProvider getProvider(String providerName);
 
-  private ConcurrentMap<String, ExportAttributeProvider> providersMap = new ConcurrentHashMap<>();
-
-  
-  public ExportAttributeProviderRegistry() {
-   
-  }
-  
-  @Inject
-  public ExportAttributeProviderRegistry(Set<ExportAttributeProvider> providersSet) {
-    
-    if(providersSet != null) {
-      providersSet.forEach(provider -> this.register(provider.getProviderName(), provider));  
-    }
-    
-    
-  } // constructor()
-
-
-  public ExportAttributeProvider register(String providerName, ExportAttributeProvider provider) {
-    
-    return providersMap.put(providerName, provider);
-    
-  } // getProvider()
-
-  
-  public ExportAttributeProvider getProvider(String providerName) {
-    
-    return providersMap.get(providerName);
-  
-  } // getProvider()
-  
-  
-} // end of ExportAttributeProviderRegistry class
+} // end of interface

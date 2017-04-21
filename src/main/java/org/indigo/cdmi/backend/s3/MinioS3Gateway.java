@@ -43,12 +43,12 @@ public class MinioS3Gateway implements S3Gateway {
   public boolean bucketExists(String bucketName) {
     
     try {
-
+      
       S3ConnectionProperties connectionProperties = 
                   connectionPropertiesProvider.getConnectionProperties();
-  
+      
       MinioClient minioClient = this.clientBuilder.buildMinioClient(connectionProperties);
-
+      
       return minioClient.bucketExists(bucketName);
       
     } catch (Exception ex) {
@@ -132,7 +132,6 @@ public class MinioS3Gateway implements S3Gateway {
           connectionPropertiesProvider.getConnectionProperties();
 
       MinioClient minioClient = this.clientBuilder.buildMinioClient(connectionProperties);
-
       
       Iterable<Result<Item>> objects = minioClient.listObjects(bucketName, prefix, false);
       

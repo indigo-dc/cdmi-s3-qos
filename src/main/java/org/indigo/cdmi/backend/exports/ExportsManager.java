@@ -7,6 +7,6 @@ import org.json.JSONObject;
 
 public interface ExportsManager {
 
-  Map<String, Object> getExports(String path); // getExports()
+  Map<String, Object> getExports(String path);
 
 }

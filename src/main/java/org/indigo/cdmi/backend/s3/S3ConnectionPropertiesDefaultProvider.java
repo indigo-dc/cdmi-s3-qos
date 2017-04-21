@@ -3,6 +3,7 @@ package org.indigo.cdmi.backend.s3;
 import org.indigo.cdmi.BackEndException;
 import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.DefaultBackendConfiguration;
+import org.indigo.cdmi.backend.radosgw.config.ConfigurationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,8 @@ import org.slf4j.LoggerFactory;
  */
 public class S3ConnectionPropertiesDefaultProvider implements S3ConnectionPropertiesProvider {
 
-  private static final Logger log = LoggerFactory.getLogger(S3ConnectionPropertiesDefaultProvider.class);
+  private static final Logger log = 
+      LoggerFactory.getLogger(S3ConnectionPropertiesDefaultProvider.class);
   
   public static final String CONF_S3_ENDPOINT = "objectstore.s3.endpoint";
   public static final String CONF_S3_ACCESSKEY = "objectstore.s3.access-key";
@@ -30,8 +32,8 @@ public class S3ConnectionPropertiesDefaultProvider implements S3ConnectionProper
   /**
    * default configuration source, to be used by below created default AbstractModule
    */
-  BackendConfiguration gatewayConfiguration = DefaultBackendConfiguration.getInstance();
-  
+  //BackendConfiguration gatewayConfiguration = DefaultBackendConfiguration.getInstance();
+  BackendConfiguration gatewayConfiguration = ConfigurationContext.getConfiguration();
   
   /**
    * 

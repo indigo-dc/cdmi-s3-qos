@@ -48,7 +48,7 @@ public class S3Utils {
     int prefixBeginning = bucketIndex + bucketName.length();
     log.debug("Preffix beginning index: " + prefixBeginning);
     
-    // if the first character at preffixBeginning position is '/' then skip it
+    // if the first character at prefixBeginning position is '/' then skip it
     if (path.length() > prefixBeginning && path.charAt(prefixBeginning) == '/') {
       prefixBeginning++;
     }
@@ -79,7 +79,9 @@ public class S3Utils {
       throw new IllegalArgumentException("path cannot be empty string");
     }
 
-    if(path.equals("/")) return "";
+    if (path.equals("/")) {
+      return "";
+    }
     
     int startIndex = 0;
     int endIndex = 0;

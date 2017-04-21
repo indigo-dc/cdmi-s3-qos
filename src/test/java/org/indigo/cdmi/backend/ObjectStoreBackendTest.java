@@ -12,17 +12,17 @@ package org.indigo.cdmi.backend;
 import org.indigo.cdmi.BackEndException;
 import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
-import org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistry;
-import org.indigo.cdmi.backend.exports.ExportAttributeProviderRegistry;
+import org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistryImpl;
+import org.indigo.cdmi.backend.exports.ExportAttributeProviderRegistryImpl;
 import org.indigo.cdmi.backend.exports.ExportsManagerImpl;
 import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.BackendGateway;
 import org.indigo.cdmi.backend.radosgw.FixedModeBackendGateway;
 import org.indigo.cdmi.backend.radosgw.JsonResponseTranlator;
-import org.indigo.cdmi.backend.s3.MinioS3ClientBuilder;
+import org.indigo.cdmi.backend.s3.MinioS3ClientBuilderImpl;
 import org.indigo.cdmi.backend.s3.MinioS3Gateway;
 import org.indigo.cdmi.backend.s3.S3ConnectionPropertiesDefaultProvider;
-import org.indigo.cdmi.backend.s3.S3Facade;
+import org.indigo.cdmi.backend.s3.S3FacadeImpl;
 import org.indigo.cdmi.backend.s3.S3PathTranslator;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,11 +74,11 @@ public class ObjectStoreBackendTest {
     log.info("testStandardPath()");
 
     ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
-        new FixedModeBackendGateway(backendConfiguration, new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider()))), 
-        new JsonResponseTranlator(new CdmiAttributeProviderRegistry()), 
+        new FixedModeBackendGateway(backendConfiguration, new S3FacadeImpl(new MinioS3Gateway(new MinioS3ClientBuilderImpl(), new S3ConnectionPropertiesDefaultProvider()))), 
+        new JsonResponseTranlator(new CdmiAttributeProviderRegistryImpl()), 
         new S3PathTranslator(),
-        new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider())),
-        new ExportsManagerImpl(new ExportAttributeProviderRegistry())
+        new S3FacadeImpl(new MinioS3Gateway(new MinioS3ClientBuilderImpl(), new S3ConnectionPropertiesDefaultProvider())),
+        new ExportsManagerImpl(new ExportAttributeProviderRegistryImpl())
     );
 
     List<BackendCapability> list = objectStoreBackend.getCapabilities();
@@ -112,11 +112,11 @@ public class ObjectStoreBackendTest {
   public void testUpdateCdmiObjectWithException() throws Exception{    
     
     ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
-        new FixedModeBackendGateway(backendConfiguration, new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider()))), 
-        new JsonResponseTranlator(new CdmiAttributeProviderRegistry()), 
+        new FixedModeBackendGateway(backendConfiguration, new S3FacadeImpl(new MinioS3Gateway(new MinioS3ClientBuilderImpl(), new S3ConnectionPropertiesDefaultProvider()))), 
+        new JsonResponseTranlator(new CdmiAttributeProviderRegistryImpl()), 
         new S3PathTranslator(),
-        new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider())),
-        new ExportsManagerImpl(new ExportAttributeProviderRegistry())
+        new S3FacadeImpl(new MinioS3Gateway(new MinioS3ClientBuilderImpl(), new S3ConnectionPropertiesDefaultProvider())),
+        new ExportsManagerImpl(new ExportAttributeProviderRegistryImpl())
     );
     
     objectStoreBackend.updateCdmiObject("", "");    
@@ -133,10 +133,10 @@ public class ObjectStoreBackendTest {
     
     ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
         backendGateway, 
-        new JsonResponseTranlator(new CdmiAttributeProviderRegistry()), 
+        new JsonResponseTranlator(new CdmiAttributeProviderRegistryImpl()), 
         new S3PathTranslator(),
-        new S3Facade(new MinioS3Gateway(new MinioS3ClientBuilder(), new S3ConnectionPropertiesDefaultProvider())),
-        new ExportsManagerImpl(new ExportAttributeProviderRegistry())
+        new S3FacadeImpl(new MinioS3Gateway(new MinioS3ClientBuilderImpl(), new S3ConnectionPropertiesDefaultProvider())),
+        new ExportsManagerImpl(new ExportAttributeProviderRegistryImpl())
     );
 
     objectStoreBackend.getCapabilities();

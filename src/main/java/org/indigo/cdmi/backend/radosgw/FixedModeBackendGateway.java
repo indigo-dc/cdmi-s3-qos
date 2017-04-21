@@ -60,28 +60,27 @@ public class FixedModeBackendGateway implements BackendGateway {
   @Inject
   public FixedModeBackendGateway(BackendConfiguration backendConfiguration, S3Facade s3Facade) {
 
+    
+    if (backendConfiguration == null) {
+      throw new IllegalArgumentException("backendConfiguration argument cnnot be null");
+    }
+
+    if (s3Facade == null) {
+      throw new IllegalArgumentException("s3Facade argument cannot be null");
+    }
+    
+    this.s3Facade = s3Facade;
+    
     allProfilesFilePath = backendConfiguration.get(PARAMETER_ALL_PROFILES_FILE);
     if (allProfilesFilePath == null) {
       throw new RuntimeException("Cannot instatiate FixedModeBackendGateway. Could not find "
           + PARAMETER_ALL_PROFILES_FILE + " parameter in conifguration resources.");
     }
 
-//    pathsProfilesFilePath = backendConfiguration.get(PARAMETER_PATHS_PROFILES_FILE);
-//    if (allProfilesFilePath == null) {
-//      throw new RuntimeException("Cannot instatiate FixedModeBackendGateway. Could not find "
-//          + PARAMETER_PATHS_PROFILES_FILE + " parameter in conifguration resources.");
-//    }
-
     pathsProfilesFilePath = backendConfiguration.get(PARAMETER_PROFILES_MAP_FILE);
     if (pathsProfilesFilePath == null) {
       throw new RuntimeException("Cannot instatiate FixedModeBackendGateway. Could not find "
           + PARAMETER_PROFILES_MAP_FILE + " parameter in conifguration resources.");
-    }
-
-    
-    this.s3Facade = s3Facade;
-    if (this.s3Facade == null) {
-      throw new RuntimeException("s3Facade argument cannot be null");
     }
     
   } // FixedModeBackendGateway()
@@ -205,7 +204,7 @@ public class FixedModeBackendGateway implements BackendGateway {
 
     
     String defaultProfileName = null;
-    if(isContainer) {
+    if (isContainer) {
     
       defaultProfileName = profilesMap.getJSONObject("defaults").getString("container");
       profilesMap = profilesMap.getJSONObject("containers");
@@ -248,10 +247,6 @@ public class FixedModeBackendGateway implements BackendGateway {
     }
     log.debug("Profile name for bucket {} is {}", bucketName, profileName);
 
-
-//    JSONObject allProfiles = JsonUtils.createJsonObjectFromFile(allProfilesFilePath);
-//    
-//    JSONObject wantedObject = allProfiles.getJSONObject(profileName);
     
     /*
      * find profile of given name (iterate through all profiles)

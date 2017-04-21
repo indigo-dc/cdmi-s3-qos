@@ -1,52 +1,55 @@
 package org.indigo.cdmi.backend.exports;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
+import com.google.inject.Inject;
 
+import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.JsonUtils;
+import org.indigo.cdmi.backend.radosgw.config.ConfigurationContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
+ * Default implementation of {@link ExportsManager} interface.
  * 
- * @author gracjan
+ * @author Gracjan Jankowski
  *
  */
 public class ExportsManagerImpl implements ExportsManager {
 
-  static public final String EXPORTS_CONFIG_FILE_PATH = "config/fixed-mode/exports.json";
+  public final String exportsConfigFilePath;
   
-  static private final Logger log = LoggerFactory.getLogger(ExportsManagerImpl.class);
-    
-
+  private static final Logger log = LoggerFactory.getLogger(ExportsManagerImpl.class);
+      
   private final ExportAttributeProviderRegistry exportAttributeProviderRegistry;
   
+  private BackendConfiguration backendConfiguration = ConfigurationContext.getConfiguration();
   
   
+  /** 
+   * Constructor. 
+   * 
+   * @param exportAttributeProviderRegistry Registry of all registered attribute providers. 
+   *        Attribute providers are responsible for replacing commands and placeholders 
+   *        used in exports.json into final JSON entities.
+   */
   @Inject
   public ExportsManagerImpl(ExportAttributeProviderRegistry exportAttributeProviderRegistry) {
     
     this.exportAttributeProviderRegistry = exportAttributeProviderRegistry;
     
-  }
+    exportsConfigFilePath = 
+        this.backendConfiguration.get(BackendConfiguration.EXPORTS_CONFIG_FILE_PATH);
+    
+  } // end of constructor
   
   
-  /**
-   * 
-   * @param object
-   */
   private void processValues(Object object, String path) {
   
     if (object instanceof JSONObject) {
@@ -59,7 +62,8 @@ public class ExportsManagerImpl implements ExportsManager {
       
     } else {
       
-      throw new IllegalArgumentException("No support for argument of type " + object.getClass().getName());
+      throw new IllegalArgumentException(
+          "No support for argument of type " + object.getClass().getName());
     
     } // if()
     
@@ -71,26 +75,22 @@ public class ExportsManagerImpl implements ExportsManager {
     
     int inputStrLength = fullCommand.length();
     
-    if (inputStrLength <= 3) return "";
+    if (inputStrLength <= 3) {
+      return "";
+    }
     
-    return fullCommand.trim().substring(1, inputStrLength-1).split(" ")[0];
+    return fullCommand.trim().substring(1, inputStrLength - 1).split(" ")[0];
     
   } // extractAttributeProviderNamme
 
   
   
-  /**
-   * 
-   * @param fullCommand
-   * @param path
-   * @return
-   */
   private String processLeafCommand(String fullCommand, String path) {
   
     String providerName = extractProviderName(fullCommand);
     
     ExportAttributeProvider provider = exportAttributeProviderRegistry.getProvider(providerName);
-    if(provider == null) {
+    if (provider == null) {
       
       throw new RuntimeException("Failed to find export attribute provider named " + providerName);
       
@@ -103,10 +103,6 @@ public class ExportsManagerImpl implements ExportsManager {
   } // processLeafCommand()
   
   
-  /**
-   * 
-   * @param value
-   */
   private void processObjectLeaf(JSONObject jsonObject, String key, String value, String path) {
     
     String trimedValue = value.trim(); 
@@ -121,12 +117,6 @@ public class ExportsManagerImpl implements ExportsManager {
   } // processObjectString()
   
   
-  /**
-   * 
-   * @param jsonArray
-   * @param index
-   * @param value
-   */
   private void processArrayLeaf(JSONArray jsonArray, int index, String value, String path) {
     
     String trimedValue = value.trim(); 
@@ -136,15 +126,11 @@ public class ExportsManagerImpl implements ExportsManager {
       String calculatedValue = processLeafCommand(trimedValue, path);
       jsonArray.put(index, calculatedValue);  
       
-    }
+    } 
     
   } // prprocessArrayLeaf()
   
   
-  /**
-   * 
-   * @param jsonObject
-   */
   private void processJsonObject(JSONObject jsonObject, String path) {
     
   
@@ -155,7 +141,7 @@ public class ExportsManagerImpl implements ExportsManager {
       
       Object value = jsonObject.get(key);
       
-      if(value instanceof String) {
+      if (value instanceof String) {
         processObjectLeaf(jsonObject, key, (String) value, path);      
       } else {
         processValues(value, path);
@@ -168,9 +154,6 @@ public class ExportsManagerImpl implements ExportsManager {
   } // processJsonObject()
   
   
-  /**
-   * 
-   */
   private void processJsonArray(JSONArray jsonArray, String path) {
     
     Map<Integer, String> leafsToBeProcessed = new HashMap<>();
@@ -205,14 +188,15 @@ public class ExportsManagerImpl implements ExportsManager {
    */
   @Override
   public Map<String, Object> getExports(String path) {
-        
+    
+    
     Map<String, Object> outputExportsMap = new HashMap<>();
     
     /*
      * first find matching mappings from exports.json
      */
     
-    JSONObject exportsMappings = JsonUtils.createJsonObjectFromFile(EXPORTS_CONFIG_FILE_PATH);
+    JSONObject exportsMappings = JsonUtils.createJsonObjectFromFile(exportsConfigFilePath);
     
     Iterator<String> entryPointPaths = exportsMappings.keys();
     
