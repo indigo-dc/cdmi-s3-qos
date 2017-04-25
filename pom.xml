@@ -79,14 +79,6 @@
     		<scope>test</scope>
 		</dependency>
 
-		<!-- 	
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-testng</artifactId>
-			<version>1.6.6</version>
-			<scope>test</scope>
-		</dependency>
-	 	-->
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito</artifactId>
@@ -176,11 +168,11 @@
 				<configuration>
 					<skipTests>false</skipTests>
 					<trimStackTrace>false</trimStackTrace>
+					<!--
 					<excludes>
 						<exclude>org/indigo/cdmi/backend/*.java</exclude>
-						
 					</excludes>
-					<!-- 
+					 
 					<includes>
 						<include>edu.kit.scc.test.TestSuite.java</include>
 					</includes>

@@ -14,8 +14,6 @@ import com.google.inject.Provides;
 import com.google.inject.multibindings.Multibinder;
 
 
-import com.jcraft.jsch.JSch;
-
 import org.indigo.cdmi.backend.ObjectStoreBackend;
 import org.indigo.cdmi.backend.capattrs.CapabilityAssociationTime;
 import org.indigo.cdmi.backend.capattrs.CapabilityEcho;
@@ -32,7 +30,6 @@ import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.BackendGateway;
 
 import org.indigo.cdmi.backend.radosgw.GatewayResponseTranslator;
-//import org.indigo.cdmi.backend.radosgw.JSchAliveRemoteExecutor;
 import org.indigo.cdmi.backend.radosgw.ObjectPathTranslator;
 import org.indigo.cdmi.backend.s3.MinioS3ClientBuilder;
 import org.indigo.cdmi.backend.s3.MinioS3ClientBuilderImpl;
@@ -106,7 +103,7 @@ public class ObjectStorageBackendModule extends AbstractModule {
     
     bind(StorageBackend.class).to(ObjectStoreBackend.class);
 
-    bind(JSch.class).toProvider(JSchProvider.class);
+    //bind(JSch.class).toProvider(JSchProvider.class);
     
     bind(S3ConnectionPropertiesProvider.class).to(S3ConnectionPropertiesDefaultProvider.class);
     

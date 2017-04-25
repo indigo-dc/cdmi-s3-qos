@@ -1,20 +1,13 @@
 package org.indigo.cdmi.backend.radosgw;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Properties;
 
-import org.indigo.cdmi.backend.s3.MinioS3ClientBuilderImpl;
-import org.indigo.cdmi.backend.s3.MinioS3Gateway;
-import org.indigo.cdmi.backend.s3.S3ConnectionPropertiesDefaultProvider;
 import org.indigo.cdmi.backend.s3.S3Facade;
-import org.indigo.cdmi.backend.s3.S3FacadeImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +18,11 @@ class S3FacadeStub implements S3Facade {
 
   @Override
   public boolean isContainer(String path) {
-    // TODO Auto-generated method stub
+    
+    if (path.equals("/standard")) {
+      return true;
+    }
+    
     return false;
   }
 
@@ -69,7 +66,6 @@ public class FixedModeBackendGatewayTest {
     
   }
   
-  
   @Test
   public void testConstructor() {
     backendGateway = new FixedModeBackendGateway(configuration, s3Facade);
@@ -104,8 +100,42 @@ public class FixedModeBackendGatewayTest {
   
   @Test
   public void testGetAllProfiles() {
+   
+    backendGateway = new FixedModeBackendGateway(configuration, s3Facade);
+    String allProfilesAsString = backendGateway.getAllProfiles();
+    assertNotNull(allProfilesAsString);
     
   }
+  
+  @Test(expected=RuntimeException.class)
+  public void testGetAllProfilesWithWronAllProfilesPath() {
+    
+    configuration = DefaultBackendConfiguration.getInstance("test-wrong-all-profiles-path");
+    backendGateway = new FixedModeBackendGateway(configuration, s3Facade);
+    backendGateway.getAllProfiles();
+    
+  }
+  
+
+  @Test
+  public void testGetPathProfile() {
+   
+    backendGateway = new FixedModeBackendGateway(configuration, s3Facade);
+    String profileAsString = backendGateway.getPathProfile("/standard");
+    assertNotNull(profileAsString);
+  
+  }
+
+
+  @Test
+  public void testGetRootPathProfile() {
+   
+    backendGateway = new FixedModeBackendGateway(configuration, s3Facade);
+    String profileAsString = backendGateway.getPathProfile("/");
+    assertNotNull(profileAsString);
+    
+  }
+
   
   
 //  private static final Logger log = LoggerFactory.getLogger(FixedModeBackendGateway.class);
