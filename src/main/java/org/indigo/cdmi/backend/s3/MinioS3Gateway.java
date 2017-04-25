@@ -1,12 +1,5 @@
 package org.indigo.cdmi.backend.s3;
 
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -16,17 +9,30 @@ import io.minio.Result;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+
 public class MinioS3Gateway implements S3Gateway {
 
-  private final static Logger log = LoggerFactory.getLogger(MinioS3Gateway.class);
+  private static final Logger log = LoggerFactory.getLogger(MinioS3Gateway.class);
   
   private final S3ConnectionPropertiesProvider connectionPropertiesProvider; 
   private final MinioS3ClientBuilder clientBuilder;
   
   
   /**
+   * Constructor.
    * 
-   * @param connectionPropertiesProvider
+   * @param clientBuilder Builder which can build MinioClient.
+   * @param connectionPropertiesProvider  {@link S3ConnectionPropertiesDefaultProvider} which 
+   *        provides {@link S3ConnectionProperties} to be used by {@code clientBuilder} 
+   *        in order to build MinioClient.
    */
   @Inject
   public MinioS3Gateway(

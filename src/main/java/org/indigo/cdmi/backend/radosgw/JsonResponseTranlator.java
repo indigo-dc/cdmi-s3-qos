@@ -9,17 +9,16 @@
 
 package org.indigo.cdmi.backend.radosgw;
 
+import com.google.inject.Inject;
+
 import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
 import org.indigo.cdmi.backend.capattrs.CdmiAttributeProvider;
 import org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistry;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,11 +42,7 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
   private static final String JSON_KEY_TYPE = "type";
   private static final String JSON_KEY_METADATA = "metadata";
   private static final String JSON_KEY_CAPABILITIES = "capabilities";
-  private static final String JSON_KEY_ALLOWED_PROFILES = "allowed_profiles";
 
-  private static final String URI_CAPABILITIES_DISCRIMINANT = "cdmi_capabilities";
-
-  
   private static final String CDMI_OBJECT_TYPE_CONTAINER = "container";
   private static final String CDMI_OBJECT_TYPE_DATAOBJECT = "dataobject";
 
@@ -56,7 +51,7 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
   
   
   /**
-   * 
+   * Constructor.
    */
   @Inject
   public JsonResponseTranlator(CdmiAttributeProviderRegistry cdmiAttributeProviderRegistry) {
@@ -238,17 +233,21 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
 
 
   /**
+   * Extracts name of {@link CdmiAttributeProvider} provider which is to be used to evaluate 
+   * value of associated attribute. 
    * 
-   * @param attributeProviderDefinition
-   * @return
+   * @param attributeProviderDefinition String with encoded name of attribute provider.
+   * @return Name of provider encoded in passed {@code attributeProviderDefinition}
    */
   private String extractAttributeProviderNamme(String attributeProviderDefinition) {
     
     int inputStrLength = attributeProviderDefinition.length();
     
-    if (inputStrLength <= 3) return "";
+    if (inputStrLength <= 3) {
+      return "";
+    }
     
-    return attributeProviderDefinition.trim().substring(1, inputStrLength-1).split(" ")[0];
+    return attributeProviderDefinition.trim().substring(1, inputStrLength - 1).split(" ")[0];
     
   } // extractAttributeProviderNamme
   
@@ -289,26 +288,31 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
       /*
        * get attr value from attribute value provider (if required)
        */
-      if (metadataProvidedAsObj instanceof String && 
-          ((String) metadataProvidedAsObj).startsWith("{") &&
-          ((String) metadataProvidedAsObj).endsWith("}") ) {
+      if (metadataProvidedAsObj instanceof String 
+          && ((String) metadataProvidedAsObj).startsWith("{") 
+          && ((String) metadataProvidedAsObj).endsWith("}") ) {
         
         
         String providerName = extractAttributeProviderNamme(((String)metadataProvidedAsObj).trim());
-        if(null == providerName) {
+        if (null == providerName) {
           throw new RuntimeException("Unexpectedly providerName is null.");
         }
 
         
-        CdmiAttributeProvider attributeValueProvider = cdmiAttributeProviderRegistry.getProvider(providerName);
-        if(attributeValueProvider == null) {
-          throw new RuntimeException("Couldn't find attribute value provider named " + providerName);
+        CdmiAttributeProvider attributeValueProvider = 
+                        cdmiAttributeProviderRegistry.getProvider(providerName);
+        if (attributeValueProvider == null) {
+          throw new RuntimeException(
+              "Couldn't find attribute value provider named " + providerName
+          );
         }
        
         
         if (attributeValueProvider != null) {
           metadataProvidedAsObj = 
-              attributeValueProvider.attributeValue(objectPath, key, (String)metadataProvidedAsObj); 
+              attributeValueProvider.attributeValue(
+                  objectPath, key, (String)metadataProvidedAsObj
+              ); 
         }
           
         

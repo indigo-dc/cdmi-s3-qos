@@ -11,10 +11,12 @@ public class S3ObjectInfo {
   private final boolean isDir;
   
   /**
+   * Constructor.
    * 
-   * @param bucketName
-   * @param objectName
-   * @param creationDate
+   * @param bucketName Bucket name.
+   * @param objectName Object name (without bucket part).
+   * @param creationDate Creation date of underlying object.
+   * @param isDir Specifies is underlying object is dir or not. 
    */
   public S3ObjectInfo(String bucketName, String objectName, Date creationDate, boolean isDir) {
     super();

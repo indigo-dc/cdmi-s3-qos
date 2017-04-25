@@ -1,8 +1,6 @@
 package org.indigo.cdmi.backend.s3;
 
-import org.indigo.cdmi.BackEndException;
 import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
-import org.indigo.cdmi.backend.radosgw.DefaultBackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.config.ConfigurationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +9,11 @@ import org.slf4j.LoggerFactory;
  * Provides S3ConnectionPropertis relevant for user which is 
  * currently logged to CDMI server.
  * 
- * This is first, proof of concept version, so all required properties 
+ * <p>This is first, proof of concept version, so all required properties 
  * are being read from configuration. 
  * 
- * Finally, the credentials for S3 connections will be obtained from some kind of external service
- * basing on the Access Token read from SecurityContextHolder.
+ * <p>Finally, the credentials for S3 connections will be obtained from some 
+ * kind of external service basing on the Access Token read from SecurityContextHolder.
  * 
  * @author Gracjan Jankowski (gracjan@man.poznan.pl)
  */
@@ -30,15 +28,11 @@ public class S3ConnectionPropertiesDefaultProvider implements S3ConnectionProper
 
   
   /**
-   * default configuration source, to be used by below created default AbstractModule
+   * default configuration source, to be used by below created default AbstractModule.
    */
-  //BackendConfiguration gatewayConfiguration = DefaultBackendConfiguration.getInstance();
   BackendConfiguration gatewayConfiguration = ConfigurationContext.getConfiguration();
   
-  /**
-   * 
-   * @return
-   */
+  @Override
   public S3ConnectionProperties getConnectionProperties() {
     
     String endpoint = gatewayConfiguration.get(CONF_S3_ENDPOINT);
@@ -62,8 +56,6 @@ public class S3ConnectionPropertiesDefaultProvider implements S3ConnectionProper
     return new S3ConnectionProperties(endpoint, accessKey, secretKey);
     
   } // getConnectionProperties()
-  
-  
   
   
 } // end of S3ConnectionPropertiesProvider

@@ -1,17 +1,17 @@
 package org.indigo.cdmi.backend.capattrs;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
+ * Default implementation of {@link CdmiAttributeProviderRegistry}.
  * 
- * @author gracjan
- *
+ * @author Gracjan Jankowski
  */
 @Singleton
 public class CdmiAttributeProviderRegistryImpl implements CdmiAttributeProviderRegistry {
@@ -25,6 +25,12 @@ public class CdmiAttributeProviderRegistryImpl implements CdmiAttributeProviderR
   }
   
   
+  /**
+   * Constructor.
+   * 
+   * @param providersSet Set of to be registered {@link CdmiAttributeProvider}s 
+   *        (used by Guice DI manager). 
+   */
   @Inject
   public CdmiAttributeProviderRegistryImpl(Set<CdmiAttributeProvider> providersSet) {
     
@@ -34,7 +40,8 @@ public class CdmiAttributeProviderRegistryImpl implements CdmiAttributeProviderR
   
   
   /* (non-Javadoc)
-   * @see org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistry#register(java.lang.String, org.indigo.cdmi.backend.capattrs.CdmiAttributeProvider)
+   * @see org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistry#register(
+   *        java.lang.String, org.indigo.cdmi.backend.capattrs.CdmiAttributeProvider)
    */
   @Override
   public CdmiAttributeProvider register(String providerName, CdmiAttributeProvider provider) {
@@ -45,7 +52,8 @@ public class CdmiAttributeProviderRegistryImpl implements CdmiAttributeProviderR
   
   
   /* (non-Javadoc)
-   * @see org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistry#getProvider(java.lang.String)
+   * @see org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistry
+   *        #getProvider(java.lang.String)
    */
   @Override
   public CdmiAttributeProvider getProvider(String providerName) {

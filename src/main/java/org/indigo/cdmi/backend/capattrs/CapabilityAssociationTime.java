@@ -18,7 +18,7 @@ public class CapabilityAssociationTime implements CdmiAttributeProvider {
   
   
   /**
-   * 
+   * Constructor.
    */
   @Inject
   public CapabilityAssociationTime(S3Facade s3Facade) {
@@ -40,7 +40,7 @@ public class CapabilityAssociationTime implements CdmiAttributeProvider {
 
   @Override
   public String getProviderName() {
-      return PROVIDER_NAME;
+    return PROVIDER_NAME;
   }
 
 

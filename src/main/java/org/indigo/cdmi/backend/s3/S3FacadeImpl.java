@@ -1,14 +1,15 @@
 package org.indigo.cdmi.backend.s3;
 
-import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
+import com.google.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
+import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
 
 /**
  * Uses S3Gateway to  provide CDMI server with more abstract / general 
@@ -23,6 +24,11 @@ public class S3FacadeImpl implements S3Facade {
   
   private final S3Gateway s3Gateway;
   
+  /**
+   * Constructor.
+   * 
+   * @param s3Gateway Implementation of being injected {@link S3Gateway}.
+   */
   @Inject
   public S3FacadeImpl(S3Gateway s3Gateway) {
     
@@ -102,10 +108,6 @@ public class S3FacadeImpl implements S3Facade {
   } // isContainer()
 
   
-  /**
-   * 
-   * @return
-   */
   private List<String> getBucketsList() {
     
     // get info about buckets present on back-end
@@ -121,10 +123,13 @@ public class S3FacadeImpl implements S3Facade {
   
   
   /**
+   * Get of objects which reside in bucket of name {@code bucketName} and which begins 
+   * with prefix specified by {@code prefixPart}.
    * 
-   * @param bucketName
-   * @param prefixPart
-   * @return
+   * @param bucketName Name of being listed bucket. 
+   * @param prefixPart Prefix specifying the beginning of name of requested objects.
+   * @return List of names of objects which reside in bucket of name {@code bucketName} 
+   *        and which begin with prefix defined by {@code prefixPart}
    */
   private List<String> getObjectsList(String bucketName, String prefixPart) {
     
@@ -160,9 +165,7 @@ public class S3FacadeImpl implements S3Facade {
     log.debug("prefixPart: {}", prefixPart);
     
     
-    // 3. Try to list objects; QUESTION: how to check if path points to the container and not to a file,
-    // I have to check what s3Gateway.listObjects() will return for such a path
-    
+    // 3. Try to list objects;
     return getObjectsList(bucketName, prefixPart);
     
   } // getChildern()

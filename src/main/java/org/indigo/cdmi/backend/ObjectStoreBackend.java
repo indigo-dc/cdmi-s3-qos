@@ -9,11 +9,7 @@
 
 package org.indigo.cdmi.backend;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.google.inject.Inject;
 
 import org.indigo.cdmi.BackEndException;
 import org.indigo.cdmi.BackendCapability;
@@ -24,11 +20,12 @@ import org.indigo.cdmi.backend.radosgw.GatewayResponseTranslator;
 import org.indigo.cdmi.backend.radosgw.ObjectPathTranslator;
 import org.indigo.cdmi.backend.s3.S3Facade;
 import org.indigo.cdmi.spi.StorageBackend;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -138,15 +135,13 @@ public class ObjectStoreBackend implements StorageBackend {
   
   
   /**
-   * 
-   * @return
+   * Returns list of children laying under passed {@code path}.
+   *  
+   * @return List of strings which determines names of children elements of given path.
    */
   private List<String> getChildrenList(String path) {
     
-    //return Arrays.asList("katalog_raz", "katalog_dwa");
-    
     return s3Facade.getChildren(path);
-    
     
   } // getChildrenList()
   
@@ -176,7 +171,9 @@ public class ObjectStoreBackend implements StorageBackend {
 
       boolean isContainer = s3Facade.isContainer(path);
       
-      CdmiObjectStatus cdmiObjectStatus = responseTranslator.getCdmiObjectStatus(radosPath, gatewayResponse, isContainer);
+      CdmiObjectStatus cdmiObjectStatus = 
+          responseTranslator.getCdmiObjectStatus(radosPath, gatewayResponse, isContainer);
+      
       log.debug("Status of object {} translated to CdmiObjectStatus format: {}", 
           path, cdmiObjectStatus);
       

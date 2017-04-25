@@ -4,10 +4,15 @@ import java.util.Date;
 
 public class S3BucketInfo {
   
-  final private String name;
-  final private Date creationDate;
+  private final String name;
+  private final Date creationDate;
   
-  
+  /**
+   * Constructor. 
+   * 
+   * @param name Name of underlying bucket.
+   * @param creationDate Creation date of underlying bucket.
+   */
   public S3BucketInfo(String name, Date creationDate) {
     super();
     this.name = name;

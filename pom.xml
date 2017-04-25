@@ -168,15 +168,6 @@
 				<configuration>
 					<skipTests>false</skipTests>
 					<trimStackTrace>false</trimStackTrace>
-					<!--
-					<excludes>
-						<exclude>org/indigo/cdmi/backend/*.java</exclude>
-					</excludes>
-					 
-					<includes>
-						<include>edu.kit.scc.test.TestSuite.java</include>
-					</includes>
-					 -->
 				</configuration>
 			</plugin>
 
@@ -210,7 +201,6 @@
 				<configuration>
 					<excludes>
 						<exclude>**/*Exception.*</exclude>
-						<!-- exclude dependency injection management part  -->
 						<exclude>org/indigo/cdmi/backend/radosgw/di/**</exclude>
 					</excludes>
 				</configuration>
@@ -228,14 +218,6 @@
 							<goal>report</goal>
 						</goals>
 					</execution>
-					<!-- 
-					<execution>
-						<id>default-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-					 -->
 				</executions>
 			</plugin>			
 

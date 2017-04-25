@@ -5,14 +5,15 @@ import io.minio.errors.InvalidEndpointException;
 import io.minio.errors.InvalidPortException;
 
 /**
- * 
- * @author gracjan
- *
+ * Builds MinioClient using endpoint and credentials provided by {@code connectionProperties}.
+ *  
+ * @author Gracjan Jankowski
  */
 public class MinioS3ClientBuilderImpl implements MinioS3ClientBuilder {
 
   /* (non-Javadoc)
-   * @see org.indigo.cdmi.backend.s3.MinioS3ClientBuilder#buildMinioClient(org.indigo.cdmi.backend.s3.S3ConnectionProperties)
+   * @see org.indigo.cdmi.backend.s3.MinioS3ClientBuilder
+   *      #buildMinioClient(org.indigo.cdmi.backend.s3.S3ConnectionProperties)
    */
   @Override
   public MinioClient buildMinioClient(S3ConnectionProperties connectionProperties) 

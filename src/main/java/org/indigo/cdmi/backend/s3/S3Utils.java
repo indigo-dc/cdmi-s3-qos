@@ -20,12 +20,13 @@ import org.slf4j.LoggerFactory;
  */
 public class S3Utils {
 
-  private final static Logger log = LoggerFactory.getLogger(S3Utils.class);
+  private static final Logger log = LoggerFactory.getLogger(S3Utils.class);
   
   /**
-   * 
-   * @param path
-   * @return
+   * Extracts prefix part from path build up from bucket name and prefix.
+   *  
+   * @param path Path with bucket name included.
+   * @return Path without bucket name.
    */
   public static String getPrefixFromPath(String path) {
     
