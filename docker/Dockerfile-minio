@@ -1,0 +1,11 @@
+FROM minio/minio:RELEASE.2017-04-25T01-27-49Z
+
+COPY ./test/minio/config.json /go/test-config/config.json
+
+RUN mkdir /radosgw /radosgw/standard /radosgw/silver /radosgw/golden /radosgw/standard/subfolder && \
+    echo "file1 content" > /radosgw/standard/file1.txt && \
+    echo "file2 content" > /radosgw/standard/file2.txt && \
+    echo "file3 content" > /radosgw/standard/subfolder/file3.txt && \
+    echo "file4 content" > /radosgw/silver/file4.txt && \
+    echo "file5 content" > /radosgw/silver/file5.txt && \
+    echo "file6 content" > /radosgw/golden/file6.txt

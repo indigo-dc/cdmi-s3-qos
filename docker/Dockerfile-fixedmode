@@ -12,22 +12,18 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	apt-get update && \
 	apt-get --force-yes install -y openjdk-8-jdk && \
 	apt-get install -y maven git curl redis-tools rsync dos2unix vim && \
-	git clone https://github.com/indigo-dc/cdmi-spi.git && \
-	cd cdmi-spi && \
-	git checkout 78ce8c3 && \
-	mvn install && \
-	cd .. && \
 	cd cdmi-s3-qos && \
 	mvn -Dmaven.test.skip=true install && \
 	cd .. && \
 	git clone https://github.com/indigo-dc/CDMI.git && \
 	cp -rf cdmi-s3-qos/config CDMI/ && \
-	rsync --ignore-errors cdmi-s3-qos/templates/local/objectstore.properties CDMI/config/ || test 1 && \
+	cp -f cdmi-s3-qos/test/objectstore.properties CDMI/config/ && \
+	rsync --ignore-times --ignore-errors cdmi-s3-qos/templates/local/objectstore.properties CDMI/config/ || test 1 && \
 	cd CDMI && \
 	git checkout c6c1178 && \
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
 	sed -i 's/active: redis/active: redis-embedded/g' config/application.yml && \
-	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>0.0.1-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
+	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>2.0.0-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
 	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.2.jar  --server.port=8080" > run.sh && \
 	chmod +x run.sh && \
 	mvn package -Dmaven.test.skip=true
