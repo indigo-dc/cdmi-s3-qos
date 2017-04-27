@@ -164,9 +164,12 @@ public class S3FacadeImpl implements S3Facade {
     String prefixPart = S3Utils.getPrefixFromPath(path);
     log.debug("prefixPart: {}", prefixPart);
     
+    if (prefixPart.length() > 0) {
+      prefixPart = prefixPart + "/";
+    }
     
     // 3. Try to list objects;
-    return getObjectsList(bucketName, prefixPart + "/");
+    return getObjectsList(bucketName, prefixPart);
     
   } // getChildern()
   
