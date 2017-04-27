@@ -89,6 +89,8 @@ public class ObjectStoreBackend implements StorageBackend {
   @Override
   public List<BackendCapability> getCapabilities() throws BackEndException {
 
+    log.debug("getCapabilities()");
+    
     try {
 
       /*
@@ -158,6 +160,8 @@ public class ObjectStoreBackend implements StorageBackend {
   @Override
   public CdmiObjectStatus getCurrentStatus(String path) throws BackEndException {
 
+    log.debug("getCurrentStatus({})", path);
+    
     try {
  
       /*

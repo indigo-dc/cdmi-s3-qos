@@ -131,7 +131,7 @@ public class MinioS3Gateway implements S3Gateway {
   
   @Override
   public List<S3ObjectInfo> listObjects(String bucketName, String prefix) {
-
+ 
     try {
       
       S3ConnectionProperties connectionProperties = 

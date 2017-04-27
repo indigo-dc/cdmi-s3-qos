@@ -143,6 +143,8 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 					<encoding>UTF-8</encoding>
+					<debug>true</debug>
+					<debugLevel>lines,vars,source</debugLevel>
 				</configuration>
 			</plugin>
 

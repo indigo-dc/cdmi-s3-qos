@@ -166,7 +166,7 @@ public class S3FacadeImpl implements S3Facade {
     
     
     // 3. Try to list objects;
-    return getObjectsList(bucketName, prefixPart);
+    return getObjectsList(bucketName, prefixPart + "/");
     
   } // getChildern()
   
