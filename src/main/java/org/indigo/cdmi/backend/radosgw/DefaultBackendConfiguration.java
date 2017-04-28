@@ -12,6 +12,7 @@ package org.indigo.cdmi.backend.radosgw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,6 +39,9 @@ import java.util.Properties;
  */
 public class DefaultBackendConfiguration implements BackendConfiguration {
 
+  public static final String GLOBAL_CONFIG_FILE 
+      = "/etc/cdmi-server/plugins/cdmi-s3-qos/objectstore.properties";
+  
   private static final Logger log = LoggerFactory.getLogger(DefaultBackendConfiguration.class);
 
   private static Map<String, DefaultBackendConfiguration> configsMap = new HashMap<>();
@@ -66,11 +70,12 @@ public class DefaultBackendConfiguration implements BackendConfiguration {
     
     String inJarPropertiesFileName = inJarPropertiesFileNameBuilder.toString();
 
-    /*
-     * read properties form properties file located on CLASSPATH
-     * (the assumption is that it is default configuration file placed within 
-     * the same jar file as this class)
-     */
+    //========================================================================
+    // read properties form properties file located on CLASSPATH
+    // (the assumption is that it is default configuration file placed within 
+    // the same jar file as this class)
+    //========================================================================
+    
     InputStream configInputStream =
         getClass().getClassLoader().getResourceAsStream(inJarPropertiesFileName);
     if (configInputStream == null) {
@@ -96,9 +101,23 @@ public class DefaultBackendConfiguration implements BackendConfiguration {
     } // try{}
 
 
-    /*
-     * read properties from file located in config directory
-     */
+    //==============================================================
+    // read configuration from /etc/cdmi-server/plugins/cdmi-s3-qos/objectstore.properites
+    //==============================================================
+    File globalConfigFile = new File(GLOBAL_CONFIG_FILE);
+    if (globalConfigFile.exists()) {
+      try (FileInputStream fis = new FileInputStream(globalConfigFile)) {
+        configurationProperties.load(fis);
+      } catch (Exception e) {
+        log.error("Failed to read global configuraiton file: {}", e);
+      }
+      
+    } // try{}
+
+    
+    //==============================================================
+    // read properties from file located in config directory
+    //==============================================================
 
     StringBuffer outJarPropertiesFileNameBuilder = new StringBuffer();
 
@@ -157,6 +176,7 @@ public class DefaultBackendConfiguration implements BackendConfiguration {
 
     } // try{}
 
+    
   } // GatewayConfiguration(String)
 
 

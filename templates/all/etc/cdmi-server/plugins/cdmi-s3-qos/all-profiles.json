@@ -1,0 +1,249 @@
+[
+{
+        "name":"RootContainer",
+        "type":"container",
+        "capabilities": {
+            "cdmi_capabilities_exact_inherit": "true",
+        "cdmi_capabilities_templates": "true"
+        },
+        "metadata":{
+                "cdmi_location": ["/"]
+        },
+        "metadata_provided": {
+        },
+},
+{
+        "name":"DataobjectProfile1",
+        "type":"dataobject",
+        "capabilities": {
+            "cdmi_capabilities_exact_inherit": "true",
+        "cdmi_capabilities_templates": "true",
+        "cdmi_capability_lifetime": "true",
+                "cdmi_capability_lifetime_action": "true",
+                "cdmi_capability_association_time": "true",
+                "cdmi_data_storage_lifetime": "true",
+                "cdmi_data_redundancy": "true",
+                "cdmi_geographic_placement": "true",
+                "cdmi_latency": "true",
+                "cdmi_throughput": "true"
+        },
+
+        "metadata":{
+                "cdmi_latency":"3000",
+                "cdmi_throughput": "100000",
+                "cdmi_data_redundancy":"1",
+                "cdmi_geographic_placement": ["PL"],
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y"
+        },
+
+        "metadata_provided": {
+                "cdmi_latency_provided":"1000",
+                "cdmi_throughput_provided": "90000",
+                "cdmi_data_redundancy_provided": "1",
+                "cdmi_geographic_placement_provided": ["PL"],
+                "cdmi_capability_lifetime_provided": "P20Y",
+                "cdmi_capability_lifetime_action_provided": "delete",
+                "cdmi_data_storage_lifetime_provided": "P20Y",
+                "cdmi_capability_association_time_provided": "{cdmi_capability_association_time}"
+        },
+
+},
+{
+        "name":"DataobjectProfile2",
+        "type":"dataobject",
+        "capabilities": {
+                "cdmi_capabilities_exact_inherit": "true",
+        "cdmi_capabilities_templates": "true",
+        "cdmi_capability_lifetime": "true",
+                "cdmi_capability_lifetime_action": "true",
+                "cdmi_capability_association_time": "true",
+                "cdmi_data_storage_lifetime": "true",
+                "cdmi_data_redundancy": "true",
+                "cdmi_geographic_placement": "true",
+                "cdmi_latency": "true",
+                "cdmi_throughput": "true"
+        },
+        "metadata": {
+                "cdmi_latency":"2000",
+                "cdmi_throughput": "110000",
+                "cdmi_data_redundancy":"2",
+                "cdmi_geographic_placement": ["PL", "UK"],
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y"
+
+        },
+        "metadata_provided":{
+                "cdmi_latency_provided":"2000",
+                "cdmi_throughput_provided": "100000",
+                "cdmi_data_redundancy_provided":"2",
+                "cdmi_geographic_placement_provided": ["PL", "UK"],
+                "cdmi_capability_association_time_provided": "{cdmi_capability_association_time}",
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y"
+
+        },
+},
+{
+        "name":"DataobjectProfile3",
+        "type":"dataobject",
+        "capabilities": {
+            "cdmi_capabilities_exact_inherit": "true",
+        "cdmi_capabilities_templates": "true",
+        "cdmi_capability_lifetime": "true",
+                "cdmi_capability_lifetime_action": "true",
+                "cdmi_capability_association_time": "true",
+                "cdmi_data_storage_lifetime": "true",
+                "cdmi_data_redundancy": "true",
+                "cdmi_geographic_placement": "true",
+                "cdmi_latency": "true",
+                "cdmi_throughput": "true"
+        },
+        "metadata": {
+                "cdmi_latency":"500",
+                "cdmi_throughput": "120000",
+                "cdmi_data_redundancy":"3",
+                "cdmi_geographic_placement": ["NL", "ES", "PL"],
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y"
+
+        },
+        "metadata_provided":{
+                "cdmi_latency_provided":"3000",
+                "cdmi_throughput_provided": "110000",
+                "cdmi_data_redundancy_provided":"3",
+                "cdmi_geographic_placement_provided": ["NL", "ES", "PL"],
+                "cdmi_capability_association_time_provided": "{cdmi_capability_association_time}",
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y"
+
+        },
+},
+{
+        "name":"ContainerProfile1",
+        "type":"container",
+        "capabilities": {
+            "cdmi_capabilities_exact_inherit": "true",
+        "cdmi_capabilities_templates": "true",
+        "cdmi_capability_lifetime": "true",
+                "cdmi_capability_lifetime_action": "true",
+                "cdmi_capability_association_time": "true",
+                "cdmi_default_dataobject_capability_class": "true",
+                "cdmi_location": "true",
+                "cdmi_data_storage_lifetime": "true",
+                "cdmi_data_redundancy": "true",
+                "cdmi_geographic_placement": "true",
+                "cdmi_latency": "true",
+                "cdmi_throughput": "true",
+        },
+        "metadata":{
+                "cdmi_latency":"3000",
+                "cdmi_throughput": "100000",
+                "cdmi_data_redundancy":"1",
+                "cdmi_geographic_placement": ["DE"],
+                "cdmi_default_dataobject_capability_class": "/cdmi_capabilities/dataobject/DataobjectProfile1",
+                "cdmi_location": ["/standard"],
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y",
+
+        },
+        "metadata_provided": {
+                "cdmi_latency_provided":"1000",
+                "cdmi_throughput_provided": "90000",
+                "cdmi_data_redundancy_provided":"1",
+                "cdmi_geographic_placement_provided": ["DE"],
+                "cdmi_default_dataobject_capability_class": "/cdmi_capabilities/dataobject/DataobjectProfile1",
+                "cdmi_location": ["/standard"],
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y",
+        },
+},
+{
+        "name":"ContainerProfile2",
+        "type":"container",
+        "capabilities": {
+            "cdmi_capabilities_exact_inherit": "true",
+        "cdmi_capabilities_templates": "true",
+        "cdmi_capability_lifetime": "true",
+                "cdmi_capability_lifetime_action": "true",
+                "cdmi_capability_association_time": "true",
+                "cdmi_default_dataobject_capability_class": "true",
+                "cdmi_location": "true",
+                "cdmi_data_storage_lifetime": "true",
+                "cdmi_data_redundancy": "true",
+                "cdmi_geographic_placement": "true",
+                "cdmi_latency": "true",
+                "cdmi_throughput": "true",
+        },
+        "metadata": {
+                "cdmi_latency":"2000",
+                "cdmi_throughput": "110000",
+                "cdmi_data_redundancy":"2",
+                "cdmi_geographic_placement": ["PL", "UK"],
+                "cdmi_default_dataobject_capability_class": "/cdmi_capabilities/dataobject/DataobjectProfile2",
+                "cdmi_location": ["/silver"],
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y",
+
+        },
+        "metadata_provided":{
+                "cdmi_latency_provided":"2000",
+                "cdmi_throughput_provided": "100000",
+                "cdmi_data_redundancy_provided":"2",
+                "cdmi_geographic_placement_provided": ["PL", "UK"],
+                "cdmi_default_dataobject_capability_class": "/cdmi_capabilities/dataobject/DataobjectProfile2",
+                "cdmi_location": ["/silver"],
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y",
+        },
+},
+{
+        "name":"ContainerProfile3",
+        "type":"container",
+        "capabilities": {
+            "cdmi_capabilities_exact_inherit": "true",
+        "cdmi_capabilities_templates": "true",
+        "cdmi_capability_lifetime": "true",
+                "cdmi_capability_lifetime_action": "true",
+                "cdmi_capability_association_time": "true",
+                "cdmi_default_dataobject_capability_class": "true",
+                "cdmi_location": "true",
+                "cdmi_data_storage_lifetime": "true",
+                "cdmi_data_redundancy": "true",
+                "cdmi_geographic_placement": "true",
+                "cdmi_latency": "true",
+                "cdmi_throughput": "true",
+        },
+        "metadata": {
+                "cdmi_latency":"500",
+                "cdmi_throughput": "120000",
+                "cdmi_data_redundancy":"3",
+                "cdmi_geographic_placement": ["NL", "ES"],
+                "cdmi_default_dataobject_capability_class": "/cdmi_capabilities/dataobject/DataobjectProfile3",
+                "cdmi_location": [ "/golden" ],
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y",
+        },
+        "metadata_provided":{
+                "cdmi_latency_provided":"3000",
+                "cdmi_throughput_provided": "110000",
+                "cdmi_data_redundancy_provided":"3",
+                "cdmi_geographic_placement_provided": ["NL", "ES"],
+                "cdmi_default_dataobject_capability_class": "/cdmi_capabilities/dataobject/DataobjectProfile3",
+                "cdmi_location": [ "/golden" ],
+                "cdmi_capability_lifetime": "P20Y",
+                "cdmi_capability_lifetime_action": "delete",
+                "cdmi_data_storage_lifetime": "P20Y",
+        },
+}
+]
