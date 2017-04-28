@@ -1,0 +1,19 @@
+{
+  "id" : "f18194e2-bc78-35a1-8d4e-0d0c0a334cb3",
+  "request" : {
+    "url" : "/standard/dir1",
+    "method" : "HEAD"
+  },
+  "response" : {
+    "status" : 404,
+    "bodyFileName" : "body-standard-dir1-0My3p.xml",
+    "headers" : {
+      "x-amz-request-id" : "tx000000000000000000112-0058a6fabd-4a479-default",
+      "Accept-Ranges" : "bytes",
+      "Content-Type" : "application/xml",
+      "Date" : "Fri, 17 Feb 2017 13:29:33 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "f18194e2-bc78-35a1-8d4e-0d0c0a334cb3"
+}

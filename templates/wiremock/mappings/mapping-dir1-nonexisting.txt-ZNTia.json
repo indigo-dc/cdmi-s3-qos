@@ -1,0 +1,19 @@
+{
+  "id" : "d369083a-e0a9-36f2-936e-f55058526b70",
+  "request" : {
+    "url" : "/standard/dir1/nonexisting.txt",
+    "method" : "HEAD"
+  },
+  "response" : {
+    "status" : 404,
+    "bodyFileName" : "body-dir1-nonexisting.txt-ZNTia.xml",
+    "headers" : {
+      "x-amz-request-id" : "tx000000000000000000111-0058a6faae-4a479-default",
+      "Accept-Ranges" : "bytes",
+      "Content-Type" : "application/xml",
+      "Date" : "Fri, 17 Feb 2017 13:29:18 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "d369083a-e0a9-36f2-936e-f55058526b70"
+}

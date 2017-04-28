@@ -9,122 +9,137 @@
 
 package org.indigo.cdmi.backend;
 
-import org.indigo.cdmi.BackEndException;
 import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
-import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
+import org.indigo.cdmi.backend.exports.ExportsManager;
 import org.indigo.cdmi.backend.radosgw.BackendGateway;
-import org.indigo.cdmi.backend.radosgw.FixedModeBackendGateway;
-import org.indigo.cdmi.backend.radosgw.JsonResponseTranlator;
-import org.indigo.cdmi.backend.radosgw.S3PathTranslator;
-import org.junit.Before;
+import org.indigo.cdmi.backend.radosgw.GatewayResponseTranslator;
+import org.indigo.cdmi.backend.radosgw.ObjectPathTranslator;
+import org.indigo.cdmi.backend.s3.S3Facade;
+import org.indigo.cdmi.spi.StorageBackend;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import static org.junit.Assert.*;
 
-import static org.mockito.Mockito.*;
 
+/* (non-Javadoc)
+ * Stub of BackendGateway interface.
+ */
+class BackendGatewayStub implements BackendGateway {
+
+  @Override
+  public String getAllProfiles() {
+    return null;
+  }
+
+  @Override
+  public String getPathProfile(String path) {
+    return null;
+  }
+  
+} // end of BackendGateway class
+
+
+/* (non-Javadoc)
+ * Stub of GatewayResponseTranslator interface
+ */
+class GatewayResponseTranslatorStub implements GatewayResponseTranslator {
+
+  @Override
+  public List<BackendCapability> getBackendCapabilitiesList(String gatewayResponse) {
+    return null;
+  }
+
+  @Override
+  public CdmiObjectStatus getCdmiObjectStatus(String objectPath, String gatewayResponse,
+      boolean isContainer) {
+    return null;
+  }
+  
+} // end of GatewayResponseTranslatorStub class
+
+
+/* (not-Javadoc)
+ * Stub of ObjectPathTranslator class
+ */
+class ObjectPathTranslatorStub implements ObjectPathTranslator {
+
+  @Override
+  public String translate(String path) {
+    return null;
+  }
+  
+} // end of ObjectPathTranslatorStub
+
+
+/* (non-Javadoc)
+ * Stub of S3Facade interface.
+ */
+class S3FacadeStub implements S3Facade {
+
+  @Override
+  public boolean isContainer(String path) {
+    return false;
+  }
+
+  @Override
+  public List<String> getChildren(String path) {
+    return null;
+  }
+
+  @Override
+  public Properties getObjectProperties(String path) {
+    return null;
+  }
+
+  @Override
+  public Properties getContainerProperties(String path) {
+    return null;
+  }
+  
+} // end of S3FacadeStub class
+
+
+/* (non-Javadoc)
+ * ExportsManager stub.
+ * 
+ */
+class ExportsManagerStub implements ExportsManager {
+
+  @Override
+  public Map<String, Object> getExports(String path) {
+    return null;
+  }
+  
+} // end of ExportsManagerStub
+
+
+/* (non-Javadoc)
+ * 
+ * Actual tests.
+ */
 public class ObjectStoreBackendTest {
-
+  
   private static final Logger log = LoggerFactory.getLogger(ObjectStoreBackendTest.class);
-  private BackendConfiguration backendConfiguration;
-
-  
-  
-  @Before
-  public void setUp() {
-    
-    log.info("setUp()");
-    
-    backendConfiguration = Mockito.mock(BackendConfiguration.class);
-    
-    when(
-        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_ALL_PROFILES_FILE)
-    ).thenReturn(
-        "config/fixed-mode/all-profiles.json"
-    );
-
-    when(
-        backendConfiguration.get(FixedModeBackendGateway.PARAMETER_PATHS_PROFILES_FILE)
-    ).thenReturn(
-        "config/fixed-mode/buckets-profiles.json"
-    );
-
-    
-  } // setUp()
-  
   
   @Test
-  public void testStandardPath() throws Exception {
+  public void test() {
     
-    log.info("testStandardPath()");
-
-    ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
-        new FixedModeBackendGateway(backendConfiguration), 
-        new JsonResponseTranlator(), 
-        new S3PathTranslator() 
+    StorageBackend storageBackend = new ObjectStoreBackend(
+        new BackendGatewayStub(), 
+        new GatewayResponseTranslatorStub(), 
+        new ObjectPathTranslatorStub(), 
+        new S3FacadeStub(), 
+        new ExportsManagerStub()
     );
-
-    List<BackendCapability> list = objectStoreBackend.getCapabilities();
-    assertNotNull(list);
-    assertTrue(!list.isEmpty());
-      
-    CdmiObjectStatus cdmiObjectStatus1 = objectStoreBackend.getCurrentStatus("/golden");
-    assertNotNull(cdmiObjectStatus1);
-    
+    assertNotNull(storageBackend);
     
   } // test()
   
-
-  @Test(expected=BackEndException.class)
-  public void testStatusOfNonExistingPath() throws Exception {
-
-    ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
-        new FixedModeBackendGateway(backendConfiguration), 
-        new JsonResponseTranlator(), 
-        new S3PathTranslator() 
-    );
-    
-    objectStoreBackend.getCurrentStatus("/non-existing-path");    
-  
-  }
-
-  
-  
-  @Test(expected=BackEndException.class)
-  public void testUpdateCdmiObjectWithException() throws Exception{    
-    
-    ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
-        new FixedModeBackendGateway(backendConfiguration), 
-        new JsonResponseTranlator(), 
-        new S3PathTranslator() 
-    );
-    
-    objectStoreBackend.updateCdmiObject("", "");    
-    
-  } // testGetCapabilitiesWithException()
-  
-  
-  @Test(expected=BackEndException.class)
-  public void testGetCapabilitiesWithException() throws Exception {
-    
-    BackendGateway backendGateway = Mockito.mock(BackendGateway.class);
-    
-    when(backendGateway.getAllProfiles()).thenThrow(new RuntimeException());
-    
-    ObjectStoreBackend objectStoreBackend = new ObjectStoreBackend(
-        backendGateway, 
-        new JsonResponseTranlator(), 
-        new S3PathTranslator() 
-    );
-
-    objectStoreBackend.getCapabilities();
-    
-  }
-
 } // end of ObjectStoreBackendTest class

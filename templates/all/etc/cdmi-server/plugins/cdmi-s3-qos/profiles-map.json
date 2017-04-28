@@ -1,0 +1,17 @@
+{
+        "dataobjects": {
+                "standard":"DataobjectProfile1",
+                "silver":"DataobjectProfile2",
+                "golden":"DataobjectProfile3",
+        },
+        "containers":  {
+                "standard":"ContainerProfile1",
+                "silver":"ContainerProfile2",
+                "golden":"ContainerProfile3",
+                "/":"RootContainer"
+        },
+        "defaults": {
+                "container": "ContainerProfile1",
+                "dataobject": "DataobjectProfile1"
+        }
+}

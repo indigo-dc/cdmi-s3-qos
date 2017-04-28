@@ -1,0 +1,19 @@
+{
+  "id" : "45ad3a38-1cce-3d88-b297-7e04673f07c5",
+  "request" : {
+    "url" : "/standard/dir1",
+    "method" : "HEAD"
+  },
+  "response" : {
+    "status" : 404,
+    "bodyFileName" : "body-standard-dir1-CvbAu.xml",
+    "headers" : {
+      "x-amz-request-id" : "tx000000000000000000113-0058a6facd-4a479-default",
+      "Accept-Ranges" : "bytes",
+      "Content-Type" : "application/xml",
+      "Date" : "Fri, 17 Feb 2017 13:29:49 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "45ad3a38-1cce-3d88-b297-7e04673f07c5"
+}

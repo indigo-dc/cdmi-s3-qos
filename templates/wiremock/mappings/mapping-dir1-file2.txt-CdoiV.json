@@ -1,0 +1,21 @@
+{
+  "id" : "afa1b6b3-716f-387a-9381-a04d236ce343",
+  "request" : {
+    "url" : "/standard/dir1/file2.txt",
+    "method" : "HEAD"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-dir1-file2.txt-CdoiV.txt",
+    "headers" : {
+      "Accept-Ranges" : "bytes",
+      "Last-Modified" : "Fri, 17 Feb 2017 11:30:31 GMT",
+      "ETag" : "\"135dd03e40022baa400e25a43c0edc43\"",
+      "x-amz-request-id" : "tx00000000000000000010e-0058a6f9b3-4a479-default",
+      "Content-Type" : "text/plain; charset=utf-8",
+      "Date" : "Fri, 17 Feb 2017 13:25:07 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "afa1b6b3-716f-387a-9381-a04d236ce343"
+}

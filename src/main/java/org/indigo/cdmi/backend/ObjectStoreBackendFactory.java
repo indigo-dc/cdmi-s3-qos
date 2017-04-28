@@ -15,6 +15,7 @@ import com.google.inject.Injector;
 
 import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
 import org.indigo.cdmi.backend.radosgw.DefaultBackendConfiguration;
+import org.indigo.cdmi.backend.radosgw.config.ConfigurationContext;
 import org.indigo.cdmi.backend.radosgw.di.ObjectStorageBackendModule;
 
 import org.indigo.cdmi.spi.StorageBackend;
@@ -79,9 +80,10 @@ public class ObjectStoreBackendFactory implements StorageBackendFactory {
   public ObjectStoreBackendFactory() {
     
     /*
-     * default configuration source, to be used by below created default AbstractModule
+     * default configuration source, to be used by the below created default AbstractModule
      */
-    BackendConfiguration gatewayConfiguration = DefaultBackendConfiguration.getInstance();
+    //BackendConfiguration gatewayConfiguration = DefaultBackendConfiguration.getInstance();
+    BackendConfiguration gatewayConfiguration = ConfigurationContext.getConfiguration();
     
     /*
      * default AbstractModule with defined dependency injection rules

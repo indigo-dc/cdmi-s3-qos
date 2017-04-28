@@ -37,7 +37,7 @@ public class JsonUtils {
    * 
    * @return String with value representing content of file pointed by path.
    */
-  private static String fileToString(String path) {
+  public static String fileToString(String path) {
 
     InputStream inputStream = null;
     try {

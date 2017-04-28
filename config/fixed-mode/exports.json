@@ -1,0 +1,29 @@
+{
+	
+	"/standard": {
+		"s3": {
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",
+		},
+	},
+	
+	"/silver": {
+		"s3": {
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",
+		},
+	},
+	
+	
+	"/golden": {
+		"s3": {
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",		
+		},
+	},
+	
+	
+	"/" :  {
+		"s3": {
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",		
+		},
+	}
+	
+}

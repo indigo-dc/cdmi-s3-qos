@@ -1,0 +1,27 @@
+1. Clone the source codes
+
+> git clone https://github.com/indigo-dc/cdmi-s3-qos.git
+
+
+2. Enter dir with sources:
+
+> cd cdmi-s3-qos
+
+
+3. If testbed is to be connected to real CEPH back-end (not mocked one) then create and 
+   fill in the configuraion file (objectstore.properties):
+
+> cat << EOF > config/objectstore.properties
+# THIS FILE MUST BE IGNORED BY GIT (or any other SCM)
+objectstore.backend-gateway=org.indigo.cdmi.backend.radosgw.LifeModeBackendGateway
+objectstore.ssh-gateway.host=#######
+objectstore.ssh-gateway.port=#######
+objectstore.ssh-gateway.user=#######
+objectstore.ssh-gateway.password=#######
+EOF 
+
+
+docker-compose -f docker-compose-life-ex-redis.yml up
+
+
+#cdmi-s3-qos-09.12.2016

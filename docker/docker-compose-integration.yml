@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  fake-radosgw:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-minio
+    command:  -C /go/test-config server /radosgw
+  embedded-cdmi-s3-qos:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-fixedmode
+    links:
+      - fake-radosgw:radosgw
+    ports:
+      - "80:8080"
+    depends_on:
+      - fake-radosgw
+    command: sh /CDMI/run.sh
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1400

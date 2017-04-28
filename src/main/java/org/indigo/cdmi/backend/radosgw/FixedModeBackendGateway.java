@@ -11,6 +11,8 @@ package org.indigo.cdmi.backend.radosgw;
 
 import com.google.inject.Inject;
 
+import org.indigo.cdmi.backend.s3.S3Facade;
+import org.indigo.cdmi.backend.s3.S3Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,28 +47,42 @@ public class FixedModeBackendGateway implements BackendGateway {
   public static final String PARAMETER_PATHS_PROFILES_FILE =
       "objectstore.backend-gateway.fixed-mode.paths-profiles-file";
 
+  public static final String PARAMETER_PROFILES_MAP_FILE =
+      "objectstore.backend-gateway.fixed-mode.profiles-map-file";
+  
   private String allProfilesFilePath = null;
   private String pathsProfilesFilePath = null;
-
+  private final S3Facade s3Facade;
 
   /**
    * Constructor. 
    */
   @Inject
-  public FixedModeBackendGateway(BackendConfiguration backendConfiguration) {
+  public FixedModeBackendGateway(BackendConfiguration backendConfiguration, S3Facade s3Facade) {
 
+    
+    if (backendConfiguration == null) {
+      throw new IllegalArgumentException("backendConfiguration argument cnnot be null");
+    }
+
+    if (s3Facade == null) {
+      throw new IllegalArgumentException("s3Facade argument cannot be null");
+    }
+    
+    this.s3Facade = s3Facade;
+    
     allProfilesFilePath = backendConfiguration.get(PARAMETER_ALL_PROFILES_FILE);
     if (allProfilesFilePath == null) {
       throw new RuntimeException("Cannot instatiate FixedModeBackendGateway. Could not find "
           + PARAMETER_ALL_PROFILES_FILE + " parameter in conifguration resources.");
     }
 
-    pathsProfilesFilePath = backendConfiguration.get(PARAMETER_PATHS_PROFILES_FILE);
-    if (allProfilesFilePath == null) {
+    pathsProfilesFilePath = backendConfiguration.get(PARAMETER_PROFILES_MAP_FILE);
+    if (pathsProfilesFilePath == null) {
       throw new RuntimeException("Cannot instatiate FixedModeBackendGateway. Could not find "
-          + PARAMETER_PATHS_PROFILES_FILE + " parameter in conifguration resources.");
+          + PARAMETER_PROFILES_MAP_FILE + " parameter in conifguration resources.");
     }
-
+    
   } // FixedModeBackendGateway()
 
 
@@ -168,50 +184,76 @@ public class FixedModeBackendGateway implements BackendGateway {
 
 
     /*
+     * check either path refers to container or to dataobject 
+     */
+    boolean isContainer = s3Facade.isContainer(path);
+    log.debug("isContainer {} returns {}", path, isContainer);
+    
+    
+        
+    /*
      * create (read from file) JSONObject with bucket=>profile map
      */
-    JSONObject bucketsMap = null;
+    JSONObject profilesMap = null;
     try {
-      bucketsMap = JsonUtils.createJsonObjectFromFile(pathsProfilesFilePath);
+      profilesMap = JsonUtils.createJsonObjectFromFile(pathsProfilesFilePath);
     } catch (Exception ex) {
       throw new RuntimeException("Failed to read buckets map from file " + pathsProfilesFilePath);
     }
-    log.debug("Buckets map: {}", bucketsMap);
+    log.debug("Buckets map: {}", profilesMap);
 
+    
+    String defaultProfileName = null;
+    if (isContainer) {
+    
+      defaultProfileName = profilesMap.getJSONObject("defaults").getString("container");
+      profilesMap = profilesMap.getJSONObject("containers");
+      
+      
+    } else {
+      defaultProfileName = profilesMap.getJSONObject("defaults").getString("dataobject");
+      profilesMap = profilesMap.getJSONObject("dataobjects");
+    
+    }
+    
     /*
      * create (read from file) JSONArray with all profiles
      */
-    JSONArray profilesArray = null;
+    JSONArray allConfiguredProfilesArray = null;
     try {
-      profilesArray = JsonUtils.createJsonArrayFromFile(allProfilesFilePath);
+      allConfiguredProfilesArray = JsonUtils.createJsonArrayFromFile(allProfilesFilePath);
     } catch (Exception ex) {
       throw new RuntimeException(
           "Failed to read all profiles array from file " + pathsProfilesFilePath);
     }
-    log.debug("All (available/configured) profiles: {}", profilesArray);
+    log.debug("All (available/configured) profiles: {}", allConfiguredProfilesArray);
 
     /*
      * get profile name
      */
     String profileName = null;
     try {
-      profileName = bucketsMap.getString(bucketName);
+      profileName = profilesMap.getString(bucketName);
     } catch (JSONException ex) {
-      throw new RuntimeException("Bunket of name " + bucketName + " is not mapped to profile in "
-          + pathsProfilesFilePath + " file");
+      
+      profileName = defaultProfileName;
+      
+      //throw new RuntimeException("Bunket of name " + bucketName + " is not mapped to profile in "
+      //    + pathsProfilesFilePath + " file");
+    
     } catch (Exception ex) {
       throw new RuntimeException(
           "Failed to map bucket of name " + bucketName + " to profile name.");
     }
     log.debug("Profile name for bucket {} is {}", bucketName, profileName);
 
-
+    
     /*
      * find profile of given name (iterate through all profiles)
      */
     JSONObject wantedObject = null;
-    for (int i = 0; i < profilesArray.length(); i++) {
-      JSONObject currJsonObject = profilesArray.getJSONObject(i);
+    for (int i = 0; i < allConfiguredProfilesArray.length(); i++) {
+      JSONObject currJsonObject = allConfiguredProfilesArray.getJSONObject(i);
       String currentProfileName = currJsonObject.getString("name");
       log.debug("Processing profile: {}", currJsonObject);
       log.debug("Processing profile's name: {}", currentProfileName);

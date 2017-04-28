@@ -1,0 +1,56 @@
+{
+	
+	"/standard_with_no_opening_curly_bracket_command": {
+		"s3": {
+			"url":"export-pattern-url http://example.base.addr.net/}",
+		},
+	},
+
+	"/standard_with_no_closing_curly_bracket_command": {
+		"s3": {
+			"url":"{export-pattern-url http://example.base.addr.net/",
+		},
+	},
+
+
+	"/standard": {
+		"s3": {
+			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",
+		},
+	},
+	
+	
+	"/standard_with_wrong_export_command": {
+		"s3": {
+			"url":"{e http://example.base.addr.net/{full-path}}",
+		},
+	},
+
+	"/standard_with_empty_command": {
+		"s3": {
+			"url":"{}",
+		},
+	},
+	
+	
+	"/silver": {
+		"s3": {
+			"url":"http://example.base.addr.net",
+		},
+	},
+	
+	
+	"/golden": {
+		"s3": {
+			"url":"http://example.base.addr.net",		
+		},
+	},
+	
+	
+	"/" :  {
+		"s3": {
+			"url":"http://example.base.addr.net",		
+		},
+	}
+	
+}

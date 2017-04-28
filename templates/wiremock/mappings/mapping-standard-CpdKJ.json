@@ -1,0 +1,19 @@
+{
+  "id" : "e393d854-4dd6-3362-81e5-6a166bdb321f",
+  "request" : {
+    "url" : "/standard",
+    "method" : "HEAD"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-standard-CpdKJ.txt",
+    "headers" : {
+      "X-RGW-Object-Count" : "1",
+      "X-RGW-Bytes-Used" : "31",
+      "x-amz-request-id" : "tx0000000000000000000d2-0058a6da4c-4a479-default",
+      "Date" : "Fri, 17 Feb 2017 11:11:08 GMT",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "e393d854-4dd6-3362-81e5-6a166bdb321f"
+}

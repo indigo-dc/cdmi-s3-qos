@@ -9,11 +9,13 @@
 
 package org.indigo.cdmi.backend.radosgw;
 
+import com.google.inject.Inject;
+
 import org.indigo.cdmi.BackendCapability;
 import org.indigo.cdmi.CdmiObjectStatus;
-
+import org.indigo.cdmi.backend.capattrs.CdmiAttributeProvider;
+import org.indigo.cdmi.backend.capattrs.CdmiAttributeProviderRegistry;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +29,7 @@ import java.util.Map;
 
 /**
  * Implementation of GatewayResponseTranslator interface which translated responses achieved from
- * {@link LifeModeBackendGateway}.
+ * {@link BackendGateway}.
  * 
  * @author Gracjan Jankowski (gracjan@man.poznan.pl)
  *
@@ -39,71 +41,27 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
   private static final String JSON_KEY_NAME = "name";
   private static final String JSON_KEY_TYPE = "type";
   private static final String JSON_KEY_METADATA = "metadata";
-  private static final String JSON_KEY_ALLOWED_PROFILES = "allowed_profiles";
+  private static final String JSON_KEY_CAPABILITIES = "capabilities";
 
-  private static final String URI_CAPABILITIES_DISCRIMINANT = "cdmi_capabilities";
-
-  
   private static final String CDMI_OBJECT_TYPE_CONTAINER = "container";
   private static final String CDMI_OBJECT_TYPE_DATAOBJECT = "dataobject";
+
   
-
+  private final CdmiAttributeProviderRegistry cdmiAttributeProviderRegistry;
+  
+  
   /**
-   * Maps QoS profile name to associated URI. 
-   * @param profileName Name of profile
-   * @param cdmObjectType Type of CDMI object (container or dataobject).
+   * Constructor.
    */
-  private String profileToUri(String profileName, String cdmObjectType) {
-
-    return "/" + URI_CAPABILITIES_DISCRIMINANT + "/" + cdmObjectType + "/" + profileName;
-
-  }
-
-
-  /**
-   * Maps names of profiles from prifilesNames JSON array to comma separated sequence of 
-   * associated URIs.
-   * @param profilesNames JSON array of profiles' names
-   */
-  private String profilesToUris(JSONArray profilesNames, String cdmiObjectType) {
-
-    StringBuffer rv = new StringBuffer();
-
-    log.debug("In profilesToURIs(): {}", profilesNames);
-
-    for (int index = 0; index < profilesNames.length(); index++) {
-      
-      String profileName = profilesNames.getString(index);
-      log.debug("Processed profile name: {}", profileName);
-      String capabilityUri = profileToUri(profileName, cdmiObjectType);
-      if (index > 0) {
-        rv.append(", ");
-      }
-      rv.append(capabilityUri);
-
-    } // for()
-
-    return rv.toString();
-
-  } // profilesToURIs()
-
-
-  /**
-   * Retrieves object type from passed JSON object. 
-   * The assumption is that profileInfo represents QoS profile in JSON format. 
-   * 
-   * @param profileInfo QoS profile description as JSON object (in JSONObject format).
-   * @return String which represents object type of derived from profileInfo 
-   *     (object type is container or dataobject).
-   */
-  private String retriveObjectTypeAsString(JSONObject profileInfo) {
-
-    String typeAsString = profileInfo.getString(JSON_KEY_TYPE);
-    return typeAsString;
-
-  }
-
-
+  @Inject
+  public JsonResponseTranlator(CdmiAttributeProviderRegistry cdmiAttributeProviderRegistry) {
+    
+    this.cdmiAttributeProviderRegistry = cdmiAttributeProviderRegistry;
+  
+  } // end of constructor
+  
+  
+  
   /**
    * Basing on passed profileInfo, creates object of type BackendCapability.
    * 
@@ -131,8 +89,10 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
         break;
       default:
         throw new RuntimeException("Unknown capability type");
-    }
+    } // switch() 
 
+    
+    
     /*
      * create new instance of BackendCapability 
      * (it is empty for now, the metadata and capabilities properties have to be created, 
@@ -140,39 +100,26 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
      */
     final BackendCapability returnBackendCapability = new BackendCapability(profileName, type);
 
-    /*
-     * create capabilities object (to be populated and injected into returned BackendCapability)
-     */
-    Map<String, Object> capabilities = new HashMap<>();
-
-    /*
-     * Add always present capabilities
-     */
-    capabilities.put("cdmi_capabilities_templates", "true");
-    capabilities.put("cdmi_capabilities_exact_inherit", "true");
-
+    
+    
     /*
      * create metadata object (to be populated and injected into returned BackendCapability)
      */
     Map<String, Object> metadata = new HashMap<>();
-
-    /*
-     * iterate through metadata in profileInfo and populate capabilities and 
-     * metadata in BackendCapability object
-     */
+    
     JSONObject metadataObj = profileInfo.getJSONObject(JSON_KEY_METADATA);
-
+  
     log.debug("Processing metadata array from profile returned by BackendGateway");
-
-    Iterator<?> keys = metadataObj.keys();
-    while (keys.hasNext()) {
-
+  
+    Iterator<?> metadataKeys = metadataObj.keys();
+    while (metadataKeys.hasNext()) {
+  
       /*
        * get key name for current item in metadata array
        */
-      String key = (String) keys.next();
-
-
+      String key = (String) metadataKeys.next();
+  
+  
       /*
        * get value assigned to the current key, and convert the value to String
        * NOTE: The convention is required because returned value can be for example of array type 
@@ -180,60 +127,48 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
        * metadataObj.getString(key) would be wrong 
        */
       Object valueObj = metadataObj.get(key);
-      
-
+  
       log.debug("Current metadata key: {}", key);
       log.debug("Current metadata value: {}", valueObj);
       log.debug("Metadata value class/type is: {}", valueObj.getClass());
-
-      /*
-       * Create key and value to be added to capabilities.
-       * Separate variables for key and value objects are introduced deliberately 
-       * to note that in future or in case of any special values, an additional 
-       * logic / calculation can be required to obtain key and value to be used 
-       * with capabilities map 
-       */
-      String cdmiCapabilityKey = key;
-      String cdmiCapabilityValue = "true";
-
-      /*
-       * add "calculated" key and value to the capabilities map
-       */
-      capabilities.put(cdmiCapabilityKey, cdmiCapabilityValue);
-
-      /*
-       * see above comments for capabilities related keys and values
-       */
-      String cdmiMetadataKey = key;
-      Object cdmiMetadataValue = valueObj;
-      
+  
       /*
        * add "calculated" key and value to the metadata map
        */
-      metadata.put(cdmiMetadataKey, cdmiMetadataValue);
-
-
+      metadata.put(key, valueObj);
+  
     } // while()
 
-    //capabilities.put("cdmi_capabilities_allowed", "true");
-
+    
     /*
-     * process allowed profiles
+     * create capabilities object (to be populated and injected into returned BackendCapability)
      */
-    try {
+    Map<String, Object> capabilities = new HashMap<>();
+
+    JSONObject capabilitiesObj = profileInfo.getJSONObject(JSON_KEY_CAPABILITIES);
     
-      JSONArray allowedProfiles = profileInfo.getJSONArray(JSON_KEY_ALLOWED_PROFILES);
-      String profilesUris = profilesToUris(allowedProfiles, retriveObjectTypeAsString(profileInfo));
-      log.debug("allowedProfiles: {}", allowedProfiles);
-      log.debug("profilesURIs: {}", profilesUris);
+    log.debug("Processing capabilities array from profile returned by BackendGateway");
   
-      metadata.put("cdmi_capabilities_allowed", profilesUris);
+    Iterator<?> capabilitiesKeys = capabilitiesObj.keys();
+    while (capabilitiesKeys.hasNext()) {
     
-    } catch (JSONException ex) {
+      /*
+       * get key name for current item in metadata array
+       */
+      String key = (String) capabilitiesKeys.next();
+  
+      Object valueObj = capabilitiesObj.get(key);
+  
+      log.debug("Current capabilities key: {}", key);
+      log.debug("Current capabilities value: {}", valueObj);
+      log.debug("Metadata value class/type is: {}", valueObj.getClass());
+  
+      /*
+       * add "calculated" key and value to the metadata map
+       */
+      capabilities.put(key, valueObj);
       
-      log.debug("No {} key in processed JSON document",  JSON_KEY_ALLOWED_PROFILES);
-      
-    } // try{}
+    } // while()    
     
     returnBackendCapability.setCapabilities(capabilities);
     returnBackendCapability.setMetadata(metadata);
@@ -253,6 +188,10 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
   @Override
   public List<BackendCapability> getBackendCapabilitiesList(String gatewayResponse) {
 
+    //log.error("--------------------------------------------------------------");
+    //log.error("gatewayResponse: {}", gatewayResponse);
+    //log.error("--------------------------------------------------------------");
+    
     List<BackendCapability> backendCapabilities = new ArrayList<>();
 
     /*
@@ -263,6 +202,7 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
       throw new IllegalArgumentException("input argument cannot be null");
     }
 
+   
     /*
      * convert response from string to JSONArray representation and from 
      * now on treat this object as data model for further processing
@@ -293,13 +233,37 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
 
 
   /**
+   * Extracts name of {@link CdmiAttributeProvider} provider which is to be used to evaluate 
+   * value of associated attribute. 
+   * 
+   * @param attributeProviderDefinition String with encoded name of attribute provider.
+   * @return Name of provider encoded in passed {@code attributeProviderDefinition}
+   */
+  private String extractAttributeProviderNamme(String attributeProviderDefinition) {
+    
+    int inputStrLength = attributeProviderDefinition.length();
+    
+    if (inputStrLength <= 3) {
+      return "";
+    }
+    
+    return attributeProviderDefinition.trim().substring(1, inputStrLength - 1).split(" ")[0];
+    
+  } // extractAttributeProviderNamme
+  
+  
+  /**
    * Basing on passed JSON in String format, creates object of CdmiObjecStatus.
    * (Translates JSON in String format into CdmiObjectStatus)
    */
   @Override
-  public CdmiObjectStatus getCdmiObjectStatus(String gatewayResponse) {
+  public CdmiObjectStatus getCdmiObjectStatus(
+                          String objectPath, String gatewayResponse, boolean isContainer) {
 
-    //log.debug("Translate {} to CdmiObjectStatus", gatewayResponse);
+    //log.error("-----------------------------------------------------------------------");
+    //log.error("objectPath: {}", objectPath);
+    //log.error("gatewayResponse: {}", gatewayResponse);
+    //log.error("isContainer: {}", isContainer);
 
     Map<String, Object> monitoredAttributes = new HashMap<>();
 
@@ -319,16 +283,56 @@ public class JsonResponseTranlator implements GatewayResponseTranslator {
       //log.debug("key: {}", key);
 
       Object metadataProvidedAsObj    = metadataProvided.get(key);
-      //String metadataProvidedAsString = metadataProvidedAsObj.toString();
       
-      //monitoredAttributes.put(key, metadataProvidedAsString);
+      
+      /*
+       * get attr value from attribute value provider (if required)
+       */
+      if (metadataProvidedAsObj instanceof String 
+          && ((String) metadataProvidedAsObj).startsWith("{") 
+          && ((String) metadataProvidedAsObj).endsWith("}") ) {
+        
+        
+        String providerName = extractAttributeProviderNamme(((String)metadataProvidedAsObj).trim());
+        if (null == providerName) {
+          throw new RuntimeException("Unexpectedly providerName is null.");
+        }
+
+        
+        CdmiAttributeProvider attributeValueProvider = 
+                        cdmiAttributeProviderRegistry.getProvider(providerName);
+        if (attributeValueProvider == null) {
+          throw new RuntimeException(
+              "Couldn't find attribute value provider named " + providerName
+          );
+        }
+       
+        
+        if (attributeValueProvider != null) {
+          metadataProvidedAsObj = 
+              attributeValueProvider.attributeValue(
+                  objectPath, key, (String)metadataProvidedAsObj
+              ); 
+        }
+          
+        
+      } // if()
+
       monitoredAttributes.put(key, metadataProvidedAsObj);
 
     }
 
     String profileName = profile.getString("name");
+    if (profileName == null) {
+      throw new RuntimeException("Could not determne the name of profile: " + profile);
+    }
+    
+    
     String type = profile.getString("type");
-
+    if (type == null) {
+      throw new RuntimeException("Could not determne the type of profile: " + profile);
+    }
+    
     String currentCapabilitiesUri = "/cdmi_capabilities/" + type + "/" + profileName;
 
     return new CdmiObjectStatus(monitoredAttributes, currentCapabilitiesUri, null);

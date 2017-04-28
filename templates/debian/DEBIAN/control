@@ -1,14 +1,14 @@
 Package: cdmi-s3-qos
-Version: @SERVICE_VERSION@
+Version: @MODULE_VERSION@
 Section: web
 Priority: optional
 Architecture: all
 Maintainer: INDIGO DataCloud
 #Depends: java8-runtime, redis-server
 Depends: java8-runtime
-Description: SNIA CDMI server reference implementation with QoS module for RADOS S3 gateway.
+Description: Module for INDIGO CDMI server. The module integrates RADOS GW S3 with the CDMI server.
  .
- Standalone Spring Boot application version.
+ Module which can be used by INDIGO CDMI server to integrate RADOS GW S3 with QoS facilities provided by CDMI server.
  .
 
  
