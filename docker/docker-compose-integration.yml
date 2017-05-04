@@ -13,7 +13,7 @@ services:
     links:
       - fake-radosgw:radosgw
     ports:
-      - "80:8080"
+      - "${INDIGO_CDMI_PORT}:8080"
     depends_on:
       - fake-radosgw
     command: sh /CDMI/run.sh
