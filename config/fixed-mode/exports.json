@@ -2,27 +2,27 @@
 	
 	"/standard": {
 		"s3": {
-			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",
+			"url":"{export-pattern-url http://radosgw:9000/{full-path}}",
 		},
 	},
 	
 	"/silver": {
 		"s3": {
-			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",
+			"url":"{export-pattern-url http://radosgw:9000/{full-path}}",
 		},
 	},
 	
 	
 	"/golden": {
 		"s3": {
-			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",		
+			"url":"{export-pattern-url http://radosgw:9000/{full-path}}",		
 		},
 	},
 	
 	
 	"/" :  {
 		"s3": {
-			"url":"{export-pattern-url http://example.base.addr.net/{full-path}}",		
+			"url":"{export-pattern-url http://radosgw:9000/{full-path}}",		
 		},
 	}
 	
