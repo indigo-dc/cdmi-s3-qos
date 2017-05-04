@@ -42,6 +42,8 @@ In order to use the cdmi-s3-qos module, the INDIGO CDMI server has to be properl
 cdmi.qos.backend.type: radosgw
 ```
 
+More details about INDIGO CDMI server configuration and location of configuration files can be found here [https://indigo-dc.gitbooks.io/cdmi-qos/content/doc/configuration.html](https://indigo-dc.gitbooks.io/cdmi-qos/content/doc/configuration.html).
+
 ### cdmi-s3-qos module configuration
 
 The module configuration is described on GitBook site: [https://www.gitbook.com/book/indigo-dc/cdmi-s3-qos/details](https://www.gitbook.com/book/indigo-dc/cdmi-s3-qos/details).
