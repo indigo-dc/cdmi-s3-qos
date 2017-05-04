@@ -52,7 +52,7 @@ The module configuration is described on GitBook site: [https://www.gitbook.com/
 
 To facilitate quick path module testing, the source codes come with Docker and docker-compose configuration files which can be used to launch pre-configured testing environment. The testing environment consists of two Docker containers. One container provides  CDMI INDIGO server which is pre-configured to use cdmi-s3-qos module. Second container runs minio server which provides S3 compatible API meant to mimic presence of RADOS gateway.    
 
-**NOTE:** By default, container with INDIGO CDMI server will try to listen on TCP port number 8080. If on your machine this port is not eligible then before you will follow the below procedure please set and export `INDIGO_CDMI_PORT` environment variable to value indicating the TCP port number to be exposed by container which hosts INDIGO CDMI server. If you do it then remember to change the port number in all bellow curl commands as well.
+**NOTE:** By default, container with INDIGO CDMI server will try to listen on TCP port number 8080. If on your machine this port is not eligible then before you will follow the below procedure please set and export `INDIGO_CDMI_PORT` environment variable to value indicating the TCP port number to be exposed by container which hosts INDIGO CDMI server.
 
 For example, to use TCP port number 8888 the `INDIGO_CDMI_PORT` environment variable should be set and exported like this:
 
@@ -61,7 +61,7 @@ export INDIGO_CDMI_PORT=8888
 ```
 
 
-**NOTE** To improve readability of the output from below curl commands, each curl invocation can be piped to `python -mjson.tool` command.
+**NOTE:** To improve readability of the output from below curl commands, each curl invocation can be piped to `python -mjson.tool` command.
 
 Example:
 
