@@ -42,7 +42,7 @@ In order to use the cdmi-s3-qos module, the INDIGO CDMI server has to be properl
 cdmi.qos.backend.type: radosgw
 ```
 
-More details about INDIGO CDMI server configuration and location of configuration files can be found here [https://indigo-dc.gitbooks.io/cdmi-qos/content/doc/configuration.html](https://indigo-dc.gitbooks.io/cdmi-qos/content/doc/configuration.html).
+More details about INDIGO CDMI server configuration and location of configuration files can be found on this GitBook site: [https://indigo-dc.gitbooks.io/cdmi-qos/content/doc/configuration.html](https://indigo-dc.gitbooks.io/cdmi-qos/content/doc/configuration.html).
 
 ### cdmi-s3-qos module configuration
 
@@ -60,7 +60,17 @@ For example, to use TCP port number 8888 the `INDIGO_CDMI_PORT` environment vari
 export INDIGO_CDMI_PORT=8888
 ```
 
-To build, run and query the testing environment do this step:
+
+**NOTE** To improve readability of the output from below curl commands, each curl invocation can be piped to `python -mjson.tool` command.
+
+Example:
+
+```
+curl -s -X GET http://restadmin:restadmin@localhost:${INDIGO_CDMI_PORT:-8080}/cdmi_capabilities/container -H "Content-Type: application/cdmi-capability" | python -mjson.tool
+```
+
+To build, run and query the testing environment do this steps:
+
 
 ```
 git clone https://github.com/indigo-dc/cdmi-s3-qos.git
