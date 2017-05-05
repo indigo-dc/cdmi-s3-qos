@@ -197,7 +197,8 @@ The output of this command should be like this:
     "objectType": "application/cdmi-capability",
     "parentID": "0001869F0018F59933353532336334322D653036662D3433",
     "parentURI": "/cdmi_capabilities/dataobject"
-}```
+}
+```
 
 In above steps we examined all available QoS profiles which can be assigned to data objects. The thing is that CDMI specification provides for defining separate QoS profilers associated with containers (roughly speaking container is a counterpart of folder or directory). 
 
@@ -449,6 +450,7 @@ curl -s -X GET http://restadmin:restadmin@localhost:${INDIGO_CDMI_PORT:-8080}/go
 
 Expected answer:
 
+```
 {
     "capabilitiesURI": "/cdmi_capabilities/container/ContainerProfile3",
     "children": [
@@ -484,6 +486,7 @@ Expected answer:
     "parentID": "0001869F0018A72465613837636364362D303662392D3432",
     "parentURI": "/"
 }
+```
 
 Ask for QoS properties of container named "standard/":
 
