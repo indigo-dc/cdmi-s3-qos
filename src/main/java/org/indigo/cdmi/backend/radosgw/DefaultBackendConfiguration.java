@@ -132,7 +132,7 @@ public class DefaultBackendConfiguration implements BackendConfiguration {
 
     String outJarPropertiesFileName = outJarPropertiesFileNameBuilder.toString();
 
-
+    
     InputStream fis = null;
     try {
       fis = new FileInputStream(outJarPropertiesFileName);
@@ -141,6 +141,7 @@ public class DefaultBackendConfiguration implements BackendConfiguration {
       // configuration file in config dir simply can be not present
     }
 
+    
     /*
      * if local configuration exists then read it into configurationProperties
      */

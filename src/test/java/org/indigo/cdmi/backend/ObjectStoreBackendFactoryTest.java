@@ -1,5 +1,8 @@
 package org.indigo.cdmi.backend;
 
+import org.indigo.cdmi.backend.radosgw.BackendConfiguration;
+import org.indigo.cdmi.backend.radosgw.DefaultBackendConfiguration;
+import org.indigo.cdmi.backend.radosgw.config.ConfigurationContext;
 import org.indigo.cdmi.backend.radosgw.di.ObjectStorageBackendTestsModule;
 import org.indigo.cdmi.spi.StorageBackend;
 import org.junit.Test;
@@ -16,7 +19,10 @@ public class ObjectStoreBackendFactoryTest {
   
   @Test
   public void testFactory() {
-   
+    
+    BackendConfiguration defaultConfiguration = DefaultBackendConfiguration.getInstance();
+    ConfigurationContext.registerConfiguration(defaultConfiguration);
+    
     ObjectStorageBackendTestsModule injectorModule = new ObjectStorageBackendTestsModule();
     ObjectStoreBackendFactory factory = new ObjectStoreBackendFactory();
     factory.setInjectorModule(injectorModule);

@@ -39,7 +39,7 @@ public class ConfigurationContext {
   
     if (ConfigurationContext.configuration == null) {
       throw new IllegalStateException(
-          "No BackendConfiguration has been registered yes. "
+          "No BackendConfiguration has been registered yet. "
           + "Use ConfigurationContext.registerConfiguration() method"
       );
     }
