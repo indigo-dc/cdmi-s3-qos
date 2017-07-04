@@ -35,6 +35,7 @@ docker rm $JDK_CONTAINER
 docker rmi $JDK_IMAGE
 docker cp ./$PACKAGE_NAME $APACHE_CONTAINER:/var/www/html/$PACKAGE_NAME
 docker exec $APACHE_CONTAINER chmod 644 /var/www/html/$PACKAGE_NAME
+
 rm -f ./$PACKAGE_NAME 
 
 

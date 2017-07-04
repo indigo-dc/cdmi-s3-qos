@@ -46,32 +46,28 @@ drwxr-xr-x 3 root root 4096 Jan 24 14:55 roles
 ansible-playbook playbook-with-vars -i ./inventory
 ```
 
-##### 6. Check if service cdmi-s3-qos has been installed and if is running:
+##### 5. Check if cdmi-s3-qos package has been installed.
+
+The command:
 
 ```
-service cdmi-s3-qos status
+dpkg -l | grep cdmi
 ```
 
-##### 7. Send simple REST request to the INDIGO CDMI server
-
-curl -s -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container -H "Content-Type: application/cdmi-capability" | python -mjson.tool
-
-
-##### 8. Stop cdmi-s3-qos service.
-
-NOTE: The purpose of this procedure is only to check if ansible role properly installs cdmi-s3-qos service. Becouse of some docker related peculiarity, the service has to be stopped before we disconnect from docker container. Otherwise, even thouh we issue exit command, the bash which is running inside docker will not release  the docker session will release the terminal.
+should reveal that the cdmi-s3-qos package has been installed:
 
 ```
-service cdmi-s3-qos stop
-``` 
+ii  cdmi-s3-qos      2.0.0        all        Module for INDIGO CDMI server. The module integrates RADOS GW S3 with the CDMI server.
+```
 
-##### 9. Disconnect from docker container.
+
+##### 6. Disconnect from docker container.
 
 ```
 exit
 ```
 
-##### 10. Destroy testing environmed and free the resources.
+##### 7. Destroy testing environmed and free the resources.
 
 ```
 bash ./clean-ubuntu-ansible-test.sh

@@ -2,11 +2,11 @@
 
 There is Vagrant box with CentOS 7 configured in this folder.
 
-It is provided in order to test ansible role indigo-dc.cdmi-s3-qos available at https://github.com/indigo-dc/ansible-role-cdmi-s3-qos.
+It is provided in order to test Ansible role indigo-dc.cdmi-s3-qos available at https://github.com/indigo-dc/ansible-role-cdmi-s3-qos.
 
-This role is being downloaded and placed inside vagrant box when the below procedure is being executed.
+This role is downloaded and placed inside vagrant box when the below procedure is being executed.
 
-To carry out tests follow the below procedure.
+To carry out tests follow the below steps.
 
 
 ##### 1. First clone the cdmi-s3-qos project and go to pointed directory.
@@ -50,25 +50,26 @@ In response you should see something like this:
 drwxr-xr-x. 3 root root   34 Jan 24 12:06 roles
 ``` 
 
-##### 6. Run the provided example playbook against provided example inventory file:
+##### 6. Run the provided example playbook against the provided example inventory file:
 
 ```
 ansible-playbook playbook-with-vars -i ./inventory
 ``` 
 
-##### 7. Check if cdmi-s3-qos service has been installed and if it is running:
+##### 7. Check if adequate rpm has been installed:
 
 ```
-systemctl status cdmi-s3-qos
+rpm -qa | grep cdmi-s3-qos
 ```
 
-##### 8. Check if cdmi server responses to requests:
+In response you should see that cdmi-s3-qos rpm package is present in system:
 
 ```
-curl -s -X GET http://restadmin:restadmin@localhost:8080/cdmi_capabilities/container -H "Content-Type: application/cdmi-capability" | python -mjson.tool
-```
+cdmi-s3-qos-2.0.0-1.el7.centos.x86_64
+``` 
 
-##### 9. Exit from vagrant provided ssh session:
+
+##### 8. Exit from vagrant provided ssh session:
 
 ```
 # fist exit from root account
@@ -77,7 +78,7 @@ exit
 exit
 ``` 
 
-##### 10. Clean up the vagrant box and associated resources:
+##### 9. Clean up the vagrant box and associated resources:
 
 ```
 bash ./clean-centos-ansible-test.sh
