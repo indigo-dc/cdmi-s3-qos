@@ -7,10 +7,13 @@ MAINTAINER gracjan@man.poznan.pl
 
 COPY . /cdmi-s3-qos
 
-RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc/apt/sources.list && \
+RUN \
+	echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc/apt/sources.list && \
 	echo "deb-src http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc/apt/sources.list && \
-	apt-get update && \
-	apt-get --force-yes install -y openjdk-8-jdk && \
+	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EB9B1D8886F44E2A && \
+	apt-get clean && \
+	apt-get update -y && apt-get update -y && apt-get update -y && \
+	apt-get install -y openjdk-8-jdk && \
 	apt-get install -y maven git curl redis-tools rsync dos2unix vim && \
 	cd cdmi-s3-qos && \
 	mvn -Dmaven.test.skip=true install && \
@@ -21,7 +24,8 @@ RUN echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc
 	rsync --ignore-times --ignore-errors cdmi-s3-qos/templates/local/objectstore.properties CDMI/config/ || test 1 && \
 	cd CDMI && \
 	#git checkout c6c1178 && \
-	git checkout 70549a4 && \ 
+	#git checkout 70549a4 && \
+	git checkout 2ab4431 && \ 
 	sed -i 's/dummy_filesystem/radosgw/g' config/application.yml && \
 	sed -i 's/active: redis/active: redis-embedded/g' config/application.yml && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>2.0.0-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
