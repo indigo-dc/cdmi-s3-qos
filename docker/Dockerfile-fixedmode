@@ -12,7 +12,7 @@ RUN \
 	echo "deb-src http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main" >> /etc/apt/sources.list && \
 	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EB9B1D8886F44E2A && \
 	apt-get clean && \
-	apt-get update -y && apt-get update -y && apt-get update -y && \
+	sh /cdmi-s3-qos/docker/tricky-update.sh && \
 	apt-get install -y openjdk-8-jdk && \
 	apt-get install -y maven git curl redis-tools rsync dos2unix vim && \
 	cd cdmi-s3-qos && \
@@ -30,9 +30,10 @@ RUN \
 	sed -i 's/active: redis/active: redis-embedded/g' config/application.yml && \
 	sed -i 's/<dependencies>/<dependencies>\r\n<dependency>\r\n<groupId>pl.psnc<\/groupId>\r\n<artifactId>cdmi-s3-qos<\/artifactId>\r\n<version>2.0.0-SNAPSHOT<\/version>\r\n<\/dependency>/g' pom.xml && \
 	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.2.jar --server.port=8080 --logging.level.org.indigo.cdmi.backend=DEBUG" > run.sh && \
+	echo "java -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.2.jar --server.port=${CDMI_SSL_PORT} --server.ssl.key-store=file:${CDMI_KEY_STORE_FILE}     --server.ssl.key-store-password=${CDMI_KEY_STORE_PASSWORD} --server.ssl.key-password=${CDMI_KEY_PASSWORD} --logging.level.org.indigo.cdmi.backend=DEBUG" > run-ssl.sh && \
 	echo "java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=8765 -Djava.security.egd=file:/dev/./urandom -jar target/cdmi-server-1.2.jar --server.port=8080 --logging.level.org.indigo.cdmi.backend=DEBUG" > debug.sh && \
 	chmod +x debug.sh && \
-	chmod +x run.sh && \
+	chmod +x run.sh run-ssl.sh && \
 	mvn package -Dmaven.test.skip=true
 
 WORKDIR /CDMI
